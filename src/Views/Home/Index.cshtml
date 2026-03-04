@@ -1,0 +1,151 @@
+﻿@* @{ *@
+@*     ViewData["Title"] = "Home Page"; *@
+@* } *@
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    form{
+        width: 60%;
+        height: 80%;
+        /*background-color: darkgreen;*/
+    }
+    
+    .left-side{
+        background-color: white;
+        width: 50%;
+        height: 100%;
+        margin-top: 70px;
+        display: flex;
+    }
+    .right-side{
+        /*background-image: linear-gradient(to bottom right, green ,lightseagreen, steelblue );*/
+        background: linear-gradient(to bottom right,
+        #10b981 0%,   /* emerald-500 */
+        #14b8a6 50%,  /* teal-500 */
+        #0891b2 100%  /* cyan-600 */
+        );
+        width: 50%;
+        height: 100%;
+    }
+    .form-container{
+        display: flex;
+        /*background-color: green;*/
+        width: 100%;
+        height: 100%;
+    }
+    .icon {
+        display: flex; 
+        justify-content: center; /* horizontal center */ 
+        /*height: 200px; !* example height *! */
+    }
+    .icon-box{
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(to top right,
+        #10b981 0%,   /* emerald-500 */
+        #14b8a6 50%,  /* teal-500 */
+        #0891b2 100%  /* cyan-600 */
+        );
+        display: flex; 
+        justify-content: center; /* horizontal center inside box */ 
+        align-items: center; /* vertical center inside box */
+        border-radius: 15px;
+        /*box-shadow: 1px 1px whitesmoke;*/
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin: 20px;
+    }
+    .title{
+        display: flex;
+        justify-content: center;
+    }
+    .gradient-text {
+        background: linear-gradient(to right, #059669, #06b6d4); /* emerald-600 to cyan-600 */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .gradient-text h1{
+        font-weight: bold;
+    }
+    .subtitle{
+        color: #adb5bd;
+        font-size: 20px;
+    }
+    .input{
+        display: flex;
+        justify-content: end;
+        width: 85%;
+    }
+    .input-field-container{
+        margin-top: 20px;
+    }
+    .input-field{
+        margin-top: 20px;
+        width: 100%;
+    }
+    
+    .form-control {
+        border: 2px solid lightblue;
+        border-radius: 10px;
+        width: 80%;
+        height: 55px;
+        border-width: 2px; /* matches border-2 */
+        border-color: #e5e7eb; /* Tailwind gray-200 */
+        outline: none;
+    }
+    .form-control:focus{
+        outline: none; /* focus:outline-none */ 
+        border-color: #14b8a6; /* focus:border-teal-500 (Tailwind teal-500 hex) */ 
+        box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1); /* focus:ring-4 focus:ring-teal-500/10 */
+    }
+    .gap{
+        margin: 5px  90px ;
+    }
+
+</style>
+<div class="form-container">
+    @* left side *@
+    <div class="left-side d-flex justify-content-center ">
+        
+        <form>
+            <div>
+                <div class="icon">
+                    <div class="icon-box ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+                            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                        </svg>
+                    </div>
+                </div>
+                <span class="gradient-text title ">
+                    <h1>Welcome Back</h1>
+                </span>
+                <p class="title subtitle">Enter your credentials to continue</p>
+            </div>
+            <div class="input-field-container">
+                <div class="input-field" id="input-email">
+                    <label class="gap">Email</label>
+                    <div class="input">
+                        <input type="text" class="form-control" placeholder="Enter your email"/>
+                    </div>
+                </div>
+                <div class="input-field" id="input-password">
+                    <label class="gap">Password</label>
+                    <div class="input">
+                        <input type="password" class="form-control" placeholder="Enter your password"/>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+
+        </form>
+    </div>
+    
+    @* right side *@
+    <div class="right-side">
+        <h1>Hello world</h1>
+    </div>
+</div>  
