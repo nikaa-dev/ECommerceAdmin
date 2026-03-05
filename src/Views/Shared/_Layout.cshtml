@@ -1,24 +1,4 @@
-﻿@* $1$ <!DOCTYPE html> #1# *@
-@* $1$ <html lang="en"> #1# *@
-@*      $1$ <head> #1# *@
-@*      $1$     <meta charset="utf-8"/> #1# *@
-@*      $1$     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> #1# *@
-@*          $1$ <title>@ViewData["Title"] - src</title> #1# *@
-@*          $1$ <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/> #1# *@
-@*          $1$ <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/> #1# *@
-@*          $1$ <link rel="stylesheet" href="~/src.styles.css" asp-append-version="true"/> #1# *@
-@*      $1$ </head> #1# *@
-@* $1$ <body class="bg-black"> #1# *@
-@* $1$ #1# *@
-@* $1$      <script src="~/lib/jquery/dist/jquery.min.js"></script> #1# *@
-@* $1$      <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> #1# *@
-@* $1$      <script src="~/js/site.js" asp-append-version="true"></script> #1# *@
-@* $1$      @await RenderSectionAsync("Scripts", required: false) #1# *@
-@*      $1$ </body> #1# *@
-@*       *@
-@* $1$ </html> #1# *@
-@* *@
-@* <html> *@
+﻿
      <head>
          <meta charset="utf-8"/>
          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -27,13 +7,12 @@
          @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/> *@
          <link rel="stylesheet" href="~/src.styles.css" asp-append-version="true"/>
      </head>
-@*     <body class="bg-black"> *@
-@*         @RenderBody() *@
-@*         <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
-@*         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
-@*         <script src="~/js/site.js" asp-append-version="true"></script> *@
-@*         $1$ @await RenderSectionAsync("Scripts", required: false) #1# *@
-@*     </body> *@
-@* </html> *@
+     <body class="bg-black">
+         @* @RenderBody() *@
+         <script src="~/lib/jquery/dist/jquery.min.js"></script>
+         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+         <script src="~/js/site.js" asp-append-version="true"></script>
+         @await RenderSectionAsync("Scripts", required: false)
+     </body>
 
 @RenderBody()

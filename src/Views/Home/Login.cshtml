@@ -1,0 +1,228 @@
+﻿<style>
+   :root {
+       --primary-bg-color: linear-gradient(to bottom right, #10b981 0%, /* emerald-500 */
+       #14b8a6 50%, /* teal-500 */
+       #0891b2 100% /* cyan-600 */
+       );
+       --text-gray:#9ca3af;
+   }
+   .login-containter{
+      display:flex;
+       width:100%;
+       height:100%;
+   }
+   .container{
+       width:50%;
+       height:100%;
+   }
+   .left-side-container {
+       background-color: white;
+       width: 50%;
+       height: 100%;
+   }
+   .right-side-container {
+       background: var(--primary-bg-color);
+       width: 50%;
+       height: 100%;
+   }
+   .display-center{
+       display: flex;
+       justify-content: center;
+   }
+   .icon-box {
+       background: var(--primary-bg-color);
+       width: 70px;
+       height: 70px;
+       border-radius: 15px;
+       box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
+       display: flex;
+       justify-content: center;
+       align-items: center;
+   }
+   .icon-container {
+       margin-top: 60px;
+   }
+   .title-container {
+       background: var(--primary-bg-color);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+   }
+   .title-container h2{
+       margin-top:15px;
+       font-weight:bold;
+   }
+   
+   .form-input-container{
+       margin-top:10px;
+   }
+   .form-input{
+       width:60%;
+   }
+   .input-container{
+       margin-top:10px;
+   }
+   .input {
+       width: 100%;
+       height: 50px;
+       border-radius: 10px;
+       border-width: 2px; 
+       border-color: #e5e7eb;
+       margin-top:5px;
+   }
+   .input:focus{
+       outline: none; /* focus:outline-none */
+       border-color: #14b8a6; /* focus:border-teal-500 (Tailwind teal-500 hex) */
+       box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1); /* focus:ring-4 focus:ring-teal-500/10 */
+   }
+   .check-box{
+       margin-top:30px;
+   }
+   .signin-button{
+       width:100%;
+       height: 50px;
+       border-radius: 10px;
+       background: var(--primary-bg-color);
+       border:none; 
+       font-weight: bold;
+       color: white;
+       transition: transform 0.2s ease-in-out; /* smooth animation */
+   }
+
+   .signin-button:hover {
+       transform: scale(1.04); /* makes button 4% bigger */
+   }
+   .divider-wrapper{
+       position: relative;
+       margin: 4rem 0;
+   }
+   .dash-container{
+       position: absolute;
+       inset: 0;
+       display: flex;
+       align-items: center;
+   }
+   .dash-divide{
+       width:100%;
+       border-top: 1px solid #ccc;
+   }
+   .divider-text{
+       position: relative;
+       display: flex;
+       justify-content: center;
+       font-size: 0.875rem;
+   }
+   .divider-text span {
+       padding: 0 1rem;      
+       background-color: #fff;
+       color: #9ca3af;        
+       font-weight: 500;      
+   }
+   .site-button-wrapper{
+   }
+   .site-button-container{
+       width: 50%;
+   }
+   .site-button{
+       width: 100%;
+       height: 50px;
+       border-radius: 15px;
+       border: 2px solid #e5e7eb;
+       background-color: white;
+   }
+   .text-wrapper{
+       margin-top:30px;
+   }
+   .paragrapth-space{
+       margin-left:4px;
+   }
+   
+</style>
+
+<div class="login-containter">
+
+   @*left-side*@
+   <div class="left-side-container ">
+
+       @*thunder-icon*@
+       <div class="icon-container display-center">
+           <div class="icon-box">
+               <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+                   <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
+               </svg>
+           </div>
+       </div>
+
+       @*title-form*@
+       <div class="title-container display-center">
+           <h2>Welcome Back</h2>
+       </div>
+
+       @*login-detial*@
+       <div class="login-detail-container display-center">
+           <p style="color: var(--text-gray); font-weight: 20px;">Enter your credentials to continue</p>
+       </div>
+
+       @*form-input*@
+       <div class="form-input-container display-center">
+           <form class="form-input">
+
+               @*input-email*@
+               <div class="input-email-container input-container">
+                   <label>Email</label><br />
+                   <input type="text" class="input input-email form-control" placeholder="Enter your email" />
+               </div>
+
+               @*input-password*@
+               <div class="input-password-container input-container">
+                   <label>Password</label><br />
+                   <input type="password" class="input input-password form-control" placeholder="Enter your password" />
+               </div>
+
+               @*check-box and forgot-password*@
+               <div class="row check-box">
+                   <div class="col-8">
+                       <input type="checkbox" />
+                       <label>Remember me</label>
+                   </div>
+                   <div class="col-4 fw-bold title-container display-center">
+                       <p>Forgot password?</p>
+                   </div>
+               </div>
+               
+               @* signin-button *@
+               <button class="signin-button shadow"> Sign in </button>
+               
+               @* divider *@
+               <div class="divider-wrapper">
+                   <div class="dash-container">
+                       <div class="dash-divide"></div>
+                   </div>
+                   <div class="divider-text">
+                       <span class="paragrapth-or ">OR</span>
+                   </div>
+               </div>
+               
+               @* other-site-button *@
+               <div class="row justify-content-between site-button-wrapper">
+                   <div class="col-2 site-button-container">
+                       <button class="site-button google-button">Google</button>
+                   </div>
+                   <div class="col-2 site-button-container">
+                       <button class="site-button github-button">GitHub</button>
+                   </div>
+               </div>
+               
+               @* create-account-link *@
+               <div class="d-flex justify-content-center text-wrapper">
+                   <p style="color: #9ca3af;">Don't have an account?</p>
+                   <p class="title-container display-center paragrapth-space fw-bold">Create one now</p>
+               </div>
+           </form>
+       </div>
+   </div>
+
+   @*right-side*@
+   <div class="right-side-container">
+        
+   </div>
+</div>
