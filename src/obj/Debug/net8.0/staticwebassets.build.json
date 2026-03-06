@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "YctajlKRtwQSVY75o2bTNn+v3jhDX1f9GZqt/jD91YM=",
+  "Hash": "utHz3f1XXYb+xXJgjTIrSdR0I5PW60oYDyce1O5KB4c=",
   "Source": "src",
   "BasePath": "_content/src",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/wwwroot/img/google.png",
+      "SourceId": "src",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/wwwroot/",
+      "BasePath": "_content/src",
+      "RelativePath": "img/google.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/google.png"
     },
     {
       "Identity": "/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/wwwroot/js/site.js",

@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/wwwroot/img/google.png",
+      "PackagePath": "staticwebassets/img/google.png"
+    },
+    {
       "Id": "/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },

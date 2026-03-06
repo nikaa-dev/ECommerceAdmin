@@ -1,228 +1,430 @@
-﻿<style>
-   :root {
-       --primary-bg-color: linear-gradient(to bottom right, #10b981 0%, /* emerald-500 */
-       #14b8a6 50%, /* teal-500 */
-       #0891b2 100% /* cyan-600 */
-       );
-       --text-gray:#9ca3af;
-   }
-   .login-containter{
-      display:flex;
-       width:100%;
-       height:100%;
-   }
-   .container{
-       width:50%;
-       height:100%;
-   }
-   .left-side-container {
-       background-color: white;
-       width: 50%;
-       height: 100%;
-   }
-   .right-side-container {
-       background: var(--primary-bg-color);
-       width: 50%;
-       height: 100%;
-   }
-   .display-center{
-       display: flex;
-       justify-content: center;
-   }
-   .icon-box {
-       background: var(--primary-bg-color);
-       width: 70px;
-       height: 70px;
-       border-radius: 15px;
-       box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
-       display: flex;
-       justify-content: center;
-       align-items: center;
-   }
-   .icon-container {
-       margin-top: 60px;
-   }
-   .title-container {
-       background: var(--primary-bg-color);
-       -webkit-background-clip: text;
-       -webkit-text-fill-color: transparent;
-   }
-   .title-container h2{
-       margin-top:15px;
-       font-weight:bold;
-   }
-   
-   .form-input-container{
-       margin-top:10px;
-   }
-   .form-input{
-       width:60%;
-   }
-   .input-container{
-       margin-top:10px;
-   }
-   .input {
-       width: 100%;
-       height: 50px;
-       border-radius: 10px;
-       border-width: 2px; 
-       border-color: #e5e7eb;
-       margin-top:5px;
-   }
-   .input:focus{
-       outline: none; /* focus:outline-none */
-       border-color: #14b8a6; /* focus:border-teal-500 (Tailwind teal-500 hex) */
-       box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1); /* focus:ring-4 focus:ring-teal-500/10 */
-   }
-   .check-box{
-       margin-top:30px;
-   }
-   .signin-button{
-       width:100%;
-       height: 50px;
-       border-radius: 10px;
-       background: var(--primary-bg-color);
-       border:none; 
-       font-weight: bold;
-       color: white;
-       transition: transform 0.2s ease-in-out; /* smooth animation */
-   }
+﻿<!--suppress CssUnresolvedCustomProperty -->
+<style>
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        overflow:hidden;
+    }
 
-   .signin-button:hover {
-       transform: scale(1.04); /* makes button 4% bigger */
-   }
-   .divider-wrapper{
-       position: relative;
-       margin: 4rem 0;
-   }
-   .dash-container{
-       position: absolute;
-       inset: 0;
-       display: flex;
-       align-items: center;
-   }
-   .dash-divide{
-       width:100%;
-       border-top: 1px solid #ccc;
-   }
-   .divider-text{
-       position: relative;
-       display: flex;
-       justify-content: center;
-       font-size: 0.875rem;
-   }
-   .divider-text span {
-       padding: 0 1rem;      
-       background-color: #fff;
-       color: #9ca3af;        
-       font-weight: 500;      
-   }
-   .site-button-wrapper{
-   }
-   .site-button-container{
-       width: 50%;
-   }
-   .site-button{
-       width: 100%;
-       height: 50px;
-       border-radius: 15px;
-       border: 2px solid #e5e7eb;
-       background-color: white;
-   }
-   .text-wrapper{
-       margin-top:30px;
-   }
-   .paragrapth-space{
-       margin-left:4px;
-   }
-   
+    :root {
+        --primary-bg-color: linear-gradient(to bottom right, #10b981 0%, #14b8a6 50%, #0891b2 100%);
+        --text-gray: #9ca3af;
+    }
+
+    a {
+        text-decoration: none;
+        color: #10b981;
+    }
+
+    .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Layout */
+
+    .login-layout {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+    }
+
+    .login-layout__left {
+        background: white;
+        width: 50%;
+    }
+
+    .login-layout__right {
+        background: var(--primary-bg-color);
+        width: 50%;
+    }
+
+    .login-card {
+        width: 60%;
+    }
+
+    /* Header */
+
+    .login-header {
+        /*        margin-top: 10px;*/
+        height: 100px;
+    }
+
+    .login-header__icon {
+        background: var(--primary-bg-color);
+        width: 65px;
+        height: 65px;
+        border-radius: 15px;
+    }
+
+    .login-header__title {
+        background: var(--primary-bg-color,#ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .login-header__title h2 {
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    .login-header__subtitle {
+        color: var(--text-gray);
+    }
+
+    /* Form */
+
+    .login-form-wrapper {
+        /*        margin-top: 20px;*/
+    }
+
+    .login-form {
+        width: 100%;
+    }
+
+    .form-group {
+        /*        margin-top: 10px;*/
+        width: 90%;
+    }
+
+    .form-input-field {
+        width: 100%;
+        height: 50px;
+        border-radius: 10px;
+        border: 2px solid #e5e7eb;
+        margin-top: 5px;
+        padding-left: 10px;
+    }
+
+    .form-input-field:focus {
+        outline: none;
+        border-color: #14b8a6;
+        box-shadow: 0 0 0 4px rgba(20,184,166,0.1);
+    }
+
+    /* Options */
+
+    .login-options {
+        margin-top: 15px;
+        width: 90%;
+    }
+
+    /* Signin button */
+
+    .login-submit-wrapper {
+        margin-top: 15px;
+        height:90px;
+    }
+
+    .login-submit-btn {
+        width: 90%;
+        height: 50px;
+        border-radius: 10px;
+        background: var(--primary-bg-color);
+        border: none;
+        font-weight: bold;
+        color: white;
+        transition: transform .2s;
+    }
+
+    .login-submit-btn:hover {
+        transform: scale(1.04);
+    }
+
+    /* Divider */
+
+    .login-divider {
+        position: relative;
+        margin: 10px 0;
+    }
+
+    .login-divider__line-wrapper {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-divider__line {
+        width: 90%;
+        border-top: 1px solid #ccc;
+    }
+
+    .login-divider__text {
+        position: relative;
+        text-align: center;
+    }
+
+    .login-divider__text span {
+        background: white;
+        padding: 0 12px;
+        color: #9ca3af;
+    }
+
+    /* Social login */
+
+    .social-login {
+        width: 100%;
+    }
+
+    /*.social-login__item {*/
+    /*    width: 50%;*/
+    /*}*/
+
+    .social-login__btn {
+        width: 90%;
+        height: 50px;
+        border-radius: 15px;
+        border: 2px solid #e5e7eb;
+        background: white;
+    }
+
+    .social-login__btn:hover {
+        background: #f9fafb;
+    }
+
+    /* Footer */
+
+    .login-footer {
+        margin-top: 30px;
+
+    }
+
+    .text-gap {
+        margin-left: 5px;
+    }
+    
+    /*right-side*/
+    
+    .title-wrapper{
+        width: 60%;
+        height: 100%;
+        color: white;
+    }
+    
+    .heading h1{
+        font-weight: bold;
+        font-size: 3rem;
+    }
+    
+    .content-size span{
+        font-size: 20px;
+        text-align: center;
+        margin: 10px;
+    }
+    
+    .border-left-right{
+        border-left: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+    }
+    
+    .margin-top-10{
+        margin-top: 30px;
+    }
+    
+    .box{
+        width: 150px;
+    }
 </style>
 
-<div class="login-containter">
 
-   @*left-side*@
-   <div class="left-side-container ">
+<div class="login-layout">
 
-       @*thunder-icon*@
-       <div class="icon-container display-center">
-           <div class="icon-box">
-               <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
-                   <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
-               </svg>
+    <!-- LEFT SIDE -->
+
+    <div class="login-layout__left flex-center">
+
+        <div class="login-card">
+
+            <!-- ICON -->
+
+            <div class="login-header flex-center">
+                <div class="login-header__icon flex-center shadow">
+					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+                       <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
+                   </svg>
+               </div>
+           </div>
+
+
+           <!-- TITLE -->
+
+           <div class="login-header__title flex-center">
+               <h2>Welcome Back</h2>
+           </div>
+
+           <div class="login-header__subtitle flex-center">
+               <p>Enter your credentials to continue</p>
+           </div>
+
+
+           <!-- FORM -->
+
+           <div class="login-form-wrapper flex-center">
+
+               <form class="login-form">
+
+                   <!-- EMAIL -->
+
+                   <div class="flex-center">
+                       <div class="form-group">
+                           <label>Email</label>
+                           <input type="text" class="form-input-field" placeholder="Enter your email">
+                       </div>
+                   </div>
+
+                   <!-- PASSWORD -->
+
+                   <div class="flex-center">
+                       <div class="form-group">
+                           <label>Password</label>
+                           <input type="password" class="form-input-field" placeholder="Enter your password">
+                       </div>
+                   </div>
+
+
+                   <!-- OPTIONS -->
+
+                   <div class="flex-center">
+                       <div class="row login-options">
+
+                           <div class="col-6">
+                               <input type="checkbox">
+                               <span>Remember me</span>
+                           </div>
+
+                           <div class="col-6 text-end">
+                               <a href="#"><b>Forgot password?</b></a>
+                           </div>
+
+                       </div>
+                   </div>
+
+
+                   <!-- SIGNIN -->
+
+                   <div class="login-submit-wrapper flex-center">
+                       <button class="login-submit-btn shadow">
+                           Sign in
+                       </button>
+                   </div>
+
+
+                   <!-- DIVIDER -->
+
+                   <div class="login-divider">
+
+                       <div class="login-divider__line-wrapper">
+                           <div class="login-divider__line"></div>
+                       </div>
+
+                       <div class="login-divider__text">
+                           <span>OR</span>
+                       </div>
+
+                   </div>
+
+
+                   <!-- SOCIAL LOGIN -->
+
+                   <div class="flex-center">
+
+                       <div class="row justify-content-between social-login">
+
+                           <div class="col-6 flex-center">
+						
+                              <button class="social-login__btn d-flex justify-content-center align-items-center">
+								  <div>
+									<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Google_Favicon_2025.svg/640px-Google_Favicon_2025.svg.png" alt="GitHub image" width="30" height="30"/>
+							   	  </div>
+                                  <span class=" text-gap">Google</span>
+                               </button>
+                           </div>
+
+                           <div class="col-6 flex-center">
+                               <button class="social-login__btn d-flex justify-content-center align-items-center">
+								  <div>
+									<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/640px-Octicons-mark-github.svg.png" alt="GitHub image" width="30" height="30"/>
+							   	  </div>
+                                  <span class=" text-gap">GitHub</span>
+                               </button>
+                           </div>
+
+                       </div>
+
+                   </div>
+
+
+                   <!-- FOOTER -->
+
+                   <div class="d-flex justify-content-center">
+                       
+                       <div class="login-footer d-flex justify-content-center">
+
+                           <p style="color:#9ca3af">Don't have an account?</p>
+
+                           <a href="#">
+                               <b class="text-gap">Create one now</b>
+                           </a>
+
+                       </div>
+
+                   </div>
+
+               </form>
+
+           </div>
+
+       </div>
+
+    </div>
+
+
+   <!-- RIGHT SIDE -->
+    
+	<div class="login-layout__right d-flex justify-content-center align-items-center">
+       
+		<div class="title-wrapper d-flex justify-content-center align-items-center">
+           
+			<div>
+            
+			   <div class="d-flex justify-content-center">
+					<h1>Next-Gen Electronics</h1>
+			   </div>
+            
+			   <div class="d-flex justify-content-center content-size">
+                   <span>Experience the future of technology with our premium selection of cutting-edge devices</span>
+               </div>
+               
+               <div class="d-flex justify-content-center margin-top-10">
+               
+				    <div class="row box-container">
+               
+				        <div class="col box">
+                           <h2 class="fw-bold d-flex justify-content-center">50K+</h2>
+                           <span class="d-flex justify-content-center">Products</span>
+                        </div>
+                        
+						<div class="col border-left-right box">
+                           <h2 class="fw-bold d-flex justify-content-center">200K+</h2>
+                           <span class="d-flex justify-content-center">Customers</span>
+                        </div>
+
+                        <div class="col box">
+                           <h2 class="fw-bold d-flex justify-content-center">4.9★</h2>
+                           <span class="d-flex justify-content-center">Rating</span>
+                        </div>
+
+                   </div>
+               </div>
+               
            </div>
        </div>
-
-       @*title-form*@
-       <div class="title-container display-center">
-           <h2>Welcome Back</h2>
-       </div>
-
-       @*login-detial*@
-       <div class="login-detail-container display-center">
-           <p style="color: var(--text-gray); font-weight: 20px;">Enter your credentials to continue</p>
-       </div>
-
-       @*form-input*@
-       <div class="form-input-container display-center">
-           <form class="form-input">
-
-               @*input-email*@
-               <div class="input-email-container input-container">
-                   <label>Email</label><br />
-                   <input type="text" class="input input-email form-control" placeholder="Enter your email" />
-               </div>
-
-               @*input-password*@
-               <div class="input-password-container input-container">
-                   <label>Password</label><br />
-                   <input type="password" class="input input-password form-control" placeholder="Enter your password" />
-               </div>
-
-               @*check-box and forgot-password*@
-               <div class="row check-box">
-                   <div class="col-8">
-                       <input type="checkbox" />
-                       <label>Remember me</label>
-                   </div>
-                   <div class="col-4 fw-bold title-container display-center">
-                       <p>Forgot password?</p>
-                   </div>
-               </div>
-               
-               @* signin-button *@
-               <button class="signin-button shadow"> Sign in </button>
-               
-               @* divider *@
-               <div class="divider-wrapper">
-                   <div class="dash-container">
-                       <div class="dash-divide"></div>
-                   </div>
-                   <div class="divider-text">
-                       <span class="paragrapth-or ">OR</span>
-                   </div>
-               </div>
-               
-               @* other-site-button *@
-               <div class="row justify-content-between site-button-wrapper">
-                   <div class="col-2 site-button-container">
-                       <button class="site-button google-button">Google</button>
-                   </div>
-                   <div class="col-2 site-button-container">
-                       <button class="site-button github-button">GitHub</button>
-                   </div>
-               </div>
-               
-               @* create-account-link *@
-               <div class="d-flex justify-content-center text-wrapper">
-                   <p style="color: #9ca3af;">Don't have an account?</p>
-                   <p class="title-container display-center paragrapth-space fw-bold">Create one now</p>
-               </div>
-           </form>
-       </div>
    </div>
 
-   @*right-side*@
-   <div class="right-side-container">
-        
-   </div>
+	
 </div>
