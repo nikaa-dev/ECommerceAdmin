@@ -30,3 +30,5 @@
 /Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/obj/Debug/net8.0/src.pdb
 /Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/obj/Debug/net8.0/src.genruntimeconfig.cache
 /Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/obj/Debug/net8.0/ref/src.dll
+/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/bin/Debug/net8.0/package-lock.json
+/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/bin/Debug/net8.0/package.json
