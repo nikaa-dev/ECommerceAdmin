@@ -84,41 +84,47 @@
             background-color: #f9fafb;
         }
 	</style>
-	<body>
+	<body class=" bg-white">
 	
-		@*SIDEBAR*@
+		<div class="container-fluid">
+			<div class="row">
+
+			@*SIDEBAR*@
 		
-		<div class="col-lg-2 sidebar bg-white d-flex flex-column">
-	
-			@*SIDEBAR HEADER*@	
-
-            <div class="border-bottom d-flex justify-content-center align-items-center sidebar-header">
-                <h4 class="sidebar-brand">E-Commerce Admin</h4>
+            <div class="col-md-3 col-lg-2 sidebar bg-white">
+        
+                @*SIDEBAR HEADER*@	
+    
+                <div class="border-bottom d-flex justify-content-center align-items-center sidebar-header">
+                    <h4 class="sidebar-brand">E-Commerce Admin</h4>
+                </div>
+    
+                @*SIDEBAR NAV*@	
+    
+                <ul class="sidebar-nav d-flex flex-column align-items-center mt-3">
+                  <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">Dashboard</a></li>
+                  <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">Products</a></li>
+                  <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">Orders</a></li>
+                  <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">Customers</a></li>
+                  <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">User Management</a></li>
+                </ul>
+    
+    
+                @*SIDEBAR FOOTER*@
+        
+                <ul class="sidebar-footer border-top d-flex flex-column justify-content-between col-md-2 p-3">
+                  <li class="footer-item d-flex align-items-center px-3">Settings</li>
+                  <li class="footer-item d-flex align-items-center px-3">Logout</li>
+                </ul>
+    
+    
             </div>
-
-			@*SIDEBAR NAV*@	
-
-        	<ul class="sidebar-nav d-flex flex-column align-items-center mt-3">
-              <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">Dashboard</a></li>
-              <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">Products</a></li>
-              <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">Orders</a></li>
-              <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">Customers</a></li>
-              <li class="nav-item"><a class="nav-link d-flex align-items-center" href="#">User Management</a></li>
-            </ul>
-
-
-			@*SIDEBAR FOOTER*@
-	
-            <ul class="sidebar-footer border-top d-flex flex-column justify-content-between col-md-2 p-3">
-              <li class="footer-item d-flex align-items-center px-3">Settings</li>
-              <li class="footer-item d-flex align-items-center px-3">Logout</li>
-            </ul>
-
-
+    
+            <div class="col-md-9 col-lg-10 bg-light">Hello</div>
+		
 		</div>
-
-		<div>Hello</div>
-   
+		</div>
+		
 	</body>
 
     <script>
