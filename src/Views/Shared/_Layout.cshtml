@@ -1,19 +1,97 @@
-﻿
-     <head>
-         <meta charset="utf-8"/>
-         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-         <title>@ViewData["Title"] - src</title>
-         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-         @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/> *@
-         <link rel="stylesheet" href="~/src.styles.css" asp-append-version="true"/>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8" />
+   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+   <title>Test Page - src</title>
+   <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+   <!-- <link rel="stylesheet" href="css/site.css"/> -->
+   <!-- <link rel="stylesheet" href="src.styles.css"/> -->
+   <style>
+       .rounded-15 {
+           border-radius: 15px !important;
+       }
 
-     </head>
-     <body>
-         @* @RenderBody() *@
-         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-         <script src="~/js/site.js" asp-append-version="true"></script>
-		 @await RenderSectionAsync("Scripts", required: false)
-     </body>
+       .ml-250 {
+           margin-left: 280px;
+       }
 
-@RenderBody()
+       .nav-link {
+           color: #6c757d;
+       }
+
+       .nav-link:hover {
+           background-color: #f9fafb;
+       }
+
+       .nav-link.active {
+           background-color: #eff6ff;
+           color: #2563eb;
+       }
+
+       .footer-item:hover{
+           background-color: #f9fafb;
+       }
+
+   </style>
+</head>
+<body>
+   <div>
+       <div class="d-flex">
+
+           <!-- Sidebar -->
+           <nav class="col-md-3 col-lg-2 d-flex flex-column bg-white vh-100 border-end position-fixed" id="sticky-sidebar">
+
+               <!-- Header -->
+               <div class="text-center border-bottom py-3">
+                   <h4>E-Commerce Admin</h4>
+               </div>
+
+               <!-- Navigation -->
+               <ul class="nav flex-column align-items-center w-100 p-3">
+                   <li class="nav-item w-100 p-1"><a class="nav-link rounded-15 py-3" href="#">Dashboard</a></li>
+                   <li class="nav-item w-100 p-1"><a class="nav-link rounded-15 py-3" href="#">Products</a></li>
+                   <li class="nav-item w-100 p-1"><a class="nav-link rounded-15 py-3" href="#">Orders</a></li>
+                   <li class="nav-item w-100 p-1"><a class="nav-link rounded-15 py-3" href="#">Customers</a></li>
+                   <li class="nav-item w-100 p-1"><a class="nav-link rounded-15 py-3" href="#">User Management</a></li>
+               </ul>
+
+               <!-- Footer -->
+               <div class="mt-auto w-100 d-flex flex-column align-items-center border-top h-auto justify-content-center p-3">
+                   <div class="w-100 my-1 p-3 rounded-15 footer-item">Settings</div>
+                   <div class="w-100 my-1 p-3 rounded-15 footer-item">Logout</div>
+               </div>
+
+           </nav>
+
+           <!-- Main Content -->
+           <main class="col-md-9 col-lg-10 ml-250 p-3 bg-light">
+               <div class="p-3 rounded-15 ">
+					@RenderBody()
+				</div>
+           </main>
+
+       </div>
+   </div>
+
+   <script>
+       document.querySelectorAll('.nav-link').forEach(link => {
+
+           link.addEventListener('click', function () {
+
+               document.querySelectorAll('.nav-link').forEach(item =>
+                   item.classList.remove('active')
+               ); 
+
+               this.classList.add('active');
+
+           });
+       });
+   </script>
+
+   <script src="~/lib/jquery/dist/jquery.min.js"></script>
+   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="~/js/site.js" asp-append-version="true"></script>
+   @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

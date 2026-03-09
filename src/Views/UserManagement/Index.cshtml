@@ -1,0 +1,119 @@
+﻿<style>
+	p{
+		color: #6c757d;
+	}
+    .rounded-10{
+        border-radius: 10px;
+    }
+    .w-65{
+        width: 65%;
+    }
+    .w-15{
+        width: 15%;
+    }
+    .form-search:focus{
+        outline: none; /* Remove default outline */
+        box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
+
+    }
+    .shadow-sm{
+        box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.3);
+    }
+    .table-curved {
+        border-collapse: separate; /* Essential for border-radius to work on tables */
+        border-radius: 0.5rem; /* Adjust as needed, Bootstrap default is .25rem */
+        overflow: hidden; /* Ensures child elements don't show outside the rounded corners */
+    }
+
+</style>
+<div class="">
+	<h3>User Management</h3>
+	<p>Manage admin users, roles, and permissions</p>
+	
+	<div class="row d-flex justify-content-center bg-light">
+		<div class="col m-3 border rounded-10 p-4 bg-white shadow-sm">
+			<p>Total Users</p>
+			<h3>8</h3>
+		</div>
+		<div class="col m-3 border rounded-10 p-4 bg-white shadow-sm">
+			<p>Active Users</p>
+			<h3>6</h3>
+		</div>
+		<div class="col m-3 border rounded-10 p-4 bg-white shadow-sm">
+			<p>Inactive Users</p>
+			<h3>1</h3>
+		</div>
+		<div class="col m-3 border rounded-10 p-4 bg-white shadow-sm">
+			<p>Suspended</p>
+			<h3>1</h3>
+		</div>
+	</div>
+	
+	<div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between">
+		<input type="search" class="w-65 px-3 py-2 border-0 bg-light rounded focus-ring form-search"  placeholder="Search users by name or email..."/>
+		<select class="form-select rounded border-0 w-15 bg-light px-3 py-2 shadow-none">
+			<option value="All Roles" class="bg-light" >All Roles</option>
+			<option value="Admin">Admin</option>
+			<option value="Manager">Manager</option>
+			<option value="Staff">Staff</option>
+			<option value="Support">Support</option>
+		</select>
+		<select class="form-select rounded border-0 w-15 bg-light px-3 py-2 shadow-none">
+			<option value="All Status" class="bg-light" >All Status</option>
+			<option value="Active">Active</option>
+			<option value="Inactive">Inactive</option>
+			<option value="Suspended">Suspended</option>
+		</select>
+	</div>
+	
+	<table class="table bg-white shadow-sm mt-5 table-curved border">
+		<tbody>
+			<tr>
+				<th scope="col" class="p-3 bg-light">User</th>
+				<th scope="col" class="p-3 bg-light">Role</th>
+				<th scope="col" class="p-3 bg-light">Status</th>
+				<th scope="col" class="p-3 bg-light">Permissions</th>
+				<th scope="col" class="p-3 bg-light">Last Active</th>
+				<th scope="col" class="p-3 bg-light">Join Date</th>
+				<th scope="col" class="p-3 bg-light">Actions</th>
+			</tr>
+		<tr>
+			<td class="p-3">Mark</td>
+			<td class="p-3">
+				<div class="rounded-10 bg-light flex text-center px-1 w-65">
+					<p>Admin</p>
+				</div>
+			</td>
+			<td class="p-3">
+				<div class="rounded-10 bg-light flex text-center px-1 w-65">
+					<p>Active</p>
+				</div>
+			</td>
+			<td class="p-3">
+				<div class="rounded-10 bg-light flex text-center px-1 w-65">
+					<p>All Access</p>
+				</div>
+			</td>
+			<td class="p-3">mark</td>
+			<td class="p-3">mark</td>
+			<td class="p-3">mark</td>
+		</tr>
+		<tr>
+			<td colspan="5" class="p-3 border-bottom-0">
+				<p>Showing 8 of 8 users</p>
+			</td>
+			<td class="p-3 border-bottom-0">
+				<p class="border d-flex justify-content-center rounded-10 py-1 w-auto ">
+					Previous
+				</p>
+			</td>
+			<td class="p-3 border-bottom-0">
+				<p class="border d-flex justify-content-center rounded-10 py-1 w-auto ">
+					Next
+				</p>
+			</td>
+		</tr>
+			</tbody>
+	</table>
+
+</div>
