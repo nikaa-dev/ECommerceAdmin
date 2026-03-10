@@ -1,1 +1,153 @@
-﻿
+﻿<style>
+  p {
+    color: #6c757d;
+  }
+
+  .rounded-10 {
+    border-radius: 10px;
+  }
+
+  .w-65 {
+    width: 65%;
+  }
+
+  .w-15 {
+    width: 15%;
+  }
+
+  .form-search:focus {
+    outline: none; /* Remove default outline */
+
+    box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
+  }
+
+  .shadow-sm {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  }
+
+  .w-30px {
+    width: 40px;
+  }
+
+  .h-30px {
+    height: 40px;
+  }
+
+  .custom-gradient {
+      background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+      color: white;
+  }
+
+</style>
+<div class="">
+  <div class="d-flex justify-content-between">
+    <div>
+      <h3>Orders</h3>
+      <p>Manage and track customer orders</p>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary">
+			<i class="bi bi-download fw-bold"></i>
+			<span>Export</span>
+		</button>
+    </div>
+  </div>
+
+  <div
+    class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex border">
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ">All Orders (8)</span>
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Pending (1)</span>
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Processing (2)</span>
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Shipped (2)</span>
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Delivered (2)</span>
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Cancelled (1)</span>
+  </div>
+  
+  <div
+    class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+    <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+    <input
+      type="search"
+      class="w-65 rounded-10 form-search border focus-ring ps-5"
+      placeholder="Search users by name or email..."/>
+    <select
+      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border">
+      <option value="All Roles" class="bg-light">Last 30 days</option>
+      <option value="Active">Last 7 days</option>
+      <option value="Inactive">Last 90 days</option>
+      <option value="Inactive">All time</option>
+    </select>
+    <button class="rounded-10 w-15 px-3 py-2 shadow-none border bg-white">
+      <i class="bi bi-funnel h5 fw-bolder me-2"></i>
+      Filters
+    </button>
+  </div>
+  <div class="mt-4 rounded-15">
+    <div class="table-responsive rounded-15">
+      <table class="table bg-white shadow-sm table-hover rounded-15 border">
+        <thead class="table-light">
+          <tr>
+            <th class="p-4 fw-normal">Order ID</th>
+            <th class="p-4 fw-normal">Customer</th>
+            <th class="p-4 fw-normal">Date</th>
+            <th class="p-4 fw-normal">Items</th>
+            <th class="p-4 fw-normal">Total</th>
+            <th class="p-4 fw-normal">Status</th>
+            <th class="p-4 fw-normal text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-3 fw-semibold d-flex">
+              
+			        <span class="m-2 text-primary fw-normal">#12345</span>
+            </td>
+            <td class="pt-3 ps-4 fw-semibold">
+              <span>John Doe</span><br>
+			        <span class="small text-secondary">john@example.com</span>
+            </td>
+            <td class="pt-3 ps-4">
+              <span
+                class="text-secondary"
+              >
+                2023-06-15
+              </span>
+            </td>
+            <td class="pt-3 ps-4">
+              <span>
+                12
+              </span>
+            </td>
+            <td class="pt-3 ps-4">$1,234.56</td>
+            <td class="pt-3 ">
+				<span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
+					Delivered
+				</span>
+			</td>
+            <td class="text-center p-3">
+              <i class="bi bi-eye me-3"></i>
+              <i class="bi bi-box-seam "></i>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" class="pt-4 ps-4 small text-secondary">Showing 1 to 8 of 8 Orders</td>
+            <td class="p-3 border-0 text-end">
+              <button
+                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
+              >
+                Previous
+              </button>
+            </td>
+            <td class="p-3 border-0 text-start">
+              <button
+                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
+              >
+                Next
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

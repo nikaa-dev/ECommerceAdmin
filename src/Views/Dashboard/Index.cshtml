@@ -1,1 +1,153 @@
-﻿
+﻿<style>
+  p {
+    color: #6c757d;
+  }
+
+  .rounded-10 {
+    border-radius: 10px;
+  }
+
+  .w-65 {
+    width: 65%;
+  }
+
+  .w-15 {
+    width: 15%;
+  }
+
+  .form-search:focus {
+    outline: none; /* Remove default outline */
+
+    box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
+  }
+
+  .shadow-sm {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  }
+
+  .w-30px {
+    width: 40px;
+  }
+
+  .h-30px {
+    height: 40px;
+  }
+
+  .custom-gradient {
+      background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+      color: white;
+  }
+
+</style>
+<div class="">
+  <div class="d-flex justify-content-between">
+    <div>
+      <h3>Dashboard</h3>
+      <p>Welcome back! Here's what's happening with your store today.</p>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-between">
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+      <div class="d-flex text-secondary justify-content-between">
+		<i class="bi bi-currency-dollar p-2 rounded-10 h3 bg-green-450 text-white"></i>
+		<p>Total Users</p>
+		<i class="fa-solid fa-arrow-trend-up"></i>
+	  </div>
+      <h3>8</h3>
+    </div>
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+	  <div class="d-flex text-secondary justify-content-between">
+		<p>Active Users</p>
+		<i class="bi bi-check2-circle h5 p-2 rounded-10 bg-green-100 text-green-700"></i>
+	  </div>
+      <h3>6</h3>
+    </div>
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+		<div class="d-flex text-secondary justify-content-between">
+            <p>Inactive Users</p>
+            <i class="bi bi-clock h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"></i>
+        </div>
+      	<h3>1</h3>
+    </div>
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+		<div class="d-flex text-secondary justify-content-between">
+			<p>Suspended</p>
+			<i class="bi bi-exclamation-circle h5 p-2 rounded-10 bg-red-100 text-red-600"></i>
+       	</div>
+      	<h3>1</h3>
+    </div>
+  </div>
+    
+
+  <div class="mt-4 rounded-15">
+    <div class="table-responsive rounded-15">
+      <table class="table bg-white shadow-sm table-hover rounded-15 border">
+        <thead class="table-light">
+          <tr>
+            <th class="py-3 ps-4 fw-normal">Product</th>
+            <th class="py-3 ps-4 fw-normal">Category</th>
+            <th class="py-3 ps-4 fw-normal">Price</th>
+            <th class="py-3 ps-4 fw-normal">Stock</th>
+            <th class="py-3 ps-4 fw-normal">Status</th>
+            <th class="py-3 ps-4 fw-normal">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-3 fw-semibold d-flex">
+              <img class="h-30px w-30px rounded-10 bg-light" src="https://powermaccenter.com/cdn/shop/files/AirPods_Max_2024_Orange_PDP_Image_Position_1__en-US_e1cd9597-a5e4-4d45-a43c-317315954a0a.jpg?v=1726225876" alt="image picture"/>
+              <span class="m-2 fw-normal">
+                Wireless Headphones
+              </span>
+            </td>
+            <td class="pt-4 ps-4 ">
+			        <span class=" text-secondary">Electronics</span>
+            </td>
+            <td class="pt-4 ps-4">
+              <span>
+                $129.99
+              </span>
+            </td>
+            <td class="pt-4 ps-4">
+              <span class=" text-secondary">
+                12
+              </span>
+            </td>
+            <td class="pt-4 ps-4">
+              <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
+                Active
+              </span>
+            </td>
+            <td class="pt-4 ">
+              <i class="bi bi-eye me-3 text-secondary"></i>
+              <i class="bi bi-pencil-square text-secondary"></i>
+              <i class="bi bi-trash3 text-red-600 ms-3"></i>
+            </td>
+            @* <td class="text-center p-3"> *@
+            @*   <i class="bi bi-eye me-3"></i> *@
+            @*   <i class="bi bi-box-seam "></i> *@
+            @* </td> *@
+          </tr>
+          <tr>
+            <td colspan="4" class="pt-4 ps-4 small text-secondary">Showing 1 to 8 of 8 Products</td>
+            <td class="p-3 border-0 text-end">
+              <button
+                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
+              >
+                Previous
+              </button>
+            </td>
+            <td class="p-3 border-0 text-start">
+              <button
+                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
+              >
+                Next
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

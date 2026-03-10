@@ -1,1 +1,195 @@
-﻿
+﻿<style>
+  p {
+    color: #6c757d;
+  }
+
+  .rounded-10 {
+    border-radius: 10px;
+  }
+
+  .w-65 {
+    width: 65%;
+  }
+
+  .w-15 {
+    width: 15%;
+  }
+
+  .form-search:focus {
+    outline: none; /* Remove default outline */
+
+    box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
+  }
+
+  .shadow-sm {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  }
+
+  .table {
+    border-collapse: separate;
+
+    border-spacing: 0;
+  }
+
+  .table thead tr:first-child th:first-child {
+    border-top-left-radius: 15px;
+  }
+
+  .table thead tr:first-child th:last-child {
+    border-top-right-radius: 15px;
+  }
+
+  .table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 15px;
+  }
+
+  .table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 15px;
+  }
+
+  .w-30px {
+    width: 40px;
+  }
+
+  .h-30px {
+    height: 40px;
+  }
+
+  .custom-gradient {
+      background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+      color: white;
+  }
+
+</style>
+<div class="">
+  <div class="d-flex justify-content-between">
+    <div>
+      <h3>Customers</h3>
+      <p>Manage your customer database</p>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary">
+			<i class="bi bi-download"></i>
+			<span>Export</span>
+		</button>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-center">
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+      <p>Total Customers</p>
+      <h3>8</h3>
+    </div>
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+      <p>Active Customers</p>
+      <h3>6</h3>
+    </div>
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+      <p>New This Month</p>
+      <h3>2</h3>
+    </div>
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+      <p>Avg. Order Value</p>
+      <h3>$234.56</h3>
+    </div>
+  </div>
+  <div
+    class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border"
+  >
+	
+    <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+    <input
+      type="search"
+      class="w-65 bg-light rounded-10 form-search border ps-5 bg-white text-gray fw-light"
+      placeholder="Search customers..."
+    />
+    <select
+      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border"
+    >
+      <option value="All Roles" class="bg-light">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+    <select
+      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border"
+    >
+      <option value="Recent" class="bg-light">Short by: Recent</option>
+      <option value="Name">Short by: Name</option>
+      <option value="Order">Short by: Order</option>
+      <option value="Spending">Short by: Spending</option>
+    </select>
+  </div>
+  <div class="mt-4 rounded-15">
+    <div class="table-responsive rounded-15">
+      <table class="table bg-white shadow-sm table-hover rounded-15 border">
+        <thead class="table-light">
+          <tr>
+            <th class="p-4 fw-normal">Customer</th>
+            <th class="p-4 fw-normal">Contact</th>
+            <th class="p-4 fw-normal">Join Date</th>
+            <th class="p-4 fw-normal">Orders</th>
+            <th class="p-4 fw-normal">Total Spent</th>
+            <th class="p-4 fw-normal">Status</th>
+            <th class="p-4 fw-normal text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-4 fw-semibold d-flex">
+              <div
+                class="bg-primary-subtle text-primary rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center"
+              >
+                MA
+              </div>
+			  <span class="m-2">Mark</span>
+            </td>
+            <td class="pt-4">
+              <span>john@example.com</span><br>
+			  <span class="small text-secondary">+1 (555) 123-4567</span>
+            </td>
+            <td class="pt-4">
+              <span
+                class="text-secondary"
+              >
+                2023-06-15
+              </span>
+            </td>
+            <td class="pt-4 ps-4">
+              <span>
+                12
+              </span>
+            </td>
+            <td class="pt-4 ps-4">$1,234.56</td>
+            <td class="pt-4 ps-4">
+				<span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
+					Active
+				</span>
+			</td>
+            <td class="text-center pt-4 ps-4">
+        		<i class="bi bi-eye me-3 text-secondary"></i>
+              	<i class="bi bi-envelope text-secondary"></i>
+				<i class="bi bi-three-dots-vertical text-secondary ms-3"></i>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" class="pt-4 ps-4 small text-secondary">Showing 1 to 8 of 8 Customers</td>
+            <td class="p-3 border-0 text-end">
+              <button
+                class="btn border btn-sm rounded-10 py-2 px-3"
+              >
+                Previous
+              </button>
+            </td>
+            <td class="p-3 border-0 text-start">
+              <button
+                class="btn border btn-sm rounded-10 py-2 px-3"
+              >
+                Next
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
