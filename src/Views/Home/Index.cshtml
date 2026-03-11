@@ -1,140 +1,133 @@
-﻿<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title> 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/src.styles.css" asp-append-version="true" />
-  </head>
-  <body>
-    <!--suppress CssUnresolvedCustomProperty -->
-    <style>
-      * {
+﻿@{
+    Layout = "../Shared/_LoginLayout";
+}
+<style>
+    
+    * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        overflow: hidden;
-      }
+        overflow:hidden;
+    }
 
-      :root {
-        --primary-bg-color: linear-gradient(
-          to bottom right,
-          #10b981 0%,
-          #14b8a6 50%,
-          #0891b2 100%
-        );
+    :root {
+        --primary-bg-color: linear-gradient(to bottom right, #10b981 0%, #14b8a6 50%, #0891b2 100%);
         --text-gray: #9ca3af;
-      }
+    }
 
-      a {
+    a {
         text-decoration: none;
         color: #10b981;
-      }
+    }
 
-      .flex-center {
+    .flex-center {
         display: flex;
         justify-content: center;
         align-items: center;
-      }
+    }
 
-      /* Layout */
+    /* Layout */
 
-      .login-layout {
+    .login-layout {
         display: flex;
         width: 100%;
         height: 100vh;
-      }
+    }
 
-      .login-layout__left {
+    .login-layout__left {
         background: white;
         width: 50%;
-      }
+    }
 
-      .login-layout__right {
+    .login-layout__right {
         background: var(--primary-bg-color);
         width: 50%;
-      }
+    }
 
-      .login-card {
+    .login-card {
         width: 60%;
-      }
+    }
 
-      /* Header */
+    /* Header */
 
-      .login-header {
+    .login-header {
         /*        margin-top: 10px;*/
         height: 100px;
-      }
+    }
 
-      .login-header__icon {
+    .login-header__icon {
         background: var(--primary-bg-color);
         width: 65px;
         height: 65px;
         border-radius: 15px;
-      }
+    }
 
-      .login-header__title {
-        background: var(--primary-bg-color, #ffffff);
+    .login-header__title {
+        background: var(--primary-bg-color);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-      }
+    }
 
-      .login-header__title h2 {
+    .login-header__title h2 {
         margin-top: 15px;
         font-weight: bold;
-      }
+    }
 
-      .login-header__subtitle {
+    .login-header__subtitle {
         color: var(--text-gray);
-      }
+    }
 
-      /* Form */
+    /* Form */
 
-      .login-form-wrapper {
+    .login-form-wrapper {
         /*        margin-top: 20px;*/
-      }
+    }
 
-      .login-form {
+    .login-form {
         width: 100%;
-      }
+    }
 
-      .form-group {
+    .form-group {
         /*        margin-top: 10px;*/
         width: 90%;
-      }
+    }
+    
+    .form-input{
+        color: var(--text-gray);
+    }
+    
 
-      .form-input-field {
+    .form-input-field {
         width: 100%;
         height: 50px;
         border-radius: 10px;
         border: 2px solid #e5e7eb;
         margin-top: 5px;
         padding-left: 10px;
-      }
+        
+    }
 
-      .form-input-field:focus {
+    .form-input-field:focus {
         outline: none;
         border-color: #14b8a6;
-        box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
-      }
+        box-shadow: 0 0 0 4px rgba(20,184,166,0.1);
+    }
 
-      /* Options */
+    /* Options */
 
-      .login-options {
+    .login-options {
         margin-top: 15px;
         width: 90%;
-      }
+    }
 
-      /* Signin button */
+    /* Signin button */
 
-      .login-submit-wrapper {
+    .login-submit-wrapper {
         margin-top: 15px;
-        height: 90px;
-      }
+        height:90px;
+    }
 
-      .login-submit-btn {
+    .login-submit-btn {
         width: 90%;
         height: 50px;
         border-radius: 10px;
@@ -142,317 +135,324 @@
         border: none;
         font-weight: bold;
         color: white;
-        transition: transform 0.2s;
-      }
+        transition: transform .2s;
+    }
 
-      .login-submit-btn:hover {
+    .login-submit-btn:hover {
         transform: scale(1.04);
-      }
+    }
 
-      /* Divider */
+    /* Divider */
 
-      .login-divider {
+    .login-divider {
         position: relative;
         margin: 10px 0;
-      }
+    }
 
-      .login-divider__line-wrapper {
+    .login-divider__line-wrapper {
         position: absolute;
         inset: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-      }
+    }
 
-      .login-divider__line {
+    .login-divider__line {
         width: 90%;
         border-top: 1px solid #ccc;
-      }
+    }
 
-      .login-divider__text {
+    .login-divider__text {
         position: relative;
         text-align: center;
-      }
+    }
 
-      .login-divider__text span {
+    .login-divider__text span {
         background: white;
         padding: 0 12px;
         color: #9ca3af;
-      }
+    }
 
-      /* Social login */
+    /* Social login */
 
-      .social-login {
+    .social-login {
         width: 100%;
-      }
+    }
 
-      /*.social-login__item {*/
-      /*    width: 50%;*/
-      /*}*/
+    /*.social-login__item {*/
+    /*    width: 50%;*/
+    /*}*/
 
-      .social-login__btn {
+    .social-login__btn {
         width: 90%;
         height: 50px;
         border-radius: 15px;
         border: 2px solid #e5e7eb;
         background: white;
-      }
+    }
 
-      .social-login__btn:hover {
+    .social-login__btn:hover {
         background: #f9fafb;
-      }
+    }
 
-      /* Footer */
+    /* Footer */
 
-      .login-footer {
+    .login-footer {
         margin-top: 30px;
-      }
 
-      .text-gap {
+    }
+
+    .text-gap {
         margin-left: 5px;
-      }
-
-      /*right-side*/
-
-      .title-wrapper {
+    }
+    
+    /*right-side*/
+    
+    .title-wrapper{
         width: 60%;
         height: 100%;
         color: white;
-      }
-
-      .heading h1 {
+    }
+    
+    .heading h1{
         font-weight: bold;
         font-size: 3rem;
-      }
-
-      .content-size span {
+    }
+    
+    .content-size span{
         font-size: 20px;
         text-align: center;
         margin: 10px;
-      }
-
-      .border-left-right {
+    }
+    
+    .border-left-right{
         border-left: 1px solid #e5e7eb;
         border-right: 1px solid #e5e7eb;
-      }
-
-      .margin-top-10 {
+    }
+    
+    .margin-top-10{
         margin-top: 30px;
-      }
-
-      .box {
+    }
+    
+    .box{
         width: 150px;
-      }
-    </style>
+    }
+</style>
 
-    <div class="login-layout">
-      <!-- LEFT SIDE -->
 
-      <div class="login-layout__left flex-center">
+<div class="login-layout">
+
+    <!-- LEFT SIDE -->
+
+    <div class="login-layout__left flex-center">
+
         <div class="login-card">
-          <!-- ICON -->
 
-          <div class="login-header flex-center">
-            <div class="login-header__icon flex-center shadow">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="40"
-                height="40"
-                fill="white"
-                class="bi bi-lightning-charge-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"
-                />
-              </svg>
-            </div>
-          </div>
+            <!-- ICON -->
 
-          <!-- TITLE -->
+            <div class="login-header flex-center">
+                <div class="login-header__icon flex-center shadow">
+					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+                       <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
+                   </svg>
+               </div>
+           </div>
 
-          <div class="login-header__title flex-center">
-            <h2>Welcome Back</h2>
-          </div>
 
-          <div class="login-header__subtitle flex-center">
-            <p>Enter your credentials to continue</p>
-          </div>
+           <!-- TITLE -->
 
-          <!-- FORM -->
+           <div class="login-header__title flex-center">
+               <h2>Welcome Back</h2>
+           </div>
 
-          <div class="login-form-wrapper flex-center">
-            <form class="login-form">
-              <!-- EMAIL -->
+           <div class="login-header__subtitle flex-center">
+               <p>Enter your credentials to continue</p>
+           </div>
 
-              <div class="flex-center">
-                <div class="form-group">
-                  <label>Email</label>
-                  <input
-                    type="text"
-                    class="form-input-field"
-                    placeholder="Enter your email"
-                  />
-                </div>
-              </div>
 
-              <!-- PASSWORD -->
+           <!-- FORM -->
 
-              <div class="flex-center">
-                <div class="form-group">
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    class="form-input-field"
-                    placeholder="Enter your password"
-                  />
-                </div>
-              </div>
+           <div class="login-form-wrapper flex-center">
 
-              <!-- OPTIONS -->
+               <form class="login-form">
 
-              <div class="flex-center">
-                <div class="row login-options">
-                  <div class="col-6">
-                    <input type="checkbox" />
-                    <span>Remember me</span>
-                  </div>
+                   <!-- EMAIL -->
 
-                  <div class="col-6 text-end">
-                    <a href="#"><b>Forgot password?</b></a>
-                  </div>
-                </div>
-              </div>
+                   <div class="flex-center">
+                       <div class="form-group">
+                           <label>Email</label>
+                           <div class="form-input">
+								<i class="fa-regular fa-envelope position-absolute m-3 pt-1 fs-5 "></i>
+								<input type="text" class="form-input-field ps-5 shadow-none" placeholder="Enter your email">
+							</div>
+                       </div>
+                   </div>
 
-              <!-- SIGNIN -->
+                   <!-- PASSWORD -->
 
-              <div class="login-submit-wrapper flex-center">
-                <button class="login-submit-btn shadow">Sign in</button>
-              </div>
+                   <div class="flex-center">
+                       <div class="form-group">
+                           <label>Password</label>
+						   <div class="form-input">
+								<i class="fa-solid fa-lock position-absolute m-3 pt-1 fs-5"></i>
+                           		<input type="password" class="form-input-field ps-5 shadow-none" placeholder="Enter your password">
+						   </div>
+                       </div>
+                   </div>
 
-              <!-- DIVIDER -->
 
-              <div class="login-divider">
-                <div class="login-divider__line-wrapper">
-                  <div class="login-divider__line"></div>
-                </div>
+                   <!-- OPTIONS -->
 
-                <div class="login-divider__text">
-                  <span>OR</span>
-                </div>
-              </div>
+                   <div class="flex-center">
+                       <div class="row login-options">
 
-              <!-- SOCIAL LOGIN -->
+                           <div class="col-6">
+                               <input type="checkbox">
+                               <span>Remember me</span>
+                           </div>
 
-              <div class="flex-center">
-                <div class="row justify-content-between social-login">
-                  <div class="col-6 flex-center">
-                    <button
-                      class="social-login__btn d-flex justify-content-center align-items-center"
-                    >
-                      <div>
-                        <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Google_Favicon_2025.svg/640px-Google_Favicon_2025.svg.png"
-                          alt="GitHub image"
-                          width="30"
-                          height="30"
-                        />
-                      </div>
-                      <span class="text-gap">Google</span>
-                    </button>
-                  </div>
+                           <div class="col-6 text-end">
+                               <a href="#"><b>Forgot password?</b></a>
+                           </div>
 
-                  <div class="col-6 flex-center">
-                    <button
-                      class="social-login__btn d-flex justify-content-center align-items-center"
-                    >
-                      <div>
-                        <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/640px-Octicons-mark-github.svg.png"
-                          alt="GitHub image"
-                          width="30"
-                          height="30"
-                        />
-                      </div>
-                      <span class="text-gap">GitHub</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+                       </div>
+                   </div>
 
-              <!-- FOOTER -->
 
-              <div class="d-flex justify-content-center">
-                <div class="login-footer d-flex justify-content-center">
-                  <p style="color: #9ca3af">Don't have an account?</p>
+                   <!-- SIGNIN -->
 
-                  <a href="#">
-                    <b class="text-gap">Create one now</b>
-                  </a>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+                   <div class="login-submit-wrapper flex-center">
+                       <button class="login-submit-btn shadow">
+                           Sign in
+                       </button>
+                   </div>
 
-      <!-- RIGHT SIDE -->
 
-      <div
-        class="login-layout__right d-flex justify-content-center align-items-center"
-      >
-        <div
-          class="title-wrapper d-flex justify-content-center align-items-center"
-        >
-          <div>
-            <!-- HEADING -->
+                   <!-- DIVIDER -->
 
-            <div class="d-flex justify-content-center">
-              <h1>Next-Gen Electronics</h1>
-            </div>
+                   <div class="login-divider">
 
-            <!-- DESCRIBTION -->
+                       <div class="login-divider__line-wrapper">
+                           <div class="login-divider__line"></div>
+                       </div>
 
-            <div class="d-flex justify-content-center content-size">
-              <span
-                >Experience the future of technology with our premium selection
-                of cutting-edge devices</span
-              >
-            </div>
+                       <div class="login-divider__text">
+                           <span>OR</span>
+                       </div>
 
-            <!-- RATING LIST -->
+                   </div>
 
-            <div class="d-flex justify-content-center margin-top-10">
-              <div class="row box-container">
-                <!-- 50K+ PRODUCT -->
 
-                <div class="col box">
-                  <h2 class="fw-bold d-flex justify-content-center">50K+</h2>
-                  <span class="d-flex justify-content-center">Products</span>
-                </div>
+                   <!-- SOCIAL LOGIN -->
 
-                <!-- 200K+ CUSTOMER -->
+                   <div class="flex-center">
 
-                <div class="col border-left-right box">
-                  <h2 class="fw-bold d-flex justify-content-center">200K+</h2>
-                  <span class="d-flex justify-content-center">Customers</span>
-                </div>
+                       <div class="row justify-content-between social-login">
 
-                <!-- 4.9★ RATING -->
+                           <div class="col-6 flex-center">
+						
+                              <button class="social-login__btn d-flex justify-content-center align-items-center">
+								  <div>
+									<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Google_Favicon_2025.svg/640px-Google_Favicon_2025.svg.png" alt="GitHub image" width="30" height="30"/>
+							   	  </div>
+                                  <span class=" text-gap">Google</span>
+                               </button>
+                           </div>
 
-                <div class="col box">
-                  <h2 class="fw-bold d-flex justify-content-center">4.9★</h2>
-                  <span class="d-flex justify-content-center">Rating</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                           <div class="col-6 flex-center">
+                               <button class="social-login__btn d-flex justify-content-center align-items-center">
+								  <div>
+									<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/640px-Octicons-mark-github.svg.png" alt="GitHub image" width="30" height="30"/>
+							   	  </div>
+                                  <span class=" text-gap">GitHub</span>
+                               </button>
+                           </div>
+
+                       </div>
+
+                   </div>
+
+
+                   <!-- FOOTER -->
+
+                   <div class="d-flex justify-content-center">
+                       
+                       <div class="login-footer d-flex justify-content-center">
+
+                           <p style="color:#9ca3af">Don't have an account?</p>
+
+                           <a href="#">
+                               <b class="text-gap">Create one now</b>
+                           </a>
+
+                       </div>
+
+                   </div>
+
+               </form>
+
+           </div>
+
+       </div>
+
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @*await RenderSectionAsync("Scripts", required: false)*@
-  </body>
-</html>
+
+
+   <!-- RIGHT SIDE -->
+    
+	<div class="login-layout__right d-flex justify-content-center align-items-center">
+       
+		<div class="title-wrapper d-flex justify-content-center align-items-center">
+           
+			<div>
+            
+				<!-- HEADING -->
+
+			   <div class="d-flex justify-content-center">
+					<h1>Next-Gen Electronics</h1>
+			   </div>
+
+				<!-- DESCRIBTION -->
+            
+			   <div class="d-flex justify-content-center content-size">
+                   <span>Experience the future of technology with our premium selection of cutting-edge devices</span>
+               </div>
+
+				<!-- RATING LIST -->
+               
+               <div class="d-flex justify-content-center margin-top-10">
+               
+				    <div class="row box-container">
+               
+						<!-- 50K+ PRODUCT -->
+
+				        <div class="col box">
+                           <h2 class="fw-bold d-flex justify-content-center">50K+</h2>
+                           <span class="d-flex justify-content-center">Products</span>
+                        </div>
+
+						<!-- 200K+ CUSTOMER -->
+                        
+						<div class="col border-left-right box">
+                           <h2 class="fw-bold d-flex justify-content-center">200K+</h2>
+                           <span class="d-flex justify-content-center">Customers</span>
+                        </div>
+
+						<!-- 4.9★ RATING -->
+
+                        <div class="col box">
+                           <h2 class="fw-bold d-flex justify-content-center">4.9★</h2>
+                           <span class="d-flex justify-content-center">Rating</span>
+                        </div>
+
+                   </div>
+
+               </div>
+               
+           </div>
+
+       </div>
+
+   </div>
+
+</div>

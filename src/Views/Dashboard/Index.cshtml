@@ -17,7 +17,6 @@
 
   .form-search:focus {
     outline: none; /* Remove default outline */
-
     box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
   }
 
@@ -26,19 +25,41 @@
   }
 
   .w-30px {
-    width: 40px;
+    width: 50px;
   }
 
   .h-30px {
-    height: 40px;
+    height: 50px;
   }
 
   .custom-gradient {
-      background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
-      color: white;
+    background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+    color: white;
+  }
+  .table thead tr:first-child th:first-child {
+    border-top-left-radius: 0px;
   }
 
+  .table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .table thead tr:first-child th:last-child {
+    border-top-right-radius: 0px;
+  }
+
+  .table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 0px;
+  }
+
+  .table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 0px;
+  }
+  
+  
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <div class="">
   <div class="d-flex justify-content-between">
     <div>
@@ -48,106 +69,172 @@
   </div>
 
   <div class="row d-flex justify-content-between">
+    
+    @* Total Revenue *@
+   
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-      <div class="d-flex text-secondary justify-content-between">
-		<i class="bi bi-currency-dollar p-2 rounded-10 h3 bg-green-450 text-white"></i>
-		<p>Total Users</p>
-		<i class="fa-solid fa-arrow-trend-up"></i>
-	  </div>
-      <h3>8</h3>
-    </div>
-    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-	  <div class="d-flex text-secondary justify-content-between">
-		<p>Active Users</p>
-		<i class="bi bi-check2-circle h5 p-2 rounded-10 bg-green-100 text-green-700"></i>
-	  </div>
-      <h3>6</h3>
-    </div>
-    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-		<div class="d-flex text-secondary justify-content-between">
-            <p>Inactive Users</p>
-            <i class="bi bi-clock h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"></i>
+      <div class="text-secondary">
+        <div class="d-flex justify-content-between">
+          <i
+            class="bi bi-currency-dollar p-3 rounded-10 h4 bg-green-450 text-white"></i>
+          <div class="d-flex p-2">
+            <i class="fa-solid fa-arrow-trend-up text-green-450 pt-1"></i>
+            <span class="text-green-450 small ms-2 fw-normal">+20.1%</span>
+          </div>
         </div>
-      	<h3>1</h3>
+        <p class="mt-3 mb-1">Total Revenue</p>
+        <h3>$45,231.89</h3>
+      </div>
     </div>
+    
+    @* Order *@
+    
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-		<div class="d-flex text-secondary justify-content-between">
-			<p>Suspended</p>
-			<i class="bi bi-exclamation-circle h5 p-2 rounded-10 bg-red-100 text-red-600"></i>
-       	</div>
-      	<h3>1</h3>
+      <div class="text-secondary">
+        <div class="d-flex justify-content-between">
+          <i class="bi bi-cart p-3 rounded-10 h4 bg-blue-500 text-white"></i>
+          <div class="d-flex p-2">
+            <i class="fa-solid fa-arrow-trend-up text-green-450 pt-1"></i>
+            <span class="text-green-450 small ms-2 fw-normal">+5.2%</span>
+          </div>
+        </div>
+        <p class="mt-3 mb-1">Orders</p>
+        <h3>2,345</h3>
+      </div>
+    </div>
+    
+    @* Product *@
+    
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+      <div class="text-secondary">
+        <div class="d-flex justify-content-between">
+          <i class="bi bi-box-seam p-3 rounded-10 h4 bg-purple-500 text-white"></i>
+          <div class="d-flex p-2">
+            <i class="fa-solid fa-arrow-trend-up text-green-450 pt-1"></i>
+            <span class="text-green-450 small ms-2 fw-normal">+5.2%</span>
+          </div>
+        </div>
+        <p class="mt-3 mb-1">Products</p>
+        <h3>1,234</h3>
+      </div>
+    </div>
+    
+    @* Customers *@
+    
+    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+      <div class="text-secondary">
+        <div class="d-flex justify-content-between">
+          <i class="bi bi-people rounded-10 p-3 h4 bg-orange-500 text-white"></i>
+          <div class="d-flex p-2">
+            <i class="fa-solid fa-arrow-trend-down text-red-600 pt-1"></i>
+            <span class="text-red-600 small ms-2 fw-normal">-2.4%</span>
+          </div>
+        </div>
+        <p class="mt-3 mb-1">Customers</p>
+        <h3>8,234</h3>
+      </div>
     </div>
   </div>
-    
 
-  <div class="mt-4 rounded-15">
-    <div class="table-responsive rounded-15">
-      <table class="table bg-white shadow-sm table-hover rounded-15 border">
-        <thead class="table-light">
-          <tr>
-            <th class="py-3 ps-4 fw-normal">Product</th>
-            <th class="py-3 ps-4 fw-normal">Category</th>
-            <th class="py-3 ps-4 fw-normal">Price</th>
-            <th class="py-3 ps-4 fw-normal">Stock</th>
-            <th class="py-3 ps-4 fw-normal">Status</th>
-            <th class="py-3 ps-4 fw-normal">Action</th>
-          </tr>
-        </thead>
+  <div class="row d-flex">
+    
+    @* line graph *@
+    
+    <div class="col bg-white p-4 m-3 rounded-10 border shadow-sm">
+      <h5 class="m-2">Revenue Overview</h5>
+      
+      <canvas id="linegraph" style="width: 100%; max-width: 600px"></canvas>
+
+      <script>
+        const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+  
+        new Chart("linegraph", {
+          type: "line",
+          data: {
+            labels: xValues,
+            datasets: [
+              {
+                data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+                borderColor: "red",
+                fill: false,
+              }
+            ],
+          },
+          options: {
+            legend: { display: false },
+          },
+        });
+      </script>
+    </div>
+
+    @* Bar chart *@
+    
+    <div class="col bg-white p-4 m-3 rounded-10 border shadow-sm">
+      <h5 class="m-2">Orders Overview</h5>
+      <canvas id="barchart" style="width:100%;max-width:600px"></canvas>
+      <script>
+        const x = ["Italy", "France", "Spain", "USA", "Argentina"];
+        const y = [55, 49, 44, 24, 15];
+        const barColors = ["red", "green","blue","orange","brown"];
+
+        new Chart("barchart", {
+          type: "bar",
+          data: {
+            labels: x,
+            datasets: [{
+              backgroundColor: barColors,
+              data: y
+            }]
+          },
+          options: {
+            legend: {display: false},
+            title: {
+              display: true,
+              text: "World Wine Production 2018"
+            }
+          }
+        });
+      </script>
+    </div>
+    
+  </div>
+  
+  <div class="row d-flex">
+    <div class="col bg-white p-4 m-3 rounded-10 border shadow-sm">
+      <h5 class="m-2">Top Products</h5>
+      <table class="table bg-black">
         <tbody>
-          <tr>
-            <td class="p-3 fw-semibold d-flex">
-              <img class="h-30px w-30px rounded-10 bg-light" src="https://powermaccenter.com/cdn/shop/files/AirPods_Max_2024_Orange_PDP_Image_Position_1__en-US_e1cd9597-a5e4-4d45-a43c-317315954a0a.jpg?v=1726225876" alt="image picture"/>
-              <span class="m-2 fw-normal">
-                Wireless Headphones
-              </span>
-            </td>
-            <td class="pt-4 ps-4 ">
-			        <span class=" text-secondary">Electronics</span>
-            </td>
-            <td class="pt-4 ps-4">
-              <span>
-                $129.99
-              </span>
-            </td>
-            <td class="pt-4 ps-4">
-              <span class=" text-secondary">
-                12
-              </span>
-            </td>
-            <td class="pt-4 ps-4">
-              <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
-                Active
-              </span>
-            </td>
-            <td class="pt-4 ">
-              <i class="bi bi-eye me-3 text-secondary"></i>
-              <i class="bi bi-pencil-square text-secondary"></i>
-              <i class="bi bi-trash3 text-red-600 ms-3"></i>
-            </td>
-            @* <td class="text-center p-3"> *@
-            @*   <i class="bi bi-eye me-3"></i> *@
-            @*   <i class="bi bi-box-seam "></i> *@
-            @* </td> *@
-          </tr>
-          <tr>
-            <td colspan="4" class="pt-4 ps-4 small text-secondary">Showing 1 to 8 of 8 Products</td>
-            <td class="p-3 border-0 text-end">
-              <button
-                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
-              >
-                Previous
-              </button>
-            </td>
-            <td class="p-3 border-0 text-start">
-              <button
-                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
-              >
-                Next
-              </button>
-            </td>
-          </tr>
+        <tr >
+          <th scope="row" class="fw-normal ">
+            <strong>Company</strong>
+            <p class="small">1234 sales</p>
+          </th>
+          <td>
+            <h6 class="mt-3 text-end">Alfreds Futterkiste</h6>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="col bg-white p-4 m-3 rounded-10 border shadow-sm">
+      <h5 class="m-2">Recent Orders</h5>
+      <table class="table bg-black">
+        <tbody>
+        <tr>
+          <th scope="row" class="fw-normal">
+            <strong>Company</strong>
+            <p class="small">1234 sales</p>
+          </th>
+          <td class="text-end">
+            <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700 ">
+              Delivered
+            </span>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
