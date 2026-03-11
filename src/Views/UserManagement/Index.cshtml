@@ -56,59 +56,156 @@
   }
 
   .custom-gradient {
-      background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
-      color: white;
+    background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+    color: white;
   }
 
-  
-
+  .modal-header,
+  .modal-footer {
+    border: none !important;
+  }
 </style>
 <div class="">
   <div class="d-flex justify-content-between">
+    @* heading *@
     <div>
       <h3>User Management</h3>
       <p>Manage admin users, roles, and permissions</p>
     </div>
+
+    @* add user *@
+
     <div>
-      <button type="button" class="btn btn-primary">+ Add User</button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#exampleModalCenter"
+      >
+        + Add User
+      </button>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModalCenter"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header px-4">
+            <div class="pt-3 pb-0">
+              <h5 class="modal-title" id="exampleModalLongTitle">
+                Add New User
+              </h5>
+              <p class="small">
+                Create a new admin user with specific roles and permissions
+              </p>
+            </div>
+            <button
+              type="button"
+              class="close position-absolute border-0 bg-white rounded-10 fs-3 end-0 top-0 text-secondary"
+              aria-label="Close"
+              data-dismiss="modal"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body px-4 pt-0">
+            <div class="form-group mt-2">
+              <label class="ms-2">Full Name</label>
+              <div class="form-input">
+                <input type="text" placeholder="John Doe" class="w-100 h-30px border-0 rounded-10 my-2 ps-2 bg-light fw-normal"/>
+              </div>
+            </div>
+            <div class="form-group mt-2">
+              <label class="ms-2">Email</label>
+              <div class="form-input">
+                <input type="email" placeholder="john@admin.com" class="w-100 h-30px border-0 rounded-10 my-2 ps-2 bg-light fw-normal"/>
+              </div>
+            </div>
+            <div class="mt-2">
+              <label class="ms-2">Role</label>
+              <div>
+                <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
+                  <option value="admin">Admin</option>
+                  <option value="manager">Manager</option>
+                  <option value="staff">Staff</option>
+                  <option value="support">Support</option>
+                </select>
+              </div>
+            </div>
+            <div class="mt-2">
+              <label class="ms-2">Status</label>
+              <div>
+                <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer m-2">
+            <button
+              type="button"
+              class="btn bg-white border"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="button" class="btn bg-black text-white">Create User</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="row d-flex justify-content-center">
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
       <div class="d-flex text-secondary justify-content-between">
-		<p>Total Users</p>
-		<i class="bi bi-person-gear h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"></i>
-	  </div>
+        <p>Total Users</p>
+        <i
+          class="bi bi-person-gear h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"
+        ></i>
+      </div>
       <h3>8</h3>
     </div>
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-	  <div class="d-flex text-secondary justify-content-between">
-		<p>Active Users</p>
-		<i class="bi bi-check2-circle h5 p-2 rounded-10 bg-green-100 text-green-700"></i>
-	  </div>
+      <div class="d-flex text-secondary justify-content-between">
+        <p>Active Users</p>
+        <i
+          class="bi bi-check2-circle h5 p-2 rounded-10 bg-green-100 text-green-700"
+        ></i>
+      </div>
       <h3>6</h3>
     </div>
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-		<div class="d-flex text-secondary justify-content-between">
-            <p>Inactive Users</p>
-            <i class="bi bi-clock h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"></i>
-        </div>
-      	<h3>1</h3>
+      <div class="d-flex text-secondary justify-content-between">
+        <p>Inactive Users</p>
+        <i
+          class="bi bi-clock h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"
+        ></i>
+      </div>
+      <h3>1</h3>
     </div>
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-		<div class="d-flex text-secondary justify-content-between">
-			<p>Suspended</p>
-			<i class="bi bi-exclamation-circle h5 p-2 rounded-10 bg-red-100 text-red-600"></i>
-       	</div>
-      	<h3>1</h3>
+      <div class="d-flex text-secondary justify-content-between">
+        <p>Suspended</p>
+        <i
+          class="bi bi-exclamation-circle h5 p-2 rounded-10 bg-red-100 text-red-600"
+        ></i>
+      </div>
+      <h3>1</h3>
     </div>
   </div>
-  
-	<div
+
+  <div
     class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border"
   >
-	
     <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
     <input
       type="search"
@@ -175,31 +272,27 @@
               </span>
             </td>
             <td class="pt-4 ps-3">
-              <span
-                class="badge text-secondary px-3 py-2 rounded-pill border"
-              >
+              <span class="badge text-secondary px-3 py-2 rounded-pill border">
                 All Access
               </span>
             </td>
             <td class="pt-4 ps-4">2 hours ago</td>
             <td class="pt-4 ps-4">2024-01-01</td>
             <td class="text-center pt-4">
-				<i class="bi bi-three-dots-vertical"></i>
+              <i class="bi bi-three-dots-vertical"></i>
             </td>
           </tr>
           <tr>
-            <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">Showing 1 to 8 of 8 users</td>
+            <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
+              Showing 1 to 8 of 8 users
+            </td>
             <td class="p-3 border-0 text-end">
-              <button
-                class="btn btn-sm rounded-10 py-2 px-3 border"
-              >
+              <button class="btn btn-sm rounded-10 py-2 px-3 border">
                 Previous
               </button>
             </td>
             <td class="p-3 border-0 text-start">
-              <button
-                class="btn btn-sm rounded-10 py-2 px-3 border"
-              >
+              <button class="btn btn-sm rounded-10 py-2 px-3 border">
                 Next
               </button>
             </td>
