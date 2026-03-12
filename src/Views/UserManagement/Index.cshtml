@@ -1,12 +1,17 @@
-﻿<style>
+﻿<!-- View (Index.cshtml) -->
+@model List<src.Models.ApplicationUser>
+<ul>
+  @foreach (var user in Model)
+  {
+    //<li>@user.FullName</li>
+  }
+</ul>
+
+
+<style>
   p {
     color: #6c757d;
   }
-
-  .rounded-10 {
-    border-radius: 10px;
-  }
-
   .w-65 {
     width: 65%;
   }
@@ -302,18 +307,4 @@
   </div>
 </div>
 </div>
-    <h2>Creating an Object Parsing JSON</h2>
-    <p id="demo"></p>
-
-    <script>
-      // Fetch JSON from external file
-      fetch("/Data/mockUsers.json")
-        .then((response) => response.text())
-        .then((text) => {
-          console.log("Raw file content:", text);
-          const parsed = JSON.parse(text);
-          console.log(parsed.users[0].name);
-          document.getElementById("demo").textContent = parsed.users[0].name;
-        })
-        .catch((error) => console.error("Error loading JSON:", error));
-    </script>
+   

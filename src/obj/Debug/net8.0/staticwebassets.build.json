@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "utHz3f1XXYb+xXJgjTIrSdR0I5PW60oYDyce1O5KB4c=",
+  "Hash": "JTTJOed1mEMyC491uzosZADLldGh0o06oDkx68MTUbw=",
   "Source": "src",
   "BasePath": "_content/src",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/site.css"
+    },
+    {
+      "Identity": "/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/wwwroot/Data/mockUsers.json",
+      "SourceId": "src",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/wwwroot/",
+      "BasePath": "_content/src",
+      "RelativePath": "Data/mockUsers.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/Data/mockUsers.json"
     },
     {
       "Identity": "/Users/nika.chea/Desktop/ECommerceAdmin/ECommerceAdmin/src/wwwroot/favicon.ico",
