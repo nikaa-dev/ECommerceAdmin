@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace src.Repositories.UserRepositories;
 
-public class UserRepository(ApplicationDbContext context) : Repository<ApplicationUser>(applicationDbContext),IUserRepository
+public class UserRepository(ApplicationDbContext context, 
+                            UserManager<ApplicationUser> userManager,
+                            RolerManager<IdentityRole> rolerManager) : Repository<ApplicationUser>(applicationDbContext),IUserRepository
 {
     public async Task<List<ApplicationUser>> GetAllIncludeAsync()
     {
