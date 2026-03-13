@@ -12,14 +12,10 @@
   p {
     color: #6c757d;
   }
-  .w-65 {
-    width: 65%;
-  }
 
-  .w-15 {
-    width: 15%;
+  .bi-three-dots-vertical:hover{
+      background-color: #f3f4f6;
   }
-
   .form-search:focus {
     outline: none; /* Remove default outline */
 
@@ -29,29 +25,7 @@
   .shadow-sm {
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
   }
-
-  .table {
-    border-collapse: separate;
-
-    border-spacing: 0;
-  }
-
-  .table thead tr:first-child th:first-child {
-    border-top-left-radius: 15px;
-  }
-
-  .table thead tr:first-child th:last-child {
-    border-top-right-radius: 15px;
-  }
-
-  .table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 15px;
-  }
-
-  .table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 15px;
-  }
-
+  
   .w-30px {
     width: 40px;
   }
@@ -264,27 +238,56 @@
         </td>
         <td class="pt-4 ps-3">
           <span
-            class="badge bg-green-100 text-green-700 px-3 py-2 rounded-pill"
+            class="badge bg-green-100 text-green-700 px-3 py-2 rounded-pill small"
           >
             Active
           </span>
         </td>
         <td class="pt-4 ps-3">
           <span
-            class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill"
+            class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill shadow-sm"
           >
             Admin
           </span>
         </td>
         <td class="pt-4 ps-3">
-          <span class="badge text-secondary px-3 py-2 rounded-pill border">
+          <span class="badge text-secondary px-2 py-1 rounded-10 border small">
             All Access
           </span>
         </td>
         <td class="pt-4 ps-4">2 hours ago</td>
         <td class="pt-4 ps-4">2024-01-01</td>
-        <td class="text-center pt-4">
-          <i class="bi bi-three-dots-vertical"></i>
+        <td class="text-center pt-4 position-relative">
+          
+          @* Action dropdown *@
+          
+          <div class="dropdown">
+            
+            <a class="btn border-0" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown">
+              <i class="bi bi-three-dots-vertical p-2 rounded-10"></i>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-header small fw-bold" href="#">Action</a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item small rounded-10">
+                <i class="bi bi-eye"></i>
+                <span class="ms-2">View Details</span>
+              </button>
+              <button class="dropdown-item small rounded-10">
+                <i class="bi bi-pencil-square"></i>
+                <span class="ms-2"> Edit User</span>
+              </button>
+
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item small rounded-10" href="#">
+                <i class="bi bi-trash3"></i>
+                <span class="text-danger ms-2">Delete User</span>
+              </button>
+            </div>
+          </div>
+          
+
         </td>
       </tr>
       <tr>
@@ -307,4 +310,4 @@
   </div>
 </div>
 </div>
-   
+
