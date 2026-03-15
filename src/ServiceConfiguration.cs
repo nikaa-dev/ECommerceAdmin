@@ -4,9 +4,10 @@ using src.Services.UserServices;
 using src.Services.RoleServices;
 using src.Repositories;
 using src.DBConnection;
+using src.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity;
 namespace src;
 
 public static class ServiceConfiguration
@@ -19,7 +20,7 @@ public static class ServiceConfiguration
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
         
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
         

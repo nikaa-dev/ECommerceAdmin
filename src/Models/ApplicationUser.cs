@@ -12,7 +12,7 @@ public class ApplicationUser : IdentityUser
     }
     public string FullName { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public bool Status { get; set; }
+    //public bool Status { get; set; }
     
     public virtual ICollection<IdentityUserRole<string>> UserRoles { get; set; }
 }

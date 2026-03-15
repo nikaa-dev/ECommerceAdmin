@@ -1,6 +1,8 @@
+using src.Models;
+
 namespace src.Services.UserServices;
 
-public class IUserService
+public interface IUserService
 {
-    
+    Task<List<UserResponseDto>> GetAllIncludeAsync();
 }

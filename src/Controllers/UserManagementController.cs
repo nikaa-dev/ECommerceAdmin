@@ -2,24 +2,24 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using src.Models;
 using src.DBConnection;
+using src.Services.UserServices;
 
 namespace src.Controllers;
 
 public class UserManagementController : Controller
 {
     private readonly ILogger<UserManagementController> _logger;
-    private readonly ApplicationDbContext _context;
+    private readonly IUserService _userService;
 
-    public UserManagementController(ApplicationDbContext context, ILogger<UserManagementController> logger)
+    public UserManagementController(IUserService userService, ILogger<UserManagementController> logger)
     {
-        _context = context;
+        _userService = userService;
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        _logger.LogInformation("Fetching all users from database");
-        var users = _context.Users.ToList();
+        var users = await _userService.GetAllIncludeAsync(); 
         return View(users);
     }
 }

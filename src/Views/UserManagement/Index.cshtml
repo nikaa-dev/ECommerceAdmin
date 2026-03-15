@@ -1,313 +1,312 @@
 ﻿<!-- View (Index.cshtml) -->
-@model List<src.Models.ApplicationUser>
-<ul>
-  @foreach (var user in Model)
-  {
-    //<li>@user.FullName</li>
-  }
-</ul>
+@model List<src.Services.UserServices.UserResponseDto>
+               <table class="table">
+                   <thead>
+                       <tr>
+                           <th>Full Name</th>
+                           <th>Email</th>
+                           <th>Role</th>
+                           <th>Status</th>
+                           <th>Permissions</th>
+                           <th>Join Date</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       @foreach (var user in Model)
+        {
+                       <tr>
+                           <td>@user.FullName</td>
+                           <td>@user.Email</td>
+                           <td>@user.Role</td>
+
+                           <td>
+                               @(user.Status ? "Active" : "Inactive")
+                           </td>
+
+                           <td>
+                               @string.Join(", ", user.Permission)
+                           </td>
+
+                           <td>
+                               @user.JoinDate
+                           </td>
+                       </tr>
+        }
+                   </tbody>
+               </table>
 
 
-<style>
-  p {
-    color: #6c757d;
-  }
+    <style>
+        p {
+            color: #6c757d;
+        }
 
-  .bi-three-dots-vertical:hover{
-      background-color: #f3f4f6;
-  }
-  .form-search:focus {
-    outline: none; /* Remove default outline */
+        .bi-three-dots-vertical:hover {
+            background-color: #f3f4f6;
+        }
 
-    box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
-  }
+        .form-search:focus {
+            outline: none; /* Remove default outline */
 
-  .shadow-sm {
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
-  }
-  
-  .w-30px {
-    width: 40px;
-  }
+            box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
+        }
 
-  .h-30px {
-    height: 40px;
-  }
+        .shadow-sm {
+            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+        }
 
-  .custom-gradient {
-    background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
-    color: white;
-  }
+        .w-30px {
+            width: 40px;
+        }
 
-  .modal-header,
-  .modal-footer {
-    border: none !important;
-  }
-</style>
-<div class="">
-<div class="d-flex justify-content-between">
-  @* heading *@
-  <div>
-    <h3>User Management</h3>
-    <p>Manage admin users, roles, and permissions</p>
-  </div>
+        .h-30px {
+            height: 40px;
+        }
 
-  @* add user *@
+        .custom-gradient {
+            background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+            color: white;
+        }
 
-  <div>
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#exampleModalCenter"
-    >
-      + Add User
-    </button>
-  </div>
-
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModalCenter"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header px-4">
-          <div class="pt-3 pb-0">
-            <h5 class="modal-title" id="exampleModalLongTitle">
-              Add New User
-            </h5>
-            <p class="small">
-              Create a new admin user with specific roles and permissions
-            </p>
-          </div>
-          <button
-            type="button"
-            class="close position-absolute border-0 bg-white rounded-10 fs-3 end-0 top-0 text-secondary"
-            aria-label="Close"
-            data-dismiss="modal"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body px-4 pt-0">
-          <div class="form-group mt-2">
-            <label class="ms-2">Full Name</label>
-            <div class="form-input">
-              <input type="text" placeholder="John Doe" class="w-100 h-30px border-0 rounded-10 my-2 ps-2 bg-light fw-normal"/>
-            </div>
-          </div>
-          <div class="form-group mt-2">
-            <label class="ms-2">Email</label>
-            <div class="form-input">
-              <input type="email" placeholder="john@admin.com" class="w-100 h-30px border-0 rounded-10 my-2 ps-2 bg-light fw-normal"/>
-            </div>
-          </div>
-          <div class="mt-2">
-            <label class="ms-2">Role</label>
+        .modal-header,
+        .modal-footer {
+            border: none !important;
+        }
+    </style>
+    <div class="">
+        <div class="d-flex justify-content-between">
+            @* heading *@
             <div>
-              <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
-                <option value="admin">Admin</option>
-                <option value="manager">Manager</option>
-                <option value="staff">Staff</option>
-                <option value="support">Support</option>
-              </select>
+                <h3>User Management</h3>
+                <p>Manage admin users, roles, and permissions</p>
             </div>
-          </div>
-          <div class="mt-2">
-            <label class="ms-2">Status</label>
+
+            @* add user *@
+
             <div>
-              <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
+                <button type="button"
+                        class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#exampleModalCenter">
+                    + Add User
+                </button>
             </div>
-          </div>
-        </div>
-        <div class="modal-footer m-2">
-          <button
-            type="button"
-            class="btn bg-white border"
-            data-dismiss="modal"
-          >
-            Cancel
-          </button>
-          <button type="button" class="btn bg-black text-white">Create User</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="row d-flex justify-content-center">
-  <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-    <div class="d-flex text-secondary justify-content-between">
-      <p>Total Users</p>
-      <i
-        class="bi bi-person-gear h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"
-      ></i>
-    </div>
-    <h3>8</h3>
-  </div>
-  <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-    <div class="d-flex text-secondary justify-content-between">
-      <p>Active Users</p>
-      <i
-        class="bi bi-check2-circle h5 p-2 rounded-10 bg-green-100 text-green-700"
-      ></i>
-    </div>
-    <h3>6</h3>
-  </div>
-  <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-    <div class="d-flex text-secondary justify-content-between">
-      <p>Inactive Users</p>
-      <i
-        class="bi bi-clock h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"
-      ></i>
-    </div>
-    <h3>1</h3>
-  </div>
-  <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-    <div class="d-flex text-secondary justify-content-between">
-      <p>Suspended</p>
-      <i
-        class="bi bi-exclamation-circle h5 p-2 rounded-10 bg-red-100 text-red-600"
-      ></i>
-    </div>
-    <h3>1</h3>
-  </div>
-</div>
-
-<div
-  class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border"
->
-  <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-  <input
-    type="search"
-    class="w-65 border-0 bg-light rounded-10 focus-ring form-search ps-5"
-    placeholder="Search users by name or email..."
-  />
-  <select
-    class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none"
-  >
-    <option value="All Roles" class="bg-light">All Roles</option>
-    <option value="Admin">Admin</option>
-    <option value="Manager">Manager</option>
-    <option value="Staff">Staff</option>
-    <option value="Support">Support</option>
-  </select>
-  <select
-    class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none"
-  >
-    <option value="All Status" class="bg-light">All Status</option>
-    <option value="Active">Active</option>
-    <option value="Inactive">Inactive</option>
-    <option value="Suspended">Suspended</option>
-  </select>
-</div>
-<div class="mt-4 rounded-15">
-  <div class="table-responsive rounded-15">
-    <table class="table bg-white shadow-sm table-hover rounded-15 border">
-      <thead class="table-light">
-      <tr>
-        <th class="p-4 fw-normal">User</th>
-        <th class="p-4 fw-normal">Status</th>
-        <th class="p-4 fw-normal">Role</th>
-        <th class="p-4 fw-normal">Permissions</th>
-        <th class="p-4 fw-normal">Last Active</th>
-        <th class="p-4 fw-normal">Join Date</th>
-        <th class="p-4 fw-normal text-center">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td class="pt-4 ps-4 fw-semibold d-flex">
-          <div
-            class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center"
-          >
-            MA
-          </div>
-          <div class="">
-            <span class="ms-2">Mark</span><br />
-            <p class="ms-2">Mark@gmail.com</p>
-          </div>
-        </td>
-        <td class="pt-4 ps-3">
-          <span
-            class="badge bg-green-100 text-green-700 px-3 py-2 rounded-pill small"
-          >
-            Active
-          </span>
-        </td>
-        <td class="pt-4 ps-3">
-          <span
-            class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill shadow-sm"
-          >
-            Admin
-          </span>
-        </td>
-        <td class="pt-4 ps-3">
-          <span class="badge text-secondary px-2 py-1 rounded-10 border small">
-            All Access
-          </span>
-        </td>
-        <td class="pt-4 ps-4">2 hours ago</td>
-        <td class="pt-4 ps-4">2024-01-01</td>
-        <td class="text-center pt-4 position-relative">
-          
-          @* Action dropdown *@
-          
-          <div class="dropdown">
-            
-            <a class="btn border-0" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown">
-              <i class="bi bi-three-dots-vertical p-2 rounded-10"></i>
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-header small fw-bold" href="#">Action</a>
-              <div class="dropdown-divider"></div>
-              <button class="dropdown-item small rounded-10">
-                <i class="bi bi-eye"></i>
-                <span class="ms-2">View Details</span>
-              </button>
-              <button class="dropdown-item small rounded-10">
-                <i class="bi bi-pencil-square"></i>
-                <span class="ms-2"> Edit User</span>
-              </button>
-
-              <div class="dropdown-divider"></div>
-              <button class="dropdown-item small rounded-10" href="#">
-                <i class="bi bi-trash3"></i>
-                <span class="text-danger ms-2">Delete User</span>
-              </button>
+            <!-- Modal -->
+            <div class="modal fade"
+                 id="exampleModalCenter"
+                 tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="exampleModalCenterTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header px-4">
+                            <div class="pt-3 pb-0">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                    Add New User
+                                </h5>
+                                <p class="small">
+                                    Create a new admin user with specific roles and permissions
+                                </p>
+                            </div>
+                            <button type="button"
+                                    class="close position-absolute border-0 bg-white rounded-10 fs-3 end-0 top-0 text-secondary"
+                                    aria-label="Close"
+                                    data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body px-4 pt-0">
+                            <div class="form-group mt-2">
+                                <label class="ms-2">Full Name</label>
+                                <div class="form-input">
+                                    <input type="text" placeholder="John Doe" class="w-100 h-30px border-0 rounded-10 my-2 ps-2 bg-light fw-normal" />
+                                </div>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="ms-2">Email</label>
+                                <div class="form-input">
+                                    <input type="email" placeholder="john@admin.com" class="w-100 h-30px border-0 rounded-10 my-2 ps-2 bg-light fw-normal" />
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <label class="ms-2">Role</label>
+                                <div>
+                                    <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
+                                        <option value="admin">Admin</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="staff">Staff</option>
+                                        <option value="support">Support</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <label class="ms-2">Status</label>
+                                <div>
+                                    <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer m-2">
+                            <button type="button"
+                                    class="btn bg-white border"
+                                    data-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn bg-black text-white">Create User</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          
+        </div>
 
-        </td>
-      </tr>
-      <tr>
-        <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
-          Showing 1 to 8 of 8 users
-        </td>
-        <td class="p-3 border-0 text-end">
-          <button class="btn btn-sm rounded-10 py-2 px-3 border">
-            Previous
-          </button>
-        </td>
-        <td class="p-3 border-0 text-start">
-          <button class="btn btn-sm rounded-10 py-2 px-3 border">
-            Next
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-</div>
+        <div class="row d-flex justify-content-center">
+            <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+                <div class="d-flex text-secondary justify-content-between">
+                    <p>Total Users</p>
+                    <i class="bi bi-person-gear h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"></i>
+                </div>
+                <h3>8</h3>
+            </div>
+            <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+                <div class="d-flex text-secondary justify-content-between">
+                    <p>Active Users</p>
+                    <i class="bi bi-check2-circle h5 p-2 rounded-10 bg-green-100 text-green-700"></i>
+                </div>
+                <h3>6</h3>
+            </div>
+            <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+                <div class="d-flex text-secondary justify-content-between">
+                    <p>Inactive Users</p>
+                    <i class="bi bi-clock h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"></i>
+                </div>
+                <h3>1</h3>
+            </div>
+            <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+                <div class="d-flex text-secondary justify-content-between">
+                    <p>Suspended</p>
+                    <i class="bi bi-exclamation-circle h5 p-2 rounded-10 bg-red-100 text-red-600"></i>
+                </div>
+                <h3>1</h3>
+            </div>
+        </div>
+
+        <div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+            <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+            <input type="search"
+                   class="w-65 border-0 bg-light rounded-10 focus-ring form-search ps-5"
+                   placeholder="Search users by name or email..." />
+            <select class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none">
+                <option value="All Roles" class="bg-light">All Roles</option>
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Staff">Staff</option>
+                <option value="Support">Support</option>
+            </select>
+            <select class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none">
+                <option value="All Status" class="bg-light">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Suspended">Suspended</option>
+            </select>
+        </div>
+        <div class="mt-4 rounded-15">
+            <div class="table-responsive rounded-15">
+                <table class="table bg-white shadow-sm table-hover rounded-15 border">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="p-4 fw-normal">User</th>
+                            <th class="p-4 fw-normal">Status</th>
+                            <th class="p-4 fw-normal">Role</th>
+                            <th class="p-4 fw-normal">Permissions</th>
+                            <th class="p-4 fw-normal">Last Active</th>
+                            <th class="p-4 fw-normal">Join Date</th>
+                            <th class="p-4 fw-normal text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="pt-4 ps-4 fw-semibold d-flex">
+                                <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center">
+                                    MA
+                                </div>
+                                <div class="">
+                                    <span class="ms-2">Mark</span><br />
+                                    <p class="ms-2">Mark@gmail.com</p>
+                                </div>
+                            </td>
+                            <td class="pt-4 ps-3">
+                                <span class="badge bg-green-100 text-green-700 px-3 py-2 rounded-pill small">
+                                    Active
+                                </span>
+                            </td>
+                            <td class="pt-4 ps-3">
+                                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill shadow-sm">
+                                    Admin
+                                </span>
+                            </td>
+                            <td class="pt-4 ps-3">
+                                <span class="badge text-secondary px-2 py-1 rounded-10 border small">
+                                    All Access
+                                </span>
+                            </td>
+                            <td class="pt-4 ps-4">2 hours ago</td>
+                            <td class="pt-4 ps-4">2024-01-01</td>
+                            <td class="text-center pt-4 position-relative">
+
+                                @* Action dropdown *@
+
+                                <div class="dropdown">
+
+                                    <a class="btn border-0" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown">
+                                        <i class="bi bi-three-dots-vertical p-2 rounded-10"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-header small fw-bold" href="#">Action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <button class="dropdown-item small rounded-10">
+                                            <i class="bi bi-eye"></i>
+                                            <span class="ms-2">View Details</span>
+                                        </button>
+                                        <button class="dropdown-item small rounded-10">
+                                            <i class="bi bi-pencil-square"></i>
+                                            <span class="ms-2"> Edit User</span>
+                                        </button>
+
+                                        <div class="dropdown-divider"></div>
+                                        <button class="dropdown-item small rounded-10" href="#">
+                                            <i class="bi bi-trash3"></i>
+                                            <span class="text-danger ms-2">Delete User</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
+                                Showing 1 to 8 of 8 users
+                            </td>
+                            <td class="p-3 border-0 text-end">
+                                <button class="btn btn-sm rounded-10 py-2 px-3 border">
+                                    Previous
+                                </button>
+                            </td>
+                            <td class="p-3 border-0 text-start">
+                                <button class="btn btn-sm rounded-10 py-2 px-3 border">
+                                    Next
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 

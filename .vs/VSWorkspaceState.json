@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\Common\\Configs",
+    "\\src\\DTO\\AuthDto",
+    "\\src\\DTO\\UserDto",
+    "\\src\\Exceptions",
+    "\\src\\Services\\AuthServices",
+    "\\src\\Services\\JwtServices",
+    "\\src\\Views",
+    "\\src\\Views\\UserManagement"
+  ],
+  "SelectedNode": "\\src\\Views\\UserManagement\\Index.cshtml",
+  "PreviewInSolutionExplorer": false
+}

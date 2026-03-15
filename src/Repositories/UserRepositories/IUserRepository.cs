@@ -6,5 +6,5 @@ namespace src.Repositories.UserRepositories;
 
 public interface IUserRepository:IRepository<ApplicationUser>
 {
-	Task<List<ApplicationUser>> GetAllIncludeAsync();
+	//Task<List<ApplicationUser>> GetAllIncludeAsync();
 }

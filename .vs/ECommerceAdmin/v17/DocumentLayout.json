@@ -1,0 +1,602 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\UserServices\\UserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Services\\UserServices\\UserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Views\\UserManagement\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Views\\UserManagement\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Exceptions\\AppException.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Exceptions\\AppException.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\AuthServices\\AuthService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Services\\AuthServices\\AuthService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\src.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\src.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\JwtServices\\JwtService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Services\\JwtServices\\JwtService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\JwtServices\\IJwtService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Services\\JwtServices\\IJwtService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\LoginDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\DTO\\AuthDto\\LoginDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\TokenResponseDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\DTO\\AuthDto\\TokenResponseDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\RegisterDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\DTO\\AuthDto\\RegisterDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\AuthServices\\IAuthService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Services\\AuthServices\\IAuthService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Common\\Configs\\JwtConfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Common\\Configs\\JwtConfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\LoginResponseDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\DTO\\AuthDto\\LoginResponseDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\UserDetailDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\DTO\\AuthDto\\UserDetailDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\UserDto\\UserResponseDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\DTO\\UserDto\\UserResponseDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Common\\ApiResponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Common\\ApiResponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DBConnection\\ApplicationDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\DBConnection\\ApplicationDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\UserLoginHistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Models\\UserLoginHistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\ApplicationUser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Models\\ApplicationUser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\UserRepositories\\UserRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Repositories\\UserRepositories\\UserRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Controllers\\UserManagementController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Controllers\\UserManagementController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\ServiceConfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\ServiceConfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\UserServices\\IUserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Services\\UserServices\\IUserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\ApplicationRole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Models\\ApplicationRole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\Repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Repositories\\Repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\RoleRepositories\\RoleRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Repositories\\RoleRepositories\\RoleRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\RoleServices\\IRoleService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Services\\RoleServices\\IRoleService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\RoleServices\\RoleService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Services\\RoleServices\\RoleService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\appsettings.Development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\appsettings.Development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\UserRepositories\\IUserRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Repositories\\UserRepositories\\IUserRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Controllers\\ProductsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Controllers\\ProductsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\AuthServices\\AuthService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\AuthServices\\AuthService.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\AuthServices\\AuthService.cs",
+              "RelativeToolTip": "src\\Services\\AuthServices\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:10:34.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppException.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Exceptions\\AppException.cs",
+              "RelativeDocumentMoniker": "src\\Exceptions\\AppException.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Exceptions\\AppException.cs",
+              "RelativeToolTip": "src\\Exceptions\\AppException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T15:19:24.702Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "src.csproj",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\src.csproj",
+              "RelativeDocumentMoniker": "src\\src.csproj",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\src.csproj",
+              "RelativeToolTip": "src\\src.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-14T05:05:43.248Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\UserServices\\UserService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\UserServices\\UserService.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\UserServices\\UserService.cs",
+              "RelativeToolTip": "src\\Services\\UserServices\\UserService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAcwFUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T06:13:02.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Views\\UserManagement\\Index.cshtml",
+              "RelativeDocumentMoniker": "src\\Views\\UserManagement\\Index.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Views\\UserManagement\\Index.cshtml",
+              "RelativeToolTip": "src\\Views\\UserManagement\\Index.cshtml",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAYwCMAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-14T06:21:14.39Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\LoginDto.cs",
+              "RelativeDocumentMoniker": "src\\DTO\\AuthDto\\LoginDto.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\LoginDto.cs",
+              "RelativeToolTip": "src\\DTO\\AuthDto\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:41:42.233Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TokenResponseDto.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\TokenResponseDto.cs",
+              "RelativeDocumentMoniker": "src\\DTO\\AuthDto\\TokenResponseDto.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\TokenResponseDto.cs",
+              "RelativeToolTip": "src\\DTO\\AuthDto\\TokenResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:50:22.411Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "RegisterDto.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\RegisterDto.cs",
+              "RelativeDocumentMoniker": "src\\DTO\\AuthDto\\RegisterDto.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\RegisterDto.cs",
+              "RelativeToolTip": "src\\DTO\\AuthDto\\RegisterDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:53:11.597Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "JwtService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\JwtServices\\JwtService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\JwtServices\\JwtService.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\JwtServices\\JwtService.cs",
+              "RelativeToolTip": "src\\Services\\JwtServices\\JwtService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T13:49:10.179Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IJwtService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\JwtServices\\IJwtService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\JwtServices\\IJwtService.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\JwtServices\\IJwtService.cs",
+              "RelativeToolTip": "src\\Services\\JwtServices\\IJwtService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T13:51:33.575Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "JwtConfig.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Common\\Configs\\JwtConfig.cs",
+              "RelativeDocumentMoniker": "src\\Common\\Configs\\JwtConfig.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Common\\Configs\\JwtConfig.cs",
+              "RelativeToolTip": "src\\Common\\Configs\\JwtConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:39:02.943Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "UserDetailDto.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\UserDetailDto.cs",
+              "RelativeDocumentMoniker": "src\\DTO\\AuthDto\\UserDetailDto.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\UserDetailDto.cs",
+              "RelativeToolTip": "src\\DTO\\AuthDto\\UserDetailDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:04:14.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "LoginResponseDto.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\LoginResponseDto.cs",
+              "RelativeDocumentMoniker": "src\\DTO\\AuthDto\\LoginResponseDto.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\AuthDto\\LoginResponseDto.cs",
+              "RelativeToolTip": "src\\DTO\\AuthDto\\LoginResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:02:20.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UserResponseDto.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\UserDto\\UserResponseDto.cs",
+              "RelativeDocumentMoniker": "src\\DTO\\UserDto\\UserResponseDto.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DTO\\UserDto\\UserResponseDto.cs",
+              "RelativeToolTip": "src\\DTO\\UserDto\\UserResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T06:18:33.044Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ApiResponse.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Common\\ApiResponse.cs",
+              "RelativeDocumentMoniker": "src\\Common\\ApiResponse.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Common\\ApiResponse.cs",
+              "RelativeToolTip": "src\\Common\\ApiResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:15:03.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\AuthServices\\IAuthService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\AuthServices\\IAuthService.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\AuthServices\\IAuthService.cs",
+              "RelativeToolTip": "src\\Services\\AuthServices\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T14:10:48.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DBConnection\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "src\\DBConnection\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DBConnection\\ApplicationDbContext.cs",
+              "RelativeToolTip": "src\\DBConnection\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABwAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T07:16:43.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "src\\Models\\ApplicationUser.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\ApplicationUser.cs",
+              "RelativeToolTip": "src\\Models\\ApplicationUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T07:17:17.36Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "UserLoginHistory.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\UserLoginHistory.cs",
+              "RelativeDocumentMoniker": "src\\Models\\UserLoginHistory.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\UserLoginHistory.cs",
+              "RelativeToolTip": "src\\Models\\UserLoginHistory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-15T13:24:56.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\UserRepositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "src\\Repositories\\UserRepositories\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\UserRepositories\\UserRepository.cs",
+              "RelativeToolTip": "src\\Repositories\\UserRepositories\\UserRepository.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T05:07:18.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\UserServices\\IUserService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\UserServices\\IUserService.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\UserServices\\IUserService.cs",
+              "RelativeToolTip": "src\\Services\\UserServices\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T06:24:40.467Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "UserManagementController.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Controllers\\UserManagementController.cs",
+              "RelativeDocumentMoniker": "src\\Controllers\\UserManagementController.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Controllers\\UserManagementController.cs",
+              "RelativeToolTip": "src\\Controllers\\UserManagementController.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAASwAsAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T06:16:31.654Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Repository.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\Repository.cs",
+              "RelativeDocumentMoniker": "src\\Repositories\\Repository.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\Repository.cs",
+              "RelativeToolTip": "src\\Repositories\\Repository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T07:31:29.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ApplicationRole.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\ApplicationRole.cs",
+              "RelativeDocumentMoniker": "src\\Models\\ApplicationRole.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\ApplicationRole.cs",
+              "RelativeToolTip": "src\\Models\\ApplicationRole.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T07:34:18.911Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "RoleRepository.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\RoleRepositories\\RoleRepository.cs",
+              "RelativeDocumentMoniker": "src\\Repositories\\RoleRepositories\\RoleRepository.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\RoleRepositories\\RoleRepository.cs",
+              "RelativeToolTip": "src\\Repositories\\RoleRepositories\\RoleRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T07:31:07.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ServiceConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\ServiceConfiguration.cs",
+              "RelativeDocumentMoniker": "src\\ServiceConfiguration.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\ServiceConfiguration.cs",
+              "RelativeToolTip": "src\\ServiceConfiguration.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAuwBcAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T05:40:04.84Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Program.cs",
+              "RelativeDocumentMoniker": "src\\Program.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Program.cs",
+              "RelativeToolTip": "src\\Program.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABEAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T07:50:39.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "IRoleService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\RoleServices\\IRoleService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\RoleServices\\IRoleService.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\RoleServices\\IRoleService.cs",
+              "RelativeToolTip": "src\\Services\\RoleServices\\IRoleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T07:29:34.099Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "RoleService.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\RoleServices\\RoleService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\RoleServices\\RoleService.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Services\\RoleServices\\RoleService.cs",
+              "RelativeToolTip": "src\\Services\\RoleServices\\RoleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T07:29:36.889Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "global.json",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\global.json",
+              "RelativeDocumentMoniker": "src\\global.json",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\global.json",
+              "RelativeToolTip": "src\\global.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-14T05:06:18.17Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "src\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\appsettings.Development.json",
+              "RelativeToolTip": "src\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-14T06:39:10.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "IUserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\UserRepositories\\IUserRepository.cs",
+              "RelativeDocumentMoniker": "src\\Repositories\\UserRepositories\\IUserRepository.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Repositories\\UserRepositories\\IUserRepository.cs",
+              "RelativeToolTip": "src\\Repositories\\UserRepositories\\IUserRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T06:30:41.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\appsettings.json",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\appsettings.json",
+              "RelativeToolTip": "src\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-14T06:39:29.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Controllers\\ProductsController.cs",
+              "RelativeDocumentMoniker": "src\\Controllers\\ProductsController.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Controllers\\ProductsController.cs",
+              "RelativeToolTip": "src\\Controllers\\ProductsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T06:29:02.692Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
