@@ -4,10 +4,13 @@ using src.DTO;
 using src.Services.JwtServices;
 using src.Services.AuthServices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using src.Models;
 using src.Common.Configs;
+using src.DBConnection;
 using src.DTO.AuthDto;
 using src.Exceptions;
+using src.Services.UserTokenServices;
 
 namespace src.Services.AuthServices;
 
@@ -15,7 +18,8 @@ public class AuthService(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         RoleManager<ApplicationRole> roleManager,
-        IJwtService jwtService)
+        IJwtService jwtService,
+        IUserTokenService userTokenService)
         : IAuthService
 {
     private readonly RoleManager<ApplicationRole> _roleManager = roleManager;
@@ -61,6 +65,15 @@ public class AuthService(
         if (!result.Succeeded) throw new AppException("Invalid credentials");
 
         var token = await jwtService.GenerateTokenAsync(user);
+        var userToken = new IdentityUserToken<string>()
+        {
+            UserId = user.Id,              // The logged-in user's Id from AspNetUsers
+            LoginProvider = "Local",       // "Local" for email/password logins
+            Name = "Token",         // Token type
+            Value = token // Or your generated secure token
+        };
+        await userTokenService.CreateAsync(userToken);
+        
         var roles = await userManager.GetRolesAsync(user);
 
         // Logic to get permissions... (simplified for brevity)
@@ -88,4 +101,5 @@ public class AuthService(
         });
     }
 }
+
 
