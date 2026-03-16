@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "../Shared/_LoginLayout";
 }
+@model src.DTO.AuthDto.LoginDto
 <style>
     
     * {
@@ -269,16 +270,16 @@
 
            <div class="login-form-wrapper flex-center">
 
-               <form class="login-form">
+               <form class="login-form " method="post">
 
                    <!-- EMAIL -->
 
                    <div class="flex-center">
                        <div class="form-group">
-                           <label>Email</label>
+                           <label formlabel="Email">Email</label>
                            <div class="form-input">
 								<i class="fa-regular fa-envelope position-absolute m-3 pt-1 fs-5 "></i>
-								<input type="text" class="form-input-field ps-5 shadow-none" placeholder="Enter your email">
+								<input type="text" asp-for="UsernameOrEmail" class="form-input-field ps-5 shadow-none" placeholder="Enter your email">
 							</div>
                        </div>
                    </div>
@@ -287,10 +288,10 @@
 
                    <div class="flex-center">
                        <div class="form-group">
-                           <label>Password</label>
+                           <label formlabel="Password">Password</label>
 						   <div class="form-input">
 								<i class="fa-solid fa-lock position-absolute m-3 pt-1 fs-5"></i>
-                           		<input type="password" class="form-input-field ps-5 shadow-none" placeholder="Enter your password">
+                           		<input type="password" asp-for="Password" class="form-input-field ps-5 shadow-none" placeholder="Enter your password">
 						   </div>
                        </div>
                    </div>
@@ -317,7 +318,7 @@
                    <!-- SIGNIN -->
 
                    <div class="login-submit-wrapper flex-center">
-                       <button class="login-submit-btn shadow">
+                       <button class="login-submit-btn shadow" type="submit">
                            Sign in
                        </button>
                    </div>
