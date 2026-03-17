@@ -1,14 +1,8 @@
 using src.Common;
 using src.DTO.AuthDto;
-using src.DTO;
 using src.Services.JwtServices;
-using src.Services.AuthServices;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using src.Models;
-using src.Common.Configs;
-using src.DBConnection;
-using src.DTO.AuthDto;
 using src.Exceptions;
 using src.Services.UserTokenServices;
 
@@ -50,6 +44,15 @@ public class AuthService(
             Token = tokenResponseString,
             Expiration = DateTime.UtcNow.AddMinutes(60) // Ideally match this with your config
         };
+        
+        var userToken = new IdentityUserToken<string>()
+        {
+            UserId = user.Id,              // The logged-in user's Id from AspNetUsers
+            LoginProvider = "Local",       // "Local" for email/password logins
+            Name = "Token",         // Token type
+            Value = tokenResponseString // Or your generated secure token
+        };
+        await userTokenService.CreateAsync(userToken);
         return new ApiResponse<TokenResponseDto>(responseDto, "User registered successfully.");
     }
 
@@ -65,14 +68,24 @@ public class AuthService(
         if (!result.Succeeded) throw new AppException("Invalid credentials");
 
         var token = await jwtService.GenerateTokenAsync(user);
-        var userToken = new IdentityUserToken<string>()
+       
+        var existingToken = await userTokenService.FindAsync(user.Id,"Local","Token");
+        if (existingToken != null)
         {
-            UserId = user.Id,              // The logged-in user's Id from AspNetUsers
-            LoginProvider = "Local",       // "Local" for email/password logins
-            Name = "Token",         // Token type
-            Value = token // Or your generated secure token
-        };
-        await userTokenService.CreateAsync(userToken);
+            existingToken.Value = token; 
+            await userTokenService.UpdateAsync(existingToken);
+        }
+        else
+        {
+            var userToken = new IdentityUserToken<string>()
+            {
+                UserId = user.Id,              // The logged-in user's Id from AspNetUsers
+                LoginProvider = "Local",       // "Local" for email/password logins
+                Name = "Token",         // Token type
+                Value = token // Or your generated secure token
+            };
+            await userTokenService.CreateAsync(userToken);
+        }
         
         var roles = await userManager.GetRolesAsync(user);
 

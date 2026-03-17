@@ -300,6 +300,7 @@ C:/Users/USER/Desktop/ECommerceAdmin/src/obj/Debug/net8.0/ref/src.dll
 /Users/nika.chea/Desktop/ECommerceAdmin/src/bin/Debug/net8.0/Azure.Core.dll
 /Users/nika.chea/Desktop/ECommerceAdmin/src/bin/Debug/net8.0/Azure.Identity.dll
 /Users/nika.chea/Desktop/ECommerceAdmin/src/bin/Debug/net8.0/Humanizer.dll
+/Users/nika.chea/Desktop/ECommerceAdmin/src/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/nika.chea/Desktop/ECommerceAdmin/src/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 /Users/nika.chea/Desktop/ECommerceAdmin/src/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
 /Users/nika.chea/Desktop/ECommerceAdmin/src/bin/Debug/net8.0/Microsoft.CodeAnalysis.dll
@@ -429,4 +430,3 @@ C:/Users/USER/Desktop/ECommerceAdmin/src/obj/Debug/net8.0/ref/src.dll
 /Users/nika.chea/Desktop/ECommerceAdmin/src/obj/Debug/net8.0/src.pdb
 /Users/nika.chea/Desktop/ECommerceAdmin/src/obj/Debug/net8.0/src.genruntimeconfig.cache
 /Users/nika.chea/Desktop/ECommerceAdmin/src/obj/Debug/net8.0/ref/src.dll
-/Users/nika.chea/Desktop/ECommerceAdmin/src/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll

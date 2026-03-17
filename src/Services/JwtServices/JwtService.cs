@@ -20,7 +20,7 @@ public class JwtService : IJwtService
         _jwtConfig = jwtConfig.Value;
     }
 
-    public async Task<string> GenerateTokenAsync(ApplicationUser user)
+    public Task<string> GenerateTokenAsync(ApplicationUser user)
     {
         if (string.IsNullOrEmpty(_jwtConfig.Secret))
             throw new InvalidOperationException("JWT Secret is not configured.");
@@ -43,6 +43,6 @@ public class JwtService : IJwtService
             signingCredentials: creds
         );
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
     }
 }

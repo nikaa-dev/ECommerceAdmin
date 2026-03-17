@@ -7,16 +7,20 @@ namespace src.Repositories;
 
 public class Repository<T>(ApplicationDbContext context):IRepository<T> where T:class
 {
-    public async Task<T> GetByIdAsync(Guid id) => await context.Set<T>().FindAsync(id);
+    public async Task<T?> GetByIdAsync(Guid id) => await context.Set<T>().FindAsync(id);
 
     public async Task<List<T>> GetAllAsync() => await context.Set<T>().ToListAsync();
 
     public async Task CreateAsync(T entity) => await context.Set<T>().AddAsync(entity);
     
-   public async Task UpdateAsync(T entity)
-	{
-    	context.Set<T>().Update(entity);
-	}
+    public async Task<T?> GetByIdAsync(params object[] keyValues) => await context.Set<T>().FindAsync(keyValues);
+
+    
+   public Task UpdateAsync(T entity)
+   {
+	   context.Set<T>().Update(entity);
+	   return Task.CompletedTask;
+   }
 
 
     public async Task<bool> DeleteAsync(Guid id)

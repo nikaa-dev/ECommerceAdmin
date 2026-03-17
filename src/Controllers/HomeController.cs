@@ -27,10 +27,6 @@ public class HomeController : Controller
     public async Task<IActionResult> Index(LoginDto dto)
     {
         var user = await _authService.LoginAsync(dto);
-        if (user is not null)
-        {
-            return Redirect($"Dashboard/Index/");
-        }
-        return Unauthorized("ឈ្មោះ ឬលេខសម្ងាត់មិនត្រឹមត្រូវ");
+        return Redirect($"Dashboard/Index/");
     }
 }
