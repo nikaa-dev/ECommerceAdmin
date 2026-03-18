@@ -1,22 +1,14 @@
-using System.Diagnostics;
+
 using Microsoft.AspNetCore.Mvc;
-using src.Models;
 using src.DTO.AuthDto;
 using src.Services.AuthServices;
 
 namespace src.Controllers;
 
-public class HomeController : Controller
+public class HomeController(ILogger<HomeController> logger, IAuthService authService) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-    private readonly IAuthService _authService;
-    
+    private readonly ILogger<HomeController> _logger = logger;
 
-    public HomeController(ILogger<HomeController> logger,IAuthService authService)
-    {
-        _logger = logger;
-        _authService = authService;
-    }
 
     public IActionResult Index()
     {
@@ -26,15 +18,19 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Index(LoginDto dto)
     {
-        var userLogin = await _authService.LoginAsync(dto);
-        Response.Cookies.Append("AuthToken", userLogin.Data.Token, new CookieOptions
+        var userLogin = await authService.LoginAsync(dto);
+        if (userLogin.Data.Token != null)
         {
-            HttpOnly = true, // prevents JavaScript access
-            Secure = true, // only send over HTTPS
-            SameSite = SameSiteMode.Strict, // helps prevent CSRF
-            Expires = userLogin.Data.Expiration // set expiry
-        });
+            Response.Cookies.Append("AuthToken", userLogin.Data.Token, new CookieOptions
+            {
+                HttpOnly = true, // prevents JavaScript access
+                Secure = true, // only send over HTTPS
+                SameSite = SameSiteMode.Strict, // helps prevent CSRF
+                Expires = userLogin.Data.Expiration // set expiry
+            });
+            return Redirect("Dashboard/Index/");
+        }
         TempData["Message"] = userLogin.Message.ToString();
-        return Redirect("Dashboard/Index/");
+        return View();
     }
 }

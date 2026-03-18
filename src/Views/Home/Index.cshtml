@@ -2,6 +2,10 @@
     Layout = "../Shared/_LoginLayout";
 }
 @model src.DTO.AuthDto.LoginDto
+@if (TempData["Message"] != null)
+{
+    <div>@TempData["Message"]</div>
+}
 <style>
     
     * {

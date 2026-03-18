@@ -1,25 +1,21 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using src.Models;
-using src.DBConnection;
+using src.Enums;
 using src.Services.UserServices;
 
 namespace src.Controllers;
 
-public class UserManagementController : Controller
+[Authorize(Roles = "Admin")]
+public class UserManagementController(IUserService userService, ILogger<UserManagementController> logger)
+    : Controller
 {
-    private readonly ILogger<UserManagementController> _logger;
-    private readonly IUserService _userService;
-
-    public UserManagementController(IUserService userService, ILogger<UserManagementController> logger)
-    {
-        _userService = userService;
-        _logger = logger;
-    }
+    private readonly ILogger<UserManagementController> _logger = logger;
 
     public async Task<IActionResult> Index()
     {
-        var users = await _userService.GetAllIncludeAsync(); 
+        var users = await userService.GetAllIncludeAsync(); 
         return View(users);
     }
 }

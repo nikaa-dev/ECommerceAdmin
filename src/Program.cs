@@ -1,10 +1,8 @@
-using src.DBConnection;
-using Microsoft.EntityFrameworkCore;
 using src;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register all services
+// Register all services (this already sets up JWT auth)
 builder.Services.ConfigureApplicationServices(builder.Configuration);
 
 var app = builder.Build();

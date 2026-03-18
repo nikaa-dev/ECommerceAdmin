@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using src.Repositories.UserRepositories;
 using src.Repositories.RoleRepositories;
@@ -14,6 +15,7 @@ using src.Services.AuthServices;
 using src.Services.JwtServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using src.Auth;
 using src.Repositories.UserClaimRepositories;
 using src.Repositories.UserTokenRepositories;
 using src.Services.UserClaimServices;
@@ -31,6 +33,8 @@ public static class ServiceConfiguration
         
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         
         services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -60,6 +64,19 @@ public static class ServiceConfiguration
             })
             .AddJwtBearer(options => 
             {
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        // Read token from cookie
+                        var token = context.HttpContext.Request.Cookies["AuthToken"];
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            context.Token = token;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -69,14 +86,11 @@ public static class ServiceConfiguration
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = key,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromSeconds(30)
+                    ClockSkew = TimeSpan.FromSeconds(30),
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
         services.Configure<JwtConfig>(configuration.GetSection("JWT"));
         services.AddAuthorization();
-        
-        
-
-
     }
 }
