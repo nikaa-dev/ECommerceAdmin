@@ -26,7 +26,15 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Index(LoginDto dto)
     {
-        var user = await _authService.LoginAsync(dto);
-        return Redirect($"Dashboard/Index/");
+        var userLogin = await _authService.LoginAsync(dto);
+        Response.Cookies.Append("AuthToken", userLogin.Data.Token, new CookieOptions
+        {
+            HttpOnly = true, // prevents JavaScript access
+            Secure = true, // only send over HTTPS
+            SameSite = SameSiteMode.Strict, // helps prevent CSRF
+            Expires = userLogin.Data.Expiration // set expiry
+        });
+        TempData["Message"] = userLogin.Message.ToString();
+        return Redirect("Dashboard/Index/");
     }
 }

@@ -1,6 +1,11 @@
 ﻿<!-- View (Index.cshtml) -->
 @model List<src.Services.UserServices.UserResponseDto>
-               <table class="table">
+
+@if (TempData["Message"] != null)
+{
+    <div>@TempData["Message"]</div>
+}
+<table class="table">
                    <thead>
                        <tr>
                            <th>Full Name</th>

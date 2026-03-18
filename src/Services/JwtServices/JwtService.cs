@@ -11,38 +11,50 @@ using src.Services.JwtServices;
 
 namespace src.Services.JwtServices;
 
-public class JwtService : IJwtService
+public class JwtService(IOptions<JwtConfig> jwtConfig, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager) : IJwtService
 {
-    private readonly JwtConfig _jwtConfig;
+    private readonly JwtConfig _jwtConfig = jwtConfig.Value;
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly RoleManager<ApplicationRole> _roleManager = roleManager;
 
-    public JwtService(IOptions<JwtConfig> jwtConfig)
+    public async Task<string> GenerateTokenAsync(ApplicationUser user)
     {
-        _jwtConfig = jwtConfig.Value;
-    }
+        var claims = new List<Claim>()
+        {
+            new Claim(JwtRegisteredClaimNames.Sub,user.Id),
+            new Claim(JwtRegisteredClaimNames.Email,user.Email ?? string.Empty),
+            new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier,user.Id),
+            new Claim(ClaimTypes.Name,user.UserName ?? string.Empty),
+        };
 
-    public Task<string> GenerateTokenAsync(ApplicationUser user)
-    {
-        if (string.IsNullOrEmpty(_jwtConfig.Secret))
-            throw new InvalidOperationException("JWT Secret is not configured.");
+        var userRoles = await _userManager.GetRolesAsync(user);
+        foreach (var userRole in userRoles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, userRole));
+            var role =  await _roleManager.FindByNameAsync(userRole);
+            if (role != null)
+            {
+                var roleClaims = await _roleManager.GetClaimsAsync(role);
+                var permissions = roleClaims.Where(c => c.Type == "Permission");
+                claims.AddRange(permissions);
+            }
+        }
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Secret));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var claims = new List<Claim>
+        var tokenDescripter = new SecurityTokenDescriptor
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddMinutes(_jwtConfig.ExpireMinutes),
+            Issuer = _jwtConfig.Issuer,
+            Audience = _jwtConfig.Audience,
+            SigningCredentials = creds
         };
-
-        var token = new JwtSecurityToken(
-            issuer: _jwtConfig.Issuer,
-            audience: _jwtConfig.Audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwtConfig.ExpireMinutes),
-            signingCredentials: creds
-        );
-
-        return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescripter);
+        
+        return tokenHandler.WriteToken(token);
     }
 }

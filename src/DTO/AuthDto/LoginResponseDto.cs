@@ -4,5 +4,5 @@ public class LoginResponseDto
 {
     public string Token { get; set; } = string.Empty;
     public DateTime Expiration { get; set; }
-    public UserDetailDto User { get; set; } = new();
+    // public UserDetailDto User { get; set; } = new();
 }

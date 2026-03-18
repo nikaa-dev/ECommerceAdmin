@@ -1,9 +1,14 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using src.Common;
 using src.DTO.AuthDto;
 using src.Services.JwtServices;
 using Microsoft.AspNetCore.Identity;
+using src.DTO.UserDto;
 using src.Models;
 using src.Exceptions;
+using src.Services.UserClaimServices;
 using src.Services.UserTokenServices;
 
 namespace src.Services.AuthServices;
@@ -13,7 +18,9 @@ public class AuthService(
         SignInManager<ApplicationUser> signInManager,
         RoleManager<ApplicationRole> roleManager,
         IJwtService jwtService,
-        IUserTokenService userTokenService)
+        IUserTokenService userTokenService,
+        IHttpContextAccessor httpContextAccessor,
+        IUserClaimService userClaimService)
         : IAuthService
 {
     private readonly RoleManager<ApplicationRole> _roleManager = roleManager;
@@ -58,47 +65,46 @@ public class AuthService(
 
     public async Task<ApiResponse<LoginResponseDto>> LoginAsync(LoginDto dto)
     {
-        var user = dto.UsernameOrEmail.Contains("@")
-            ? await userManager.FindByEmailAsync(dto.UsernameOrEmail)
-            : await userManager.FindByNameAsync(dto.UsernameOrEmail);
-
-        if (user == null) throw new AppException("Invalid credentials");
-
-        var result = await signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
-        if (!result.Succeeded) throw new AppException("Invalid credentials");
-
-        var token = await jwtService.GenerateTokenAsync(user);
-       
-        var existingToken = await userTokenService.FindAsync(user.Id,"Local","Token");
-        if (existingToken != null)
+        try
         {
-            existingToken.Value = token; 
-            await userTokenService.UpdateAsync(existingToken);
-        }
-        else
-        {
-            var userToken = new IdentityUserToken<string>()
+            var user = dto.UsernameOrEmail.Contains('@')
+                ? await userManager.FindByEmailAsync(dto.UsernameOrEmail)
+                : await userManager.FindByNameAsync(dto.UsernameOrEmail);
+
+            if (user == null)
             {
-                UserId = user.Id,              // The logged-in user's Id from AspNetUsers
-                LoginProvider = "Local",       // "Local" for email/password logins
-                Name = "Token",         // Token type
-                Value = token // Or your generated secure token
+                throw new Exception("User could not be registered.");
+            }
+
+            // throw new AppException("Invalid credentials");
+
+            var result = await signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
+            if (!result.Succeeded) {
+                throw new Exception("Invalid credentials.");
+            }
+       
+            var token = await jwtService.GenerateTokenAsync(user);
+            var res = new LoginResponseDto()
+            {
+                Token = token,
+                Expiration = DateTime.UtcNow.AddMinutes(60),
             };
-            await userTokenService.CreateAsync(userToken);
+
+            return new ApiResponse<LoginResponseDto>( res,"User logged in Successfully.");
+        }
+        catch(Exception ex)
+        {
+            var res = new LoginResponseDto()
+            {
+                Token = null!,
+                Expiration = DateTime.UtcNow.AddMinutes(0),
+            };
+            return new ApiResponse<LoginResponseDto>(
+                res,
+                $"Login failed: {ex.Message}"
+            );
         }
         
-        var roles = await userManager.GetRolesAsync(user);
-
-        // Logic to get permissions... (simplified for brevity)
-        var permissions = new List<string>();
-
-        var responseDto = new LoginResponseDto
-        {
-            Token = token,
-            User = new UserDetailDto { Id = user.Id, FullName = user.FullName, Email = user.Email, Roles = roles, Permissions = permissions }
-        };
-
-        return new ApiResponse<LoginResponseDto>(responseDto, "Login successful.");
     }
 
     public async Task<ApiResponse<UserDetailDto>> GetCurrentUserAsync(string userId)
