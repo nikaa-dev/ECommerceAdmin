@@ -63,11 +63,6 @@ public static class ServiceConfiguration
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddCookie("AccessDenied", options =>
-            {
-                options.Cookie.Name = "AccessDenied";
-                options.AccessDeniedPath = "/Account/AccessDenied";
-            })
             .AddJwtBearer(options => 
             {
                 options.Events = new JwtBearerEvents
