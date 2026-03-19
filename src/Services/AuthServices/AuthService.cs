@@ -9,6 +9,7 @@ using src.DTO.UserDto;
 using src.Models;
 using src.Exceptions;
 using src.Services.UserClaimServices;
+using src.Services.UserLoginHistoryServices;
 using src.Services.UserTokenServices;
 
 namespace src.Services.AuthServices;
@@ -20,6 +21,7 @@ public class AuthService(
         IJwtService jwtService,
         IUserTokenService userTokenService,
         IHttpContextAccessor httpContextAccessor,
+        IUserLoginHistoryService  userLoginHistoryService,
         IUserClaimService userClaimService)
         : IAuthService
 {
@@ -89,7 +91,17 @@ public class AuthService(
                 Token = token,
                 Expiration = DateTime.UtcNow.AddMinutes(60),
             };
-
+            
+            var loginHistory = new UserLoginHistory()
+            {
+                Id = Guid.NewGuid(),
+                UserId = user.Id,
+                LoginTime = DateTime.Now,
+                User = user,
+                IpAddress = "127.0.0.1",
+                UserAgent = "Email/Password"
+            };
+            await userLoginHistoryService.CreateAsync(loginHistory);
             return new ApiResponse<LoginResponseDto>( res,"User logged in Successfully.");
         }
         catch(Exception ex)

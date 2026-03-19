@@ -18,8 +18,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using src.Auth;
 using src.Repositories.UserClaimRepositories;
+using src.Repositories.UserLoginHistoryRepositories;
 using src.Repositories.UserTokenRepositories;
 using src.Services.UserClaimServices;
+using src.Services.UserLoginHistoryServices;
 using src.Services.UserTokenServices;
 
 namespace src;
@@ -46,14 +48,18 @@ public static class ServiceConfiguration
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserTokenRepository,UserTokenRepository>();
         services.AddScoped<IUserClaimRepository, UserClaimRepository>();
+        services.AddScoped<IUserLoginHistoryRepository,UserLoginHistoryRepository>();
         
+        services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserClaimService, UserClaimService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserLoginHistoryService, UserLoginHistoryService>();
 
         services.AddScoped<IJwtService, JwtService>();
-        services.AddScoped<IUserTokenService, UserTokenService>();
+        
+        
         
         var jwtSettings = configuration.GetSection("JWT").Get<JwtConfig>();
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.Secret!));

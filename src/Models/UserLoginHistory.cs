@@ -1,7 +1,7 @@
 namespace src.Models;
 public class UserLoginHistory
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public string UserId { get; set; }
 
