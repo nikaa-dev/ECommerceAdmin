@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|c:\\users\\user\\desktop\\ecommerceadmin\\src\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|c:\\users\\user\\desktop\\ecommerceadmin\\src\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|c:\\users\\user\\desktop\\ecommerceadmin\\src\\src.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|solutionrelative:src.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|c:\\users\\user\\desktop\\ecommerceadmin\\src\\global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|solutionrelative:global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|c:\\users\\user\\desktop\\ecommerceadmin\\src\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|solutionrelative:models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,14 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|c:\\users\\user\\desktop\\ecommerceadmin\\src\\controllers\\usermanagementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|solutionrelative:controllers\\usermanagementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|c:\\users\\user\\desktop\\ecommerceadmin\\src\\global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|solutionrelative:global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|c:\\users\\user\\desktop\\ecommerceadmin\\src\\src.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{FB2E5F4D-AB64-4220-9CAF-1B1A81C40C5B}|src.csproj|solutionrelative:src.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,39 +46,65 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABQAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-19T12:53:48.928Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T12:53:34.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DBConnection\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "DBConnection\\ApplicationDbContext.cs",
               "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\DBConnection\\ApplicationDbContext.cs",
               "RelativeToolTip": "DBConnection\\ApplicationDbContext.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAA0wAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-14T07:10:20.644Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "UserManagementController.cs",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Controllers\\UserManagementController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserManagementController.cs",
               "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Controllers\\UserManagementController.cs",
               "RelativeToolTip": "Controllers\\UserManagementController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-14T07:09:47.885Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "ApplicationUser.cs",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\ApplicationUser.cs",
               "RelativeDocumentMoniker": "Models\\ApplicationUser.cs",
               "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\Models\\ApplicationUser.cs",
               "RelativeToolTip": "Models\\ApplicationUser.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAwA0AAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwA0AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-14T07:08:30.399Z",
               "EditorCaption": ""
@@ -83,20 +117,20 @@
               "RelativeDocumentMoniker": "global.json",
               "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\global.json",
               "RelativeToolTip": "global.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2026-03-14T07:07:28.515Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "src",
+              "DocumentIndex": 2,
+              "Title": "src.csproj",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\src.csproj",
               "RelativeDocumentMoniker": "src.csproj",
               "ToolTip": "C:\\Users\\USER\\Desktop\\ECommerceAdmin\\src\\src.csproj",
               "RelativeToolTip": "src.csproj",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2026-03-14T07:07:24.141Z",
               "EditorCaption": ""

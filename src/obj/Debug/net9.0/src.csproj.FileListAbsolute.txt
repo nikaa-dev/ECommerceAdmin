@@ -222,3 +222,4 @@ C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\refint\src.dll
 C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\src.pdb
 C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\src.genruntimeconfig.cache
 C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\ref\src.dll
+C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
