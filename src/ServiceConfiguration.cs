@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using src.Repositories.UserRepositories;
 using src.Repositories.RoleRepositories;
 using src.Services.UserServices;
@@ -61,6 +62,11 @@ public static class ServiceConfiguration
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddCookie("AccessDenied", options =>
+            {
+                options.Cookie.Name = "AccessDenied";
+                options.AccessDeniedPath = "/Account/AccessDenied";
             })
             .AddJwtBearer(options => 
             {

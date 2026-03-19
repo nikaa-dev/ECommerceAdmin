@@ -4,14 +4,9 @@ using src.Models;
 
 namespace src.Controllers;
 
-public class ProductsController : Controller
+public class ProductsController(ILogger<HomeController> logger) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public ProductsController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<HomeController> _logger = logger;
 
     public IActionResult Index()
     {

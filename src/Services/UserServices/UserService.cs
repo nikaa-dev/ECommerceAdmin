@@ -11,53 +11,42 @@ using src.Common;
 
 namespace src.Services.UserServices;
 
-public class UserService : IUserService
+public class UserService(
+    IUserRepository userRepository,
+    UserManager<ApplicationUser> userManager,
+    RoleManager<ApplicationRole> roleManager,
+    ApplicationDbContext context,
+    SignInManager<ApplicationUser> signInManager)
+    : IUserService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly ApplicationDbContext _context;
-   
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
 
-    public UserService(
-        IUserRepository userRepository,
-        UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager,
-        ApplicationDbContext context,
-        SignInManager<ApplicationUser> signInManager)
-    {
-        _userRepository = userRepository;
-        _userManager = userManager;
-        _roleManager = roleManager;
-        _context = context;
-        _signInManager = signInManager;
-    }
 
     // Return a list of users with their roles and permissions
     public async Task<List<UserResponseDto>> GetAllIncludeAsync()
     {
-        var users = await _userManager.Users.ToListAsync();
+        var users = await userManager.Users.ToListAsync();
         var result = new List<UserResponseDto>();
 
         foreach (var user in users)
         {
-            var roles = await _userManager.GetRolesAsync(user);
+            var roleByUsers = await userManager.GetRolesAsync(user);
 
             var permissions = new List<string>();
 
-            foreach (var roleName in roles)
+            foreach (var roleName in roleByUsers)
             {
-                var role = await _roleManager.FindByNameAsync(roleName);
+                var role = await roleManager.FindByNameAsync(roleName);
 
                 if (role != null)
                 {
-                    var rolePermissions = await _context.Set<IdentityRoleClaim<string>>()
+                    var rolePermissions = await context.Set<IdentityRoleClaim<string>>()
                         .Where(r => r.RoleId == role.Id && r.ClaimType == "Permission")
                         .Select(r => r.ClaimValue)
                         .ToListAsync();
 
-                    permissions.AddRange(rolePermissions);
+                    permissions.AddRange(rolePermissions!);
                 }
             }
 
@@ -65,8 +54,8 @@ public class UserService : IUserService
 
             result.Add(new UserResponseDto(
                 FullName: user.FullName,
-                Email: user.Email,
-                Role: string.Join(", ", roles),
+                Email: user.Email!,
+                Role: string.Join(", ", roleByUsers),
                 Status: !user.LockoutEnabled,
                 Permission: permissions ,
                 JoinDate: DateOnly.FromDateTime(user.CreatedAt)
@@ -75,8 +64,6 @@ public class UserService : IUserService
 
         return result;
     }
-
-    
 }
 
 // DTO to send to the view

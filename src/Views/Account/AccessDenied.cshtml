@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<h2>@ViewData["Title"]</h2>
+<p>You do not have permission to view this page.</p>
+
+@if(ViewBag.ReturnUrl != null)
+{
+    <a href="@ViewBag.ReturnUrl">Go Back</a>
+}

@@ -4,8 +4,11 @@
 @model src.DTO.AuthDto.LoginDto
 @if (TempData["Message"] != null)
 {
-    <div>@TempData["Message"]</div>
+    <script>
+        alert('@TempData["Message"]');
+    </script>
 }
+
 <style>
     
     * {

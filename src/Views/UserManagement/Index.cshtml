@@ -5,41 +5,6 @@
 {
     <div>@TempData["Message"]</div>
 }
-<table class="table">
-                   <thead>
-                       <tr>
-                           <th>Full Name</th>
-                           <th>Email</th>
-                           <th>Role</th>
-                           <th>Status</th>
-                           <th>Permissions</th>
-                           <th>Join Date</th>
-                       </tr>
-                   </thead>
-                   <tbody>
-                       @foreach (var user in Model)
-        {
-                       <tr>
-                           <td>@user.FullName</td>
-                           <td>@user.Email</td>
-                           <td>@user.Role</td>
-
-                           <td>
-                               @(user.Status ? "Active" : "Inactive")
-                           </td>
-
-                           <td>
-                               @string.Join(", ", user.Permission)
-                           </td>
-
-                           <td>
-                               @user.JoinDate
-                           </td>
-                       </tr>
-        }
-                   </tbody>
-               </table>
-
 
     <style>
         p {
@@ -139,10 +104,10 @@
                                 <label class="ms-2">Role</label>
                                 <div>
                                     <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
-                                        <option value="admin">Admin</option>
-                                        <option value="manager">Manager</option>
-                                        <option value="staff">Staff</option>
-                                        <option value="support">Support</option>
+                                        @foreach (var role in ViewBag.RoleNames)
+                                        {
+                                            <option value=@role>@role</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -175,7 +140,7 @@
                     <p>Total Users</p>
                     <i class="bi bi-person-gear h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"></i>
                 </div>
-                <h3>8</h3>
+                <h3>@Model.Count</h3>
             </div>
             <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
                 <div class="d-flex text-secondary justify-content-between">
@@ -207,10 +172,10 @@
                    placeholder="Search users by name or email..." />
             <select class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none">
                 <option value="All Roles" class="bg-light">All Roles</option>
-                <option value="Admin">Admin</option>
-                <option value="Manager">Manager</option>
-                <option value="Staff">Staff</option>
-                <option value="Support">Support</option>
+                @foreach (var role in ViewBag.RoleNames)
+                {
+                    <option value=@role>@role</option>
+                }
             </select>
             <select class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none">
                 <option value="All Status" class="bg-light">All Status</option>
@@ -223,44 +188,48 @@
             <div class="table-responsive rounded-15">
                 <table class="table bg-white shadow-sm table-hover rounded-15 border">
                     <thead class="table-light">
-                        <tr>
-                            <th class="p-4 fw-normal">User</th>
-                            <th class="p-4 fw-normal">Status</th>
-                            <th class="p-4 fw-normal">Role</th>
-                            <th class="p-4 fw-normal">Permissions</th>
-                            <th class="p-4 fw-normal">Last Active</th>
-                            <th class="p-4 fw-normal">Join Date</th>
-                            <th class="p-4 fw-normal text-center">Actions</th>
-                        </tr>
+                    <tr>
+                        <th class="p-4 fw-normal">User</th>
+                        <th class="p-4 fw-normal">Status</th>
+                        <th class="p-4 fw-normal">Role</th>
+                        <th class="p-4 fw-normal">Permissions</th>
+                        <th class="p-4 fw-normal">Last Active</th>
+                        <th class="p-4 fw-normal">Join Date</th>
+                        <th class="p-4 fw-normal text-center">Actions</th>
+                    </tr>
                     </thead>
+                    
+                    
                     <tbody>
+                    @foreach (var user in Model)
+                    {
                         <tr>
                             <td class="pt-4 ps-4 fw-semibold d-flex">
                                 <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center">
                                     MA
                                 </div>
                                 <div class="">
-                                    <span class="ms-2">Mark</span><br />
-                                    <p class="ms-2">Mark@gmail.com</p>
+                                    <span class="ms-2">@user.FullName</span><br/>
+                                    <p class="ms-2">@user.Email</p>
                                 </div>
                             </td>
                             <td class="pt-4 ps-3">
                                 <span class="badge bg-green-100 text-green-700 px-3 py-2 rounded-pill small">
-                                    Active
+                                    @(user.Status ? "Active" : "Inactive")
                                 </span>
                             </td>
                             <td class="pt-4 ps-3">
                                 <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill shadow-sm">
-                                    Admin
+                                    @user.Role
                                 </span>
                             </td>
                             <td class="pt-4 ps-3">
                                 <span class="badge text-secondary px-2 py-1 rounded-10 border small">
-                                    All Access
+                                    @(user.Role == "Admin" ? "All Access" : string.Join(", ", user.Permission))
                                 </span>
                             </td>
                             <td class="pt-4 ps-4">2 hours ago</td>
-                            <td class="pt-4 ps-4">2024-01-01</td>
+                            <td class="pt-4 ps-4">@user.JoinDate</td>
                             <td class="text-center pt-4 position-relative">
 
                                 @* Action dropdown *@
@@ -294,22 +263,24 @@
 
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
-                                Showing 1 to 8 of 8 users
-                            </td>
-                            <td class="p-3 border-0 text-end">
-                                <button class="btn btn-sm rounded-10 py-2 px-3 border">
-                                    Previous
-                                </button>
-                            </td>
-                            <td class="p-3 border-0 text-start">
-                                <button class="btn btn-sm rounded-10 py-2 px-3 border">
-                                    Next
-                                </button>
-                            </td>
-                        </tr>
+                    }
+                    <tr>
+                        <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
+                            Showing 1 to 8 of 8 users
+                        </td>
+                        <td class="p-3 border-0 text-end">
+                            <button class="btn btn-sm rounded-10 py-2 px-3 border">
+                                Previous
+                            </button>
+                        </td>
+                        <td class="p-3 border-0 text-start">
+                            <button class="btn btn-sm rounded-10 py-2 px-3 border">
+                                Next
+                            </button>
+                        </td>
+                    </tr>
                     </tbody>
+                    
                 </table>
             </div>
         </div>
