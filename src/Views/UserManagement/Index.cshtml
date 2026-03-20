@@ -1,7 +1,7 @@
 ﻿<!-- View (Index.cshtml) -->
 @using System.ComponentModel.Design
 @using src.Enums
-@model List<src.DTO.UserDto.UserResponseDto>
+@model src.Extensions.Pagenations.PagedResult<src.DTO.UserDto.UserResponseDto>
 
 @if (TempData["Message"] != null)
 {
@@ -142,7 +142,7 @@
                     <p>Total Users</p>
                     <i class="bi bi-person-gear h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"></i>
                 </div>
-                <h3>@Model.Count</h3>
+                <h3>@Model.TotalCount</h3>
             </div>
             <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
                 <div class="d-flex text-secondary justify-content-between">
@@ -166,26 +166,37 @@
                 <h3>@ViewBag.SuspendedStatuses</h3>
             </div>
         </div>
+        
+            
+        <form method="get" asp-action="Index">
+            <div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+                <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+                <input type="search"
+                       class="w-65 border-0 bg-light rounded-10 focus-ring form-search ps-5"
+                       placeholder="Search users by name or email..."/>
+                <select name="filterByRole" class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none" onchange="this.form.submit()">
+                    <option value="" class="bg-light">All Roles</option>
+                    @foreach (var role in ViewBag.RoleNames)
+                    {
+                        <option value="@role" selected="@(Context.Request.Query["filterByRole"] == role)">
+                            @role
+                        </option>
+                    }
+                </select>
 
-        <div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
-            <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-            <input type="search"
-                   class="w-65 border-0 bg-light rounded-10 focus-ring form-search ps-5"
-                   placeholder="Search users by name or email..." />
-            <select class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none">
-                <option value="All Roles" class="bg-light">All Roles</option>
-                @foreach (var role in ViewBag.RoleNames)
-                {
-                    <option value=@role>@role</option>
-                }
-            </select>
-            <select class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none">
-                <option value="All Status" class="bg-light">All Status</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Suspended">Suspended</option>
-            </select>
-        </div>
+                <select name="filterByStatus" class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none" onchange="this.form.submit()">
+                    <option value="" class="bg-light">All Status</option>
+                    @foreach (var status in ViewBag.Status)
+                    {
+                        <option value="@status" selected="@(Context.Request.Query["filterByStatus"] == status)">
+                            @status
+                        </option>
+                    }
+                </select>
+            </div>
+            </form>
+            
+        
         <div class="mt-4 rounded-15">
             <div class="table-responsive rounded-15">
                 <table class="table bg-white shadow-sm table-hover rounded-15 border">
@@ -203,7 +214,7 @@
                     
                     
                     <tbody>
-                    @foreach (var user in Model)
+                    @foreach (var user in Model.Items)
                     {
                         <tr>
                             <td class="pt-4 ps-4 fw-semibold d-flex">
@@ -268,7 +279,7 @@
                     }
                     <tr>
                         <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
-                            Showing 1 to 8 of 8 users
+                            Showing 1 to 8 of @Model.TotalCount users
                         </td>
                         <td class="p-3 border-0 text-end">
                             <button class="btn btn-sm rounded-10 py-2 px-3 border">

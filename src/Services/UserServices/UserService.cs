@@ -21,9 +21,9 @@ public class UserService(
 
 
     // Return a list of users with their roles and permissions
-    public async Task<List<UserResponseDto>> GetAllIncludeAsync()
+    public async Task<List<UserResponseDto>> GetAllIncludeAsync(string? filterByRole, UserStatus? filterByStatus)
     {
-        var users = await userManager.Users.ToListAsync();
+        var users = userManager.Users.ToList();
         var result = new List<UserResponseDto>();
 
         foreach (var user in users)
@@ -60,7 +60,10 @@ public class UserService(
             ));
         }
         
-        
+        if(filterByRole != null) 
+            result = result.Where(r => r.Role == filterByRole).ToList();
+        if(filterByStatus != null) 
+            result = result.Where(r => r.Status == filterByStatus).ToList();
         
         return result;
     }

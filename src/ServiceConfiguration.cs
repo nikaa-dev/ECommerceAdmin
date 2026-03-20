@@ -59,8 +59,6 @@ public static class ServiceConfiguration
 
         services.AddScoped<IJwtService, JwtService>();
         
-        
-        
         var jwtSettings = configuration.GetSection("JWT").Get<JwtConfig>();
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.Secret!));
 

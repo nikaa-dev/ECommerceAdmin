@@ -18,8 +18,7 @@ public class AuthService(
         IUserTokenService userTokenService,
         IHttpContextAccessor httpContextAccessor,
         IUserLoginHistoryService  userLoginHistoryService,
-        IUserClaimService userClaimService,
-        HttpContext context)
+        IUserClaimService userClaimService)
         : IAuthService
 {
     private readonly RoleManager<ApplicationRole> _roleManager = roleManager;

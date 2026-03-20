@@ -1,4 +1,4 @@
-namespace src.Extensions;
+namespace src.Extensions.Pagenations;
 
 public class PagedResult<T>
 {
