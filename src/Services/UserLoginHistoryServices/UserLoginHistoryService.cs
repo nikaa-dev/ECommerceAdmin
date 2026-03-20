@@ -17,4 +17,18 @@ public class UserLoginHistoryService(IUserLoginHistoryRepository loginHistoryRep
             Console.WriteLine(ex.Message);
         }
     }
+
+    public async Task<UserLoginHistory?> GetUserLoginAsync(string id)
+    {
+        try
+        {
+            var userLogin = await loginHistoryRepository.GetByIdAsync(id);
+            return userLogin;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return null;
+        }
+    }
 }

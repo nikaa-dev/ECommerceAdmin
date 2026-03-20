@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace src.Models;
 public class AuditLog
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string? UserId { get; set; } 
     public string? UserName { get; set; }
     [Required]
@@ -12,5 +12,6 @@ public class AuditLog
     public string? EntityId { get; set; }  
     public string? IpAddress { get; set; }
     public string? Details { get; set; } 
+    public string? UserAgent { get; set; }
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 }

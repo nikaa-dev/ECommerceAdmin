@@ -1,4 +1,5 @@
 using src;
+using src.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ app.UseStatusCodePages(async context =>
 app.UseAuthentication();
 app.UseAuthorization();
 
+// app.UseMiddleware<ActivityLoggingMiddleware>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

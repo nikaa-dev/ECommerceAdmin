@@ -1,5 +1,7 @@
 ﻿<!-- View (Index.cshtml) -->
-@model List<src.Services.UserServices.UserResponseDto>
+@using System.ComponentModel.Design
+@using src.Enums
+@model List<src.DTO.UserDto.UserResponseDto>
 
 @if (TempData["Message"] != null)
 {
@@ -147,21 +149,21 @@
                     <p>Active Users</p>
                     <i class="bi bi-check2-circle h5 p-2 rounded-10 bg-green-100 text-green-700"></i>
                 </div>
-                <h3>6</h3>
+                <h3>@ViewBag.ActiveStatuses</h3>
             </div>
             <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
                 <div class="d-flex text-secondary justify-content-between">
                     <p>Inactive Users</p>
                     <i class="bi bi-clock h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"></i>
                 </div>
-                <h3>1</h3>
+                <h3>@ViewBag.InActiveStatuses</h3>
             </div>
             <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
                 <div class="d-flex text-secondary justify-content-between">
                     <p>Suspended</p>
                     <i class="bi bi-exclamation-circle h5 p-2 rounded-10 bg-red-100 text-red-600"></i>
                 </div>
-                <h3>1</h3>
+                <h3>@ViewBag.SuspendedStatuses</h3>
             </div>
         </div>
 
@@ -215,7 +217,7 @@
                             </td>
                             <td class="pt-4 ps-3">
                                 <span class="badge bg-green-100 text-green-700 px-3 py-2 rounded-pill small">
-                                    @(user.Status ? "Active" : "Inactive")
+                                    @(user.Status == 0 ? "Active" : user.Status == UserStatus.Inactive ?  "Inactive" : "Suspended")
                                 </span>
                             </td>
                             <td class="pt-4 ps-3">

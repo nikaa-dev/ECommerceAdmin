@@ -1,13 +1,10 @@
 using src.Repositories.UserRepositories;
 using Microsoft.AspNetCore.Identity;
 using src.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using src.DBConnection;
-using src.Services;
-using src.DTO.AuthDto;
-using src.Common;
+using src.DTO.UserDto;
+using src.Enums;
 
 namespace src.Services.UserServices;
 
@@ -56,9 +53,10 @@ public class UserService(
                 FullName: user.FullName,
                 Email: user.Email!,
                 Role: string.Join(", ", roleByUsers),
-                Status: !user.LockoutEnabled,
+                Status: user.Status,
                 Permission: permissions ,
-                JoinDate: DateOnly.FromDateTime(user.CreatedAt)
+                JoinDate: DateOnly.FromDateTime(user.CreatedAt),
+                LastActive:TimeOnly.FromTimeSpan(TimeSpan.Zero)
             ));
         }
         
@@ -69,12 +67,3 @@ public class UserService(
 }
 
 // DTO to send to the view
-public record UserResponseDto(
-    string FullName,
-    string Email,
-    string Role,
-    bool Status,
-    List<string> Permission,
-    //TimeOnly LastActive,
-    DateOnly JoinDate
-);

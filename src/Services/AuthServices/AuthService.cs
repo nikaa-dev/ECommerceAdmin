@@ -1,11 +1,7 @@
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using src.Common;
 using src.DTO.AuthDto;
 using src.Services.JwtServices;
 using Microsoft.AspNetCore.Identity;
-using src.DTO.UserDto;
 using src.Models;
 using src.Exceptions;
 using src.Services.UserClaimServices;
@@ -22,7 +18,8 @@ public class AuthService(
         IUserTokenService userTokenService,
         IHttpContextAccessor httpContextAccessor,
         IUserLoginHistoryService  userLoginHistoryService,
-        IUserClaimService userClaimService)
+        IUserClaimService userClaimService,
+        HttpContext context)
         : IAuthService
 {
     private readonly RoleManager<ApplicationRole> _roleManager = roleManager;
@@ -51,15 +48,15 @@ public class AuthService(
         var responseDto = new TokenResponseDto
         {
             Token = tokenResponseString,
-            Expiration = DateTime.UtcNow.AddMinutes(60) // Ideally match this with your config
+            Expiration = DateTime.UtcNow.AddMinutes(60) 
         };
         
         var userToken = new IdentityUserToken<string>()
         {
-            UserId = user.Id,              // The logged-in user's Id from AspNetUsers
-            LoginProvider = "Local",       // "Local" for email/password logins
-            Name = "Token",         // Token type
-            Value = tokenResponseString // Or your generated secure token
+            UserId = user.Id,              
+            LoginProvider = "Local",       
+            Name = "Token",         
+            Value = tokenResponseString 
         };
         await userTokenService.CreateAsync(userToken);
         return new ApiResponse<TokenResponseDto>(responseDto, "User registered successfully.");
@@ -90,18 +87,18 @@ public class AuthService(
             {
                 Token = token,
                 Expiration = DateTime.UtcNow.AddMinutes(60),
-            };
-            
-            var loginHistory = new UserLoginHistory()
-            {
-                Id = Guid.NewGuid(),
-                UserId = user.Id,
-                LoginTime = DateTime.Now,
-                User = user,
-                IpAddress = "127.0.0.1",
-                UserAgent = "Email/Password"
-            };
-            await userLoginHistoryService.CreateAsync(loginHistory);
+            }; 
+            // var userLogin = new UserLoginHistory()
+            // {
+            //     Action = actionDescription,
+            //     UserId = userId,
+            //     UserName = userName,
+            //     IpAddress = ip,
+            //     Details = requestBody,
+            //     UserAgent = userAgent,
+            // };
+            //
+            // await auditService.CreateAsync(userLogin);
             return new ApiResponse<LoginResponseDto>( res,"User logged in Successfully.");
         }
         catch(Exception ex)
@@ -131,6 +128,7 @@ public class AuthService(
             Email = user.Email
         });
     }
+    
 }
 
 
