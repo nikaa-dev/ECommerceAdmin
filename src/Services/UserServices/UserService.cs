@@ -1,10 +1,11 @@
-using src.Repositories.UserRepositories;
 using Microsoft.AspNetCore.Identity;
-using src.Models;
 using Microsoft.EntityFrameworkCore;
 using src.DBConnection;
 using src.DTO.UserDto;
 using src.Enums;
+using src.Models;
+using src.Repositories.UserRepositories;
+using static src.Enums.Permissions;
 
 namespace src.Services.UserServices;
 
@@ -21,7 +22,7 @@ public class UserService(
 
 
     // Return a list of users with their roles and permissions
-    public async Task<List<UserResponseDto>> GetAllIncludeAsync(string? filterByRole, UserStatus? filterByStatus)
+    public async Task<List<UserResponseDto>> GetAllIncludeAsync()
     {
         var users = userManager.Users.ToList();
         var result = new List<UserResponseDto>();
@@ -60,13 +61,33 @@ public class UserService(
             ));
         }
         
-        if(filterByRole != null) 
-            result = result.Where(r => r.Role == filterByRole).ToList();
-        if(filterByStatus != null) 
-            result = result.Where(r => r.Status == filterByStatus).ToList();
         
+
         return result;
     }
+
+    public async Task AddRolePermissionUserAsync(UserRequestDto userRolePermissionRequestDto)
+    {
+        try {
+
+            var userName = await userManager.FindByNameAsync(userRolePermissionRequestDto.FullName);
+            if (userName == null) throw new Exception("Full Name Not Found");
+
+            var user = await userManager.FindByEmailAsync(userRolePermissionRequestDto.Email);
+            if (user == null) throw new Exception("Email Not Found");
+
+            var role = await userManager.AddToRoleAsync(user, userRolePermissionRequestDto.Role);
+            if(!role.Succeeded) throw new Exception("Can't add new role to this user");
+
+            user.Status = userRolePermissionRequestDto.Status;
+            await userManager.UpdateAsync(user);
+
+        } catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+        }
+
+    }
+
 }
 
 // DTO to send to the view

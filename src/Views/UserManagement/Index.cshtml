@@ -142,7 +142,7 @@
                     <p>Total Users</p>
                     <i class="bi bi-person-gear h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"></i>
                 </div>
-                <h3>@Model.TotalCount</h3>
+                <h3>@ViewBag.Total</h3>
             </div>
             <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
                 <div class="d-flex text-secondary justify-content-between">
@@ -171,7 +171,7 @@
         <form method="get" asp-action="Index">
             <div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
                 <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-                <input type="search"
+                <input type="search" name="searchItem"
                        class="w-65 border-0 bg-light rounded-10 focus-ring form-search ps-5"
                        placeholder="Search users by name or email..."/>
                 <select name="filterByRole" class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none" onchange="this.form.submit()">
@@ -186,14 +186,20 @@
 
                 <select name="filterByStatus" class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none" onchange="this.form.submit()">
                     <option value="" class="bg-light">All Status</option>
-                    @foreach (var status in ViewBag.Status)
-                    {
-                        <option value="@status" selected="@(Context.Request.Query["filterByStatus"] == status)">
-                            @status
-                        </option>
-                    }
+                @{
+                    var selectedStatus = Context.Request.Query["filterByStatus"].ToString();
+                }
+
+                @foreach (var status in ViewBag.Status)
+                {
+                    <option value="@status"
+                            selected="@(selectedStatus == status.ToString())">
+                        @status
+                    </option>
+                }
                 </select>
             </div>
+
             </form>
             
         
@@ -218,8 +224,18 @@
                     {
                         <tr>
                             <td class="pt-4 ps-4 fw-semibold d-flex">
-                                <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center">
-                                    MA
+                                <p id="p1"></p>
+                                <p id="p2"></p>
+                                <p id="p3"></p>
+                                <p id="p4"></p>
+                                <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center pt-1">
+                                    @{
+                                        var names = user.FullName.Split(' ');
+                                        var initials = names.Length > 1
+                                        ? $"{names[0][0]}{names[1][0]}"
+                                        : $"{names[0][0]}";
+                                    }
+                                    @initials
                                 </div>
                                 <div class="">
                                     <span class="ms-2">@user.FullName</span><br/>
@@ -277,19 +293,34 @@
                             </td>
                         </tr>
                     }
+                    
                     <tr>
                         <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
-                            Showing 1 to 8 of @Model.TotalCount users
+                            @{
+                                var start = 0;
+                                var end = 0;
+                                if (Model.TotalCount != null)
+                                {
+                                    start = (Model.PageNumber - 1) * Model.PageSize + 1;
+                                    end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
+                                } 
+                             }
+                            Showing @start to @end of @Model.TotalCount users
                         </td>
                         <td class="p-3 border-0 text-end">
-                            <button class="btn btn-sm rounded-10 py-2 px-3 border">
+                            <a class="btn btn-sm rounded-10 py-2 px-3 border 
+                                @(Model.PageNumber == 1 ? "disabled" : "")"
+                               asp-page="/UserManagement/Index"
+                               asp-route-pageNumber="@(Model.PageNumber - 1)">
                                 Previous
-                            </button>
+                            </a>
                         </td>
                         <td class="p-3 border-0 text-start">
-                            <button class="btn btn-sm rounded-10 py-2 px-3 border">
+                            <a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
+                               asp-page="/UserManagement/Index"
+                               asp-route-pageNumber="@(Model.PageNumber + 1)">
                                 Next
-                            </button>
+                            </a>
                         </td>
                     </tr>
                     </tbody>

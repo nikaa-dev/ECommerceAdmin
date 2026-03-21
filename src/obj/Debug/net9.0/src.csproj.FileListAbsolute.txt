@@ -42,7 +42,6 @@ C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\Microsoft.Win32.System
 C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\Mono.TextTemplating.dll
 C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\Npgsql.dll
 C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
-C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\System.ClientModel.dll
 C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\System.CodeDom.dll
 C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\System.Composition.AttributedModel.dll
 C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\System.Composition.Convention.dll
@@ -222,3 +221,5 @@ C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\refint\src.dll
 C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\src.pdb
 C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\src.genruntimeconfig.cache
 C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\ref\src.dll
+C:\Users\USER\Desktop\ECommerceAdmin\src\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\USER\Desktop\ECommerceAdmin\src\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

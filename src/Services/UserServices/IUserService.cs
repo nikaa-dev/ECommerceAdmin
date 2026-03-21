@@ -7,7 +7,9 @@ namespace src.Services.UserServices
 {
     public interface IUserService
     {
-        Task<List<UserResponseDto>> GetAllIncludeAsync(string? filterByRole, UserStatus? filterByStatus);
+        Task<List<UserResponseDto>> GetAllIncludeAsync();
+        Task AddRolePermissionUserAsync(UserRequestDto userRolePermissionRequestDto);
+
     }
 }
 

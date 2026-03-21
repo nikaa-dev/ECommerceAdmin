@@ -12,7 +12,7 @@ public class PagedResult<T>
     /// <summary>
     /// The current page number.
     /// </summary>
-    private int PageNumber { get; }
+    public int PageNumber { get; }
 
     /// <summary>
     /// The number of items per page.
