@@ -30,7 +30,7 @@ public class UserService(
         foreach (var user in users)
         {
             var roleByUsers = await userManager.GetRolesAsync(user);
-
+            
             var permissions = new List<string>();
 
             foreach (var roleName in roleByUsers)
@@ -61,8 +61,6 @@ public class UserService(
             ));
         }
         
-        
-
         return result;
     }
 

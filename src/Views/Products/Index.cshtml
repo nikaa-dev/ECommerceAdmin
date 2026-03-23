@@ -136,7 +136,7 @@
           </td>
           <td class="p-3 border-0 text-end">
             <a class="btn btn-sm rounded-10 py-2 px-3 border 
-                                @(Model.PageNumber == 1 ? "disabled" : "")"
+               @(Model.PageNumber == 1 ? "disabled" : "")"
                asp-page="/Products/Index"
                asp-route-pageNumber="@(Model.PageNumber - 1)">
               Previous
