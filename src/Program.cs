@@ -21,19 +21,19 @@ app.Use(async (context, next) =>
     var path = context.Request.Path.Value;
 
     // Skip auth check for allowed paths
-    if (!allowedPaths.Any(p => path.StartsWith(p, StringComparison.OrdinalIgnoreCase)))
-    {
-        var token = context.Request.Cookies["AuthToken"];
-        if (string.IsNullOrEmpty(token))
-        {
-            // Redirect to login page
-            context.Response.Redirect("/Home/Index");
-            return; // Important: stop further processing
-        }
-
-        // If token exists, you can optionally set it in context.Items for later use
-        context.Items["AuthToken"] = token;
-    }
+    // if (!allowedPaths.Any(p => path.StartsWith(p, StringComparison.OrdinalIgnoreCase)))
+    // {
+    //     var token = context.Request.Cookies["AuthToken"];
+    //     if (string.IsNullOrEmpty(token))
+    //     {
+    //         // Redirect to login page
+    //         // context.Response.Redirect("/Home/Index");
+    //         return; // Important: stop further processing
+    //     }
+    //
+    //     // If token exists, you can optionally set it in context.Items for later use
+    //     context.Items["AuthToken"] = token;
+    // }
 
     await next();
 });

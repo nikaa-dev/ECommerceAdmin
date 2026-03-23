@@ -17,12 +17,20 @@ using src.Services.JwtServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using src.Auth;
+using src.Models.Ecommerce;
+using src.Repositories.OrderRepositories;
+using src.Repositories.ProductCategoryRepositories;
+using src.Repositories.ProductRepositories;
 using src.Repositories.UserClaimRepositories;
 using src.Repositories.UserLoginHistoryRepositories;
 using src.Repositories.UserTokenRepositories;
+using src.Services.OrderServices;
+using src.Services.ProductCategoryServices;
+using src.Services.ProductServices;
 using src.Services.UserClaimServices;
 using src.Services.UserLoginHistoryServices;
 using src.Services.UserTokenServices;
+using ProductService = src.Services.ProductServices.ProductService;
 
 namespace src;
 
@@ -48,14 +56,20 @@ public static class ServiceConfiguration
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserTokenRepository,UserTokenRepository>();
         services.AddScoped<IUserClaimRepository, UserClaimRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IProductRepository,ProductRepository>();
         services.AddScoped<IUserLoginHistoryRepository,UserLoginHistoryRepository>();
+        services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
         
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserClaimService, UserClaimService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IUserLoginHistoryService, UserLoginHistoryService>();
+        services.AddScoped<IProductCategoryService, ProductCategoryService>();
 
         services.AddScoped<IJwtService, JwtService>();
         

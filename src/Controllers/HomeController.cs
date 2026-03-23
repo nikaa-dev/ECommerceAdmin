@@ -8,8 +8,6 @@ namespace src.Controllers;
 public class HomeController(ILogger<HomeController> logger, IAuthService authService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
-
-
     public IActionResult Index()
     {
         return View();
@@ -23,10 +21,10 @@ public class HomeController(ILogger<HomeController> logger, IAuthService authSer
         {
             Response.Cookies.Append("AuthToken", userLogin.Data.Token, new CookieOptions
             {
-                HttpOnly = true, // prevents JavaScript access
-                Secure = true, // only send over HTTPS
-                SameSite = SameSiteMode.Strict, // helps prevent CSRF
-                Expires = userLogin.Data.Expiration // set expiry
+                HttpOnly = true, 
+                Secure = true, 
+                SameSite = SameSiteMode.Strict, 
+                Expires = userLogin.Data.Expiration
             });
             return Redirect("Dashboard/Index/");
         }

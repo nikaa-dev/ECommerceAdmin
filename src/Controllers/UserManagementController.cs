@@ -30,8 +30,7 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         ViewBag.ActiveStatuses = users.Select(u => u.Status).Count(u => u == UserStatus.Active);
         ViewBag.InactiveStatuses = users.Select(u => u.Status).Count(u => u == UserStatus.Inactive);
         ViewBag.SuspendedStatuses = users.Select(u => u.Status).Count(u => u == UserStatus.Suspended);
-
-
+        
         if (filterByRole != null)
             users = users.Where(r => r.Role == filterByRole).ToList();
         if (filterByStatus != null)
@@ -44,7 +43,6 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         }
         var queryable = users.AsQueryable();
         var userPagination = queryable.ToPagedResultAsync(page, 8);
-       
         
         return View(userPagination);
     }

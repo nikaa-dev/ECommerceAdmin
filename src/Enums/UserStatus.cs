@@ -14,8 +14,3 @@ public enum ProductStatus
     LowStock
 }
 
-public enum Category
-{
-    Electronics,
-    Accessories
-}
