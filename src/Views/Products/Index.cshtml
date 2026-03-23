@@ -1,4 +1,5 @@
-﻿@model src.Extensions.Pagenations.PagedResult<src.DTO.ProductDto.ProductResponseDto>
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model src.Extensions.Pagenations.PagedResult<src.DTO.ProductDto.ProductResponseDto>
 
 <style>
   .form-search:focus {
@@ -27,33 +28,47 @@
     <div>
       <button type="button" class="btn btn-primary rounded-10">
         <i class="bi bi-plus-lg"></i>
-			<span class="fw-light">Add Product</span>
-		</button>
+        <span class="fw-light">Add Product</span>
+      </button>
     </div>
   </div>
-  <div
-    class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
-    <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-    <input
-      type="search"
-      class="w-65 rounded-10 form-search border focus-ring ps-5"
-      placeholder="Search products..."/>
-    <select
-      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border"
-    >
-      <option class="bg-light">All Categories</option>
-      <option value="Active">Electronics</option>
-      <option value="Inactive">Accessories</option>
-    </select>
-    <select
-      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border"
-    >
-      <option class="bg-light">All Status</option>
-      <option value="Active">Active</option>
-      <option value="Low">Low Stock</option>
-      <option value="Out">Out of Stock</option>
-    </select>
-  </div>
+  <form method="get" asp-action="Index">
+    <div
+      class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+      <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+      <input
+        type="search" name="searchItem"
+        class="w-65 rounded-10 form-search border focus-ring ps-5"
+        placeholder="Search products..."/>
+      
+      <select
+        name="filterByCategory"
+        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border" onchange="this.form.submit()"
+      >
+        <option value="" class="bg-light">All Categories</option>
+        @foreach (var c in ViewBag.Category)
+        {
+          <option class="bg-light" value="@c" selected="@(Context.Request.Query["filterByCategory"] == c)">@c</option>
+        }
+      </select>
+      <select 
+        name="filterByStatus" 
+        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border" onchange="this.form.submit()">
+        
+        @{
+          var selectedStatus = Context.Request.Query["filterByStatus"].ToString();
+        }
+        <option value="" class="bg-light">All Status</option>
+        @foreach (var status in ViewBag.ProductStatus)
+        {
+          <option value="@status"
+                  selected="@(selectedStatus == status.ToString())">
+            @status
+          </option>
+        }
+      </select>
+    </div>
+  </form>
   <div class="mt-4 rounded-15">
     <div class="table-responsive rounded-15">
       <table class="table bg-white shadow-sm table-hover rounded-15 border">
@@ -80,7 +95,7 @@
             </span>
           </td>
           <td class="pt-4 ps-4 ">
-            <span class=" text-secondary">@i.Category</span>
+            <span class="text-secondary">@i.Category</span>
           </td>
           <td class="pt-4 ps-4">
             <span>
@@ -107,22 +122,34 @@
         }
         
         <tr>
-            <td colspan="4" class="pt-4 ps-4 small text-secondary border-0">Showing 1 to 8 of 8 Products</td>
-            <td class="p-3 border-0 text-end">
-              <button
-                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
-              >
-                Previous
-              </button>
-            </td>
-            <td class="p-3 border-0 text-start">
-              <button
-                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
-              >
-                Next
-              </button>
-            </td>
-          </tr>
+          @{
+            var start = 0;
+            var end = 0;
+            if (Model.TotalCount != 0)
+            {
+              start = (Model.PageNumber - 1) * Model.PageSize + 1;
+              end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
+            } 
+          }
+          <td colspan="4" class="pt-4 ps-4 small text-secondary border-0">
+            Showing @start to @end of @Model.TotalCount Products
+          </td>
+          <td class="p-3 border-0 text-end">
+            <a class="btn btn-sm rounded-10 py-2 px-3 border 
+                                @(Model.PageNumber == 1 ? "disabled" : "")"
+               asp-page="/Products/Index"
+               asp-route-pageNumber="@(Model.PageNumber - 1)">
+              Previous
+            </a>
+          </td>
+          <td class="p-3 border-0 text-start">
+            <a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
+               asp-page="/Products/Index"
+               asp-route-pageNumber="@(Model.PageNumber + 1)">
+              Next
+            </a>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>

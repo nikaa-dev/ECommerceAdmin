@@ -224,10 +224,6 @@
                     {
                         <tr>
                             <td class="pt-4 ps-4 fw-semibold d-flex">
-                                <p id="p1"></p>
-                                <p id="p2"></p>
-                                <p id="p3"></p>
-                                <p id="p4"></p>
                                 <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center pt-1">
                                     @{
                                         var names = user.FullName.Split(' ');
@@ -299,7 +295,7 @@
                             @{
                                 var start = 0;
                                 var end = 0;
-                                if (Model.TotalCount != null)
+                                if (Model.TotalCount != 0)
                                 {
                                     start = (Model.PageNumber - 1) * Model.PageSize + 1;
                                     end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
