@@ -24,11 +24,11 @@
     </div>
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
       <p>New This Month</p>
-      <h3>2</h3>
+      <h3>@ViewBag.NewMonth</h3>
     </div>
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
       <p>Avg. Order Value</p>
-      <h3>$234.56</h3>
+      <h3>$@ViewBag.Avg</h3>
     </div>
   </div>
   
@@ -48,20 +48,21 @@
         class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()"
       >
         <option value="All Roles" class="bg-light">All Status</option>
-        @foreach (var status in ViewBag.Status)
-        {
-          var s = @status ? "Active" : "InActive";
-          <option value="@s" selected="@(Context.Request.Query["filterByStatus"] == s)">@s</option>
-        }
+        <option value="Active" selected="@(Context.Request.Query["filterByStatus"] == "Active")">Active</option>
+        <option value="InActive" selected="@(Context.Request.Query["filterByStatus"] == "InActive")">InActive</option>
+       
       </select>
       <select
-        name = "short"
+        name = "shortBy"
         class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()"
       >
+        @{
+                    var selectedStatus = Context.Request.Query["shortBy"].ToString();
+         }
         <option value="Recent" class="bg-light">Short by: Recent</option>
-        <option value="Name" selected="@(Context.Request.Query["Short"] == "Name")">Short by: Name</option>
-        <option value="Order" selected="@(Context.Request.Query["Short"] == "Order")">Short by: Order</option>
-        <option value="Spending" selected="@(Context.Request.Query["Short"] == "Spending")">Short by: Spending</option>
+        <option value="Name" selected="@(selectedStatus == "Name")">Short by: Name</option>
+        <option value="Order" selected="@(selectedStatus == "Order")">Short by: Order</option>
+        <option value="Spending" selected="@(selectedStatus == "Spending")">Short by: Spending</option>
       </select>
     </div>
   </form>
@@ -81,44 +82,54 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="p-4 fw-semibold d-flex">
-              <div
-                class="bg-primary-subtle text-primary rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center"
-              >
-                MA
-              </div>
-			  <span class="m-2">Mark</span>
-            </td>
-            <td class="pt-4">
-              <span>john@example.com</span><br>
-			  <span class="small text-secondary">+1 (555) 123-4567</span>
-            </td>
-            <td class="pt-4">
-              <span
-                class="text-secondary"
-              >
-                2023-06-15
-              </span>
-            </td>
-            <td class="pt-4 ps-4">
-              <span>
-                12
-              </span>
-            </td>
-            <td class="pt-4 ps-4">$1,234.56</td>
-            <td class="pt-4 ps-4">
-				<span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
-					Active
-				</span>
-			</td>
-            <td class="text-center pt-4 ps-4">
-        		<i class="bi bi-eye me-3 text-secondary"></i>
-              	<i class="bi bi-envelope text-secondary"></i>
-				<i class="bi bi-three-dots-vertical text-secondary ms-3"></i>
-            </td>
-          </tr>
-          <tr>
+
+              @foreach (var customer in @Model.Items)
+              {
+                  <tr>
+                            <td class="p-4 fw-semibold d-flex">
+                                <div
+                                class="bg-primary-subtle text-primary rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center">
+                                    @{
+                                        var names = customer.Name.Split(' ');
+                                        var initials = names.Length > 1
+                                        ? $"{names[0][0]}{names[1][0]}"
+                                        : $"{names[0][0]}";
+                                    }
+                                    @initials
+                                </div>
+                                <span class="m-2">@customer.Name<span>
+                            </td>
+                            <td class="pt-4">
+                                <span>@customer.Email</span><br>
+                                <span class="small text-secondary">@customer.Contact</span>
+                            </td>
+                            <td class="pt-4">
+                                <span
+                                class="text-secondary"
+                                >
+                                    @customer.JoinDate
+                                </span>
+                            </td>
+                            <td class="pt-4 ps-4">
+                                <span>
+                                    @customer.Orders
+                                </span>
+                            </td>
+                            <td class="pt-4 ps-4">$1,234.56</td>
+                            <td class="pt-4 ps-4">
+                                <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
+                                    @(customer.Status ? "Active" : "InActive")
+                                </span>
+                            </td>
+                            <td class="text-center pt-4 ps-4">
+                                <i class="bi bi-eye me-3 text-secondary"></i>
+                                <i class="bi bi-envelope text-secondary"></i>
+                                <i class="bi bi-three-dots-vertical text-secondary ms-3"></i>
+                            </td>
+                        </tr>
+
+              }
+                    <tr>
             <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">Showing 1 to 8 of 8 Customers</td>
             <td class="p-3 border-0 text-end">
               <button

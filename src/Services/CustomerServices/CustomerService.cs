@@ -27,7 +27,8 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
                     Orders = orders!.Count(),
                     Status = customer.IsActive,
                     TotalSpent = orderTotals.Sum(),
-                    Name = customer.Name
+                    Name = customer.Name,
+                    Email = customer.Email
                 };
                 responses.Add(response);
             }
