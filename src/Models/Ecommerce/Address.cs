@@ -9,10 +9,10 @@ public class Address
     public Guid Id { get; set; }
 
     [Required]
-    public string UserId { get; set; } = string.Empty;
+    public string CustomerId { get; set; }
 
-    [ForeignKey("UserId")]
-    public virtual ApplicationUser? User { get; set; }
+    [ForeignKey("CustomerId")]
+    public virtual Customer? Customer { get; set; }
 
     [Required, StringLength(200)]
     public string Street { get; set; } = string.Empty;
