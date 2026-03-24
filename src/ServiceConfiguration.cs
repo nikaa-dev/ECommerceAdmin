@@ -18,12 +18,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using src.Auth;
 using src.Models.Ecommerce;
+using src.Repositories.CustomerRepositories;
 using src.Repositories.OrderRepositories;
 using src.Repositories.ProductCategoryRepositories;
 using src.Repositories.ProductRepositories;
 using src.Repositories.UserClaimRepositories;
 using src.Repositories.UserLoginHistoryRepositories;
 using src.Repositories.UserTokenRepositories;
+using src.Services.CustomerServices;
 using src.Services.OrderServices;
 using src.Services.ProductCategoryServices;
 using src.Services.ProductServices;
@@ -60,6 +62,7 @@ public static class ServiceConfiguration
         services.AddScoped<IProductRepository,ProductRepository>();
         services.AddScoped<IUserLoginHistoryRepository,UserLoginHistoryRepository>();
         services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+        services.AddScoped<ICustomerRepository,CustomerRepository>();
         
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<IUserService, UserService>();
@@ -70,7 +73,8 @@ public static class ServiceConfiguration
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IUserLoginHistoryService, UserLoginHistoryService>();
         services.AddScoped<IProductCategoryService, ProductCategoryService>();
-
+        services.AddScoped<ICustomerService,CustomerService>();
+        
         services.AddScoped<IJwtService, JwtService>();
         
         var jwtSettings = configuration.GetSection("JWT").Get<JwtConfig>();
