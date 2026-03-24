@@ -31,32 +31,41 @@
       <h3>$234.56</h3>
     </div>
   </div>
-  <div
-    class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border"
-  >
-	
-    <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-    <input
-      type="search"
-      class="w-65 bg-light rounded-10 form-search border ps-5 bg-white text-gray fw-light"
-      placeholder="Search customers..."
-    />
-    <select
-      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border"
+  
+  <form method="get" asp-action="Index">
+    <div
+      class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border"
     >
-      <option value="All Roles" class="bg-light">All Status</option>
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
-    </select>
-    <select
-      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border"
-    >
-      <option value="Recent" class="bg-light">Short by: Recent</option>
-      <option value="Name">Short by: Name</option>
-      <option value="Order">Short by: Order</option>
-      <option value="Spending">Short by: Spending</option>
-    </select>
-  </div>
+      <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+      <input
+        name="searchItem"
+        type="search"
+        class="w-65 bg-light rounded-10 form-search border ps-5 bg-white text-gray fw-light"
+        placeholder="Search customers..."
+      />
+      <select
+        name = "filterByStatus"
+        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()"
+      >
+        <option value="All Roles" class="bg-light">All Status</option>
+        @foreach (var status in ViewBag.Status)
+        {
+          var s = @status ? "Active" : "InActive";
+          <option value="@s" selected="@(Context.Request.Query["filterByStatus"] == s)">@s</option>
+        }
+      </select>
+      <select
+        name = "short"
+        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()"
+      >
+        <option value="Recent" class="bg-light">Short by: Recent</option>
+        <option value="Name" selected="@(Context.Request.Query["Short"] == "Name")">Short by: Name</option>
+        <option value="Order" selected="@(Context.Request.Query["Short"] == "Order")">Short by: Order</option>
+        <option value="Spending" selected="@(Context.Request.Query["Short"] == "Spending")">Short by: Spending</option>
+      </select>
+    </div>
+  </form>
+  
   <div class="mt-4 rounded-15">
     <div class="table-responsive rounded-15">
       <table class="table bg-white shadow-sm table-hover rounded-15 border">
