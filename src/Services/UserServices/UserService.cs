@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using src.DBConnection;
 using src.DTO.UserDto;
 using src.Enums;
@@ -86,6 +85,7 @@ public class UserService(
 
     }
 
+   
 }
 
 // DTO to send to the view

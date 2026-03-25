@@ -6,12 +6,13 @@ using src.Models;
 namespace src.Controllers;
 
 [Authorize]
-public class DashboardController(ILogger<HomeController> logger) : Controller
+public class DashboardController(ILogger<HomeController> logger,IDashboardRepository ) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var order = await 
         return View();
     }
     

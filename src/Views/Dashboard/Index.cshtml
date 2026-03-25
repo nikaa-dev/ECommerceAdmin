@@ -1,6 +1,5 @@
 ﻿<style>
 
-  
   .form-search:focus {
     outline: none; /* Remove default outline */
     box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
@@ -140,34 +139,46 @@
     </div>
 
     @* Bar chart *@
-    
-    <div class="col bg-white p-4 m-3 rounded-10 border shadow-sm">
-      <h5 class="m-2">Orders Overview</h5>
-      <canvas id="barchart" style="width:100%;max-width:600px"></canvas>
-      <script>
-        const x = ["Italy", "France", "Spain", "USA", "Argentina"];
-        const y = [55, 49, 44, 24, 15];
-        const barColors = ["red", "green","blue","orange","brown"];
 
-        new Chart("barchart", {
-          type: "bar",
-          data: {
-            labels: x,
-            datasets: [{
-              backgroundColor: barColors,
-              data: y
-            }]
-          },
-          options: {
-            legend: {display: false},
-            title: {
-              display: true,
-              text: "World Wine Production 2018"
-            }
-          }
-        });
-      </script>
-    </div>
+        <div class="col bg-white p-4 m-3 rounded-10 border shadow-sm">
+            <h5 class="m-2">Orders Overview (Monthly)</h5>
+            <canvas id="barchart" style="width:100%;max-width:600px"></canvas>
+
+            <script>
+                const monthsNumber = @Html.Raw(Json.Serialize(ViewBag.Months));
+                const y = @Html.Raw(Json.Serialize(ViewBag.Totals));
+
+                const monthNames = [
+                    "Jan","Feb","Mar","Apr","May","Jun",
+                    "Jul","Aug","Sep","Oct","Nov","Dec"
+                ];
+
+                const x = monthsNumber.map(m => monthNames[m - 1]);
+
+                const barColors = x.map(() =>
+                    `hsl(${Math.random() * 360}, 70%, 60%)`
+                );
+
+                new Chart("barchart", {
+                    type: "bar",
+                    data: {
+                        labels: x,
+                        datasets: [{
+                            label: "Orders per Month",
+                            backgroundColor: barColors,
+                            data: y
+                        }]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true,
+                            text: "Orders Per Month (This Year)"
+                        }
+                    }
+                });
+            </script>
+        </div>
     
   </div>
   

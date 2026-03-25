@@ -1,4 +1,5 @@
 using src.DTO.OrderDto;
+using src.Models.Ecommerce;
 using src.Repositories.OrderRepositories;
 
 namespace src.Services.OrderServices;
@@ -26,5 +27,16 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
         {
             throw new Exception(ex.Message);
         }
+    }
+
+    public async Task<List<Order>> GetAllAsync()
+    {
+        var orders = await orderRepository.GetAllAsync();
+        return orders;
+    }
+    public async Task<int> GetCountAsync()
+    {
+        var total = await orderRepository.GetAllAsync();
+        return total.Count();
     }
 }
