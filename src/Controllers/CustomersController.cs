@@ -15,32 +15,26 @@ public class CustomersController(ILogger<HomeController> logger,ICustomerService
     {
         var customers = await customerService.GetCustomerIncludedAsync();
         var now = DateTime.Now;
-        if (customers != null)
-        {
-            ViewBag.activeCustomer = customers.Count(c => c.Status);
-            ViewBag.inActiveCustomer = customers.Count(c => c.Status == false);
-            ViewBag.Avg = customers.Any()
-                ? customers.Average(c => c.TotalSpent)
-                : 0;
-
-
-            ViewBag.newMonth = customers
-                .Where(c => c.JoinDate.Month == now.Month && c.JoinDate.Year == now.Year)
-                .Count();
-        }
+        
+        ViewBag.activeCustomer = customers.Count(c => c.Status == true);
+        ViewBag.inActiveCustomer = customers.Count(c => c.Status == false);
+        ViewBag.Avg = customers.Any()
+            ? customers.Average(c => c.TotalSpent)
+            : 0;
+        ViewBag.newMonth = customers
+            .Count(c => c.JoinDate.Month == now.Month && c.JoinDate.Year == now.Year);
+        
         if (filterByStatus != null) customers = customers.Where(c => c.Status == true).ToList();
-
         if (searchItem != null) customers = customers.Where(c => c.Name == searchItem).ToList();
-
         if (!string.IsNullOrEmpty(shortBy))
         {
-
-            if (shortBy == "Name")
-                customers = customers.OrderBy(c => c.Name).ToList();
-            if (shortBy == "Order")
-                customers = customers.OrderBy(c => c.TotalSpent).ToList();
-            if (shortBy == "Spending")
-                customers = customers.OrderBy(c => c.TotalSpent).ToList();
+            customers = shortBy switch
+            {
+                "Name" => customers.OrderBy(c => c.Name).ToList(),
+                "Order" => customers.OrderBy(c => c.Orders).ToList(),
+                "Spending" => customers.OrderBy(c => c.TotalSpent).ToList(),
+                _ => customers
+            };
         }
         
         var queriyable = customers.AsQueryable();

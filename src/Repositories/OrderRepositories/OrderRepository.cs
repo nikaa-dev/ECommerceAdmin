@@ -11,4 +11,13 @@ public class OrderRepository(ApplicationDbContext context):Repository<Order>(con
         var orders = await context.Orders.Where(o => o.CustomerId == customerId).ToListAsync();
         return orders;
     }
+
+    public async Task<List<Order>> GetAllIncludedAsync()
+    {
+        var orders = await context.Orders
+                                .Include(o => o.Customer)
+                                .Include(o => o.OrderDetails)
+                                .ToListAsync();
+        return orders;
+    }
 }
