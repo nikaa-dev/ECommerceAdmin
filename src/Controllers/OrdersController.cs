@@ -18,7 +18,7 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
     {
         var orders = await orderService.GetAllIncludedAsync();
         
-        ViewBag.Total =  orders.Count();
+        ViewBag.Total = orders.Count;
         ViewBag.Status = await orderStatusService.GetAllAsync();
 
         ViewBag.Pending = orders.Count(o => o.Status.Name == "Pending");
@@ -31,6 +31,4 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         var pagination = queryable.ToPagedResultAsync(page, pageSize);
         return View(pagination);
     }
-    
-    
 }
