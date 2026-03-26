@@ -27,6 +27,7 @@ using src.Repositories.UserClaimRepositories;
 using src.Repositories.UserLoginHistoryRepositories;
 using src.Repositories.UserTokenRepositories;
 using src.Services.CustomerServices;
+using src.Services.DashboardServices;
 using src.Services.OrderServices;
 using src.Services.OrderStatusServices;
 using src.Services.ProductCategoryServices;
@@ -79,6 +80,7 @@ public static class ServiceConfiguration
         services.AddScoped<IProductCategoryService, ProductCategoryService>();
         services.AddScoped<ICustomerService,CustomerService>();
         services.AddScoped<IOrderStatusService, OrderStatusService>();
+        services.AddScoped<IDashboardService,DashboardService>();
         
         services.AddScoped<IJwtService, JwtService>();
         

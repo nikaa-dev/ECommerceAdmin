@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using src.DBConnection;
 using src.DTO.UserDto;
 using src.Enums;
