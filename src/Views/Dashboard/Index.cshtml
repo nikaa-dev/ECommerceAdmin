@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model src.DTO.DashboardDto.DashboardResponseDto
+<style>
 
   .form-search:focus {
     outline: none; /* Remove default outline */
@@ -54,7 +55,7 @@
           </div>
         </div>
         <p class="mt-3 mb-1">Total Revenue</p>
-        <h3>$45,231.89</h3>
+        <h3>$@Model.TotalRevenues</h3>
       </div>
     </div>
     
@@ -70,7 +71,7 @@
           </div>
         </div>
         <p class="mt-3 mb-1">Orders</p>
-        <h3>2,345</h3>
+        <h3>@Model.TotalOrders</h3>
       </div>
     </div>
     
@@ -86,7 +87,7 @@
           </div>
         </div>
         <p class="mt-3 mb-1">Products</p>
-        <h3>1,234</h3>
+        <h3>@Model.TotalProducts</h3>
       </div>
     </div>
     
@@ -102,7 +103,7 @@
           </div>
         </div>
         <p class="mt-3 mb-1">Customers</p>
-        <h3>8,234</h3>
+        <h3>@Model.TotalCustomers</h3>
       </div>
     </div>
   </div>
@@ -215,15 +216,18 @@
       <h5 class="m-2">Top Products</h5>
       <table class="table bg-black">
         <tbody>
-        <tr >
-          <th scope="row" class="fw-normal ">
-            <strong>Company</strong>
-            <p class="small">1234 sales</p>
-          </th>
-          <td>
-            <h6 class="mt-3 text-end">Alfreds Futterkiste</h6>
-          </td>
-        </tr>
+                    @foreach (var products in Model.TopProducts)
+                    {
+                        <tr>
+                            <th scope="row" class="fw-normal ">
+                                <strong>@products.ProductName</strong>
+                                <p class="small">@products.OrderTotal sales</p>
+                            </th>
+                            <td>
+                                <h6 class="mt-3 text-end">@products.RevenuePerProduct</h6>
+                            </td>
+                        </tr>
+                    }
         </tbody>
       </table>
 
@@ -232,17 +236,19 @@
       <h5 class="m-2">Recent Orders</h5>
       <table class="table bg-black">
         <tbody>
-        <tr>
-          <th scope="row" class="fw-normal">
-            <strong>Company</strong>
-            <p class="small">1234 sales</p>
-          </th>
-          <td class="text-end">
-            <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700 ">
-              Delivered
-            </span>
-          </td>
-        </tr>
+            @foreach(var orders in Model.RecentOrders){
+                <tr>
+                  <th scope="row" class="fw-normal">
+                    <strong>@orders.ProductName</strong>
+                    <p class="small">1234 sales</p>
+                  </th>
+                  <td class="text-end">
+                    <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700 ">
+                      @orders.OrderStatus
+                    </span>
+                  </td>
+                </tr>
+            }
         </tbody>
       </table>
     </div>

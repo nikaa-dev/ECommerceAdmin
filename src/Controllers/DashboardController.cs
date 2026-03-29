@@ -13,8 +13,8 @@ public class DashboardController(ILogger<HomeController> logger,IDashboardServic
 
     public async Task<IActionResult> Index()
     {
-        // var order = await dashboardService.
-        return View();
+        var order = await dashboardService.GetAllAsync();
+        return View(order);
     }
     
 }

@@ -11,5 +11,5 @@ public class OrderResponseDto
     public DateTime Date { get; set; }
     public int Item { get; set; }
     public decimal Total { get; set; }
-    public OrderStatus Status { get; set; }
+    public string? Status { get; set; }
 }

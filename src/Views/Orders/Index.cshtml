@@ -38,14 +38,15 @@
   <div
     class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex border">
     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ">All Orders (@ViewBag.Total)</span>
-    @foreach (var status in @ViewBag.Status)
+    @* @foreach (var status in @ViewBag.Status)
     {
       <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">@status (@(ViewBag.status))</span>
-    }
-    @* <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Processing (2)</span> *@
-    @* <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Shipped (2)</span> *@
-    @* <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Delivered (2)</span> *@
-    @* <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Cancelled (1)</span> *@
+    } *@
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Pending (@ViewBag.Pending)</span> 
+     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Processing (@ViewBag.Processing)</span> 
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Shipped (@ViewBag.Shipped)</span>
+     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Delivered (@ViewBag.Delivered)</span>
+     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Cancelled (@ViewBag.Cancelled)</span>
   </div>
   
   <form method="post" asp-action="Index">
@@ -66,7 +67,7 @@
         <option value="All" selected="@(Context.Request.Query["filterByDate"] == "All")">All time</option>
       </select>
       <button class="rounded-10 w-15 px-3 py-2 shadow-none border bg-white" 
-              asp-page="/UserManagement/Index">
+              asp-page="/Orders/Index">
         <i class="bi bi-funnel h5 fw-bolder me-2"></i>
         Filters
       </button>

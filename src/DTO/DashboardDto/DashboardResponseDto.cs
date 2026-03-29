@@ -9,8 +9,10 @@ public class DashboardResponseDto
     public decimal TotalOrders { get; set; }
     public decimal TotalProducts { get; set; }
     public decimal TotalCustomers { get; set; }
-    public List<decimal> RevenuePerMonth{ get; set; }
-    public List<decimal> OrdersPerMonth { get; set; }
+
+    public List<MonthlyDataDto> RevenuePerMonth { get; set; }
+    public List<MonthlyDataDto> OrdersPerMonth { get; set; }
+
     public List<RecentOrderDto> RecentOrders { get; set; }
     public List<TopProductResponseDto> TopProducts { get; set; }
 }
@@ -25,10 +27,15 @@ public class TopProductResponseDto
 public class RecentOrderDto
 {
     public string Id { get; set; }
-    public OrderStatus OrderStatus { get; set; }
+    public string OrderStatus { get; set; }
     public string CustomerName { get; set; }
     public string ProductName { get; set; }
     public decimal RevenuePerOrder { get; set; }
 }
 
+public class MonthlyDataDto
+{
+    public int Month { get; set; }       // 1 ? 12
+    public decimal Total { get; set; }
+}
 

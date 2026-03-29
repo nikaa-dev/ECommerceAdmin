@@ -17,6 +17,7 @@ public class OrderRepository(ApplicationDbContext context):Repository<Order>(con
         var orders = await context.Orders
                                 .Include(o => o.Customer)
                                 .Include(o => o.OrderDetails)
+                                .Include(o => o.OrderStatus)
                                 .ToListAsync();
         return orders;
     }

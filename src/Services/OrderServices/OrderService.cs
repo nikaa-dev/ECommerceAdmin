@@ -11,21 +11,23 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
         try
         {
             var orders = await orderRepository.GetAllIncludedAsync();
+
             return orders.Select(order => new OrderResponseDto()
-                {
-                    Id = order.Id.ToString(),
-                    Status = order.OrderStatus!,
-                    Date = order.OrderDate,
-                    Item = order.OrderDetails.Sum(od => od.Quantity),
-                    Total = order.OrderDetails.Sum(od => od.Price),
-                    CustomerName = order.Customer!.Name,
-                    CustomerEmail = order.Customer.Email
-                })
-                .ToList();
+            {
+                Id = order.Id.ToString(),
+                Status = order.OrderStatus?.Name ?? "Unknown",
+                Date = order.OrderDate,
+                Item = order.OrderDetails.Sum(od => od.Quantity),
+                Total = order.OrderDetails.Sum(od => od.Price * od.Quantity),
+                CustomerName = order.Customer?.Name ?? "No Name",
+                CustomerEmail = order.Customer?.Email ?? ""
+            })
+            .ToList();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            // optional logging
+            throw;
         }
     }
 

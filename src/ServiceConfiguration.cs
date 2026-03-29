@@ -36,6 +36,7 @@ using src.Services.UserClaimServices;
 using src.Services.UserLoginHistoryServices;
 using src.Services.UserTokenServices;
 using ProductService = src.Services.ProductServices.ProductService;
+using src.Repositories.OrderDetailRepositories;
 
 namespace src;
 
@@ -68,6 +69,7 @@ public static class ServiceConfiguration
         services.AddScoped<ICustomerRepository,CustomerRepository>();
         services.AddScoped<IOrderRepository,OrderRepository>();
         services.AddScoped<IOrderStatusRepository, OrderStatusRepository>();
+        services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
         
         services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<IUserService, UserService>();
