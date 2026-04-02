@@ -118,7 +118,7 @@
       <canvas id="linegraph" style="width: 100%; max-width: 600px"></canvas>
 
       <script>
-        const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+        const xValues = ["jan", "Feb", "Mar", "Apr","May" , "Jun"];
   
         new Chart("linegraph", {
           type: "line",
@@ -126,8 +126,8 @@
             labels: xValues,
             datasets: [
               {
-                data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
-                borderColor: "red",
+                data: [860, 1140, 1060, 1060, 1070, 1110],
+                borderColor:  "#2563eb",
                 fill: false,
               }
             ],
@@ -180,35 +180,47 @@
         @*         }); *@
         @*     </script> *@
         @* </div> *@
-    
-    
-    <div class="col bg-white p-4 m-3 rounded-10 border shadow-sm">
-      <h5 class="m-2">Orders Overview</h5>
-      <canvas id="barchart" style="width:100%;max-width:600px"></canvas>
-      <script>
-        const x = ["Italy", "France", "Spain", "USA", "Argentina"];
-        const y = [55, 49, 44, 24, 15];
-        const barColors = ["red", "green","blue","orange","brown"];
 
-        new Chart("barchart", {
-          type: "bar",
-          data: {
-            labels: x,
-            datasets: [{
-              backgroundColor: barColors,
-              data: y
-            }]
-          },
-          options: {
-            legend: {display: false},
-            title: {
-              display: true,
-              text: "World Wine Production 2018"
-            }
-          }
-        });
-      </script>
-    </div>
+
+        <div class="col bg-white p-4 m-3 rounded-10 border shadow-sm">
+            <h5 class="m-2">Orders Overview</h5>
+            <canvas id="barchart" style="width:100%;max-width:600px"></canvas>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script>
+                const x = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+                const y = [55, 49, 44, 24, 15, 20];
+
+                new Chart("barchart", {
+                  type: "bar",
+                  data: {
+                    labels: x,
+                    datasets: [{
+                      label: "Orders",
+                      backgroundColor: "#2563eb",
+                      borderRadius: 6,
+                      data: y
+                    }]
+                  },
+                  options: {
+                    responsive: true,
+                    plugins: {
+                      legend: { display: false },
+                      // title: {
+                      //   display: true,
+                      //   text: "Monthly Orders"
+                      // }
+                    },
+                    scales: {
+                      y: {
+                        beginAtZero: true
+                      }
+                    }
+                  }
+                });
+            </script>
+        </div>
   </div>
   
   <div class="row d-flex">
@@ -216,18 +228,18 @@
       <h5 class="m-2">Top Products</h5>
       <table class="table bg-black">
         <tbody>
-                    @foreach (var products in Model.TopProducts)
-                    {
-                        <tr>
-                            <th scope="row" class="fw-normal ">
-                                <strong>@products.ProductName</strong>
-                                <p class="small">@products.OrderTotal sales</p>
-                            </th>
-                            <td>
-                                <h6 class="mt-3 text-end">@products.RevenuePerProduct</h6>
-                            </td>
-                        </tr>
-                    }
+            @* @foreach (var products in Model.TopProducts)
+            { *@
+                <tr>
+                   <th scope="row" class="fw-normal ">
+                     <span>Wireless Headphones</span>  <br />
+                     <span class="fw-light">1234 sales</span>
+                  </th>
+                  <td>
+                     <h6 class="mt-3 text-end">$34,567</h6>
+                  </td>
+               </tr>
+            @* } *@
         </tbody>
       </table>
 
@@ -236,19 +248,21 @@
       <h5 class="m-2">Recent Orders</h5>
       <table class="table bg-black">
         <tbody>
-            @foreach(var orders in Model.RecentOrders){
+            @* @foreach(var orders in Model.RecentOrders){ *@
                 <tr>
                   <th scope="row" class="fw-normal">
-                    <strong>@orders.ProductName</strong>
-                    <p class="small">1234 sales</p>
+                    <span class="fw-normal">#12345</span>  <br />
+                            <span class="fw-light">Jonh Doe • Wireless Headphones</span>   <br />
+                    <span class="fw-normal">1234 sales</span>
                   </th>
                   <td class="text-end">
                     <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700 ">
-                      @orders.OrderStatus
+                      @* @orders.OrderStatus *@
+                      Delivered
                     </span>
                   </td>
                 </tr>
-            }
+            @* } *@
         </tbody>
       </table>
     </div>
