@@ -18,7 +18,7 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
                 Status = order.OrderStatus?.Name ?? "Unknown",
                 Date = order.OrderDate,
                 Item = order.OrderDetails.Sum(od => od.Quantity),
-                Total = order.OrderDetails.Sum(od => od.Price * od.Quantity),
+                Total = order.TotalAmount,
                 CustomerName = order.Customer?.Name ?? "No Name",
                 CustomerEmail = order.Customer?.Email ?? ""
             })

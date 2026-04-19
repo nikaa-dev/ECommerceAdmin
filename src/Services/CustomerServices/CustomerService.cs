@@ -16,8 +16,7 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
             foreach (var customer in customers)
             {
                 var orders = await orderRepository.GetByCustomerIdAsync(customer.Id);
-                var orderTotals = orders!
-                    .Select(o => o.OrderDetails.Sum(od => od.Quantity * od.Price));
+                var orderTotals = orders.Sum(o => o.TotalAmount);
 
                 var response = new CustomerResponseDto()
                 {
@@ -26,7 +25,7 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
                     JoinDate = customer.Created,
                     Orders = orders!.Count(),
                     Status = customer.IsActive,
-                    TotalSpent = orderTotals.Sum(),
+                    TotalSpent = orderTotals,
                     Name = customer.Name,
                     Email = customer.Email
                 };

@@ -115,7 +115,7 @@
                                     @customer.Orders
                                 </span>
                             </td>
-                            <td class="pt-4 ps-4">$1,234.56</td>
+                            <td class="pt-4 ps-4">$@customer.TotalSpent</td>
                             <td class="pt-4 ps-4">
                                 <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
                                     @(customer.Status ? "Active" : "InActive")
