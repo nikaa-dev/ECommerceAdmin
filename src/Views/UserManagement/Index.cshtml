@@ -239,12 +239,29 @@
                                 </div>
                             </td>
                             <td class="pt-4 ps-3">
-                                <span class="badge bg-green-100 text-green-700 px-3 py-2 rounded-pill small">
+                                <script>
+                                    @{
+                                      var badgeColor = user.Status == 0 ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700";
+                                    }
+                                </script>
+                                <span class="badge @badgeColor px-3 py-2 rounded-pill small ">
                                     @(user.Status == 0 ? "Active" : user.Status == UserStatus.Inactive ?  "Inactive" : "Suspended")
                                 </span>
                             </td>
                             <td class="pt-4 ps-3">
-                                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill shadow-sm">
+                                <script>
+                                     @{
+                                            string roleClass = user.Role switch
+                                            {
+                                                    "Admin" => "bg-purple-100 text-purple-700",
+                                                    "Manager" => "bg-blue-100 text-blue-700",
+                                                    "Staff" => "bg-green-100 text-green-700",
+                                                    "Support" => "bg-orange-100 text-orange-700",
+                                                    _ => "bg-gray-100 text-gray-700"
+                                            };
+                                    }
+                                </script>
+                                <span class="badge px-3 py-2 rounded-pill shadow-sm @roleClass">
                                     @user.Role
                                 </span>
                             </td>

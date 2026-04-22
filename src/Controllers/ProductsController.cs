@@ -14,7 +14,7 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
     private readonly ILogger<HomeController> _logger = logger;
 
     [Authorize]
-    public async Task<IActionResult> Index(string? filterByCategory, ProductStatus? filterByStatus, string? searchItem,int page=1)
+    public async Task<IActionResult> Index(string? filterByCategory, string? filterByStatus, string? searchItem,int page=1)
     {
         var products = await productService.GetProductListingAsync();
         

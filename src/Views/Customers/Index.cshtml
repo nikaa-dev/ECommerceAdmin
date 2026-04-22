@@ -117,7 +117,12 @@
                             </td>
                             <td class="pt-4 ps-4">$@customer.TotalSpent</td>
                             <td class="pt-4 ps-4">
-                                <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
+                                <script>
+                                    @{
+                                        var badgeColor = customer.Status ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700";
+                                    }
+                                </script>
+                                <span class="badge text-success fw-normal px-3 py-2 rounded-pill @badgeColor">
                                     @(customer.Status ? "Active" : "InActive")
                                 </span>
                             </td>

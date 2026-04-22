@@ -108,9 +108,16 @@
             </span>
           </td>
           <td class="pt-4 ps-4">
-            <span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
-              @i.Status
-            </span>
+          @{
+             var badgeClass =
+             i.Status == "Active" ? "bg-green-100 text-green-700" :
+             i.Status == "LowStock" ? "bg-yellow-100 text-yellow-700" :
+             "bg-red-100 text-red-700";
+          }
+
+          <span class="badge fw-normal px-3 py-2 rounded-pill @badgeClass">
+             @i.Status
+          </span>
           </td>
           <td class="pt-4 ">
             <i class="bi bi-eye me-3 text-secondary"></i>

@@ -21,7 +21,7 @@ public record ProductResponseDto
     public string? ImageUrl { get; set; }
 
     [Required]
-    public ProductStatus Status { get; set; }
+    public string Status { get; set; }
 
     [Required]
     [Range(1,int.MaxValue)] 

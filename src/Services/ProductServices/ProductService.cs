@@ -10,8 +10,15 @@ public class ProductService(IProductRepository productRepository):IProductServic
     {
         var products = await productRepository.ProductIncludeCategory();
         var productResponses = new List<ProductResponseDto>();
+
         foreach (var product in products)
         {
+            var Status = product.Status switch
+            {
+                Enums.ProductStatus.Active => "Active",
+                Enums.ProductStatus.LowStock => "LowStock",
+                _ => "OutOfStock"
+            };
             var productResponse = new ProductResponseDto()
             {
                 Id = product.Id,
@@ -19,7 +26,7 @@ public class ProductService(IProductRepository productRepository):IProductServic
                 Price = product.Price,
                 ImageUrl = product.ImageUrl,
                 Stock = product.Stock,
-                Status = product.Status,
+                Status = Status,
                 Category = product.Category!.Name
             };
             productResponses.Add(productResponse);
