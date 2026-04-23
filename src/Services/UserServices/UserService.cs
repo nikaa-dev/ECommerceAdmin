@@ -50,11 +50,13 @@ public class UserService(
 
             permissions = permissions.Distinct().ToList();
 
+            var userStatus = user.Status == UserStatus.Active ? "Active" : user.Status == UserStatus.Inactive ? "InActive" : "Suspended";
+
             result.Add(new UserResponseDto(
                 FullName: user.FullName,
                 Email: user.Email!,
                 Role: string.Join(", ", roleByUsers),
-                Status: user.Status,
+                Status: userStatus,
                 Permission: permissions ,
                 JoinDate: DateOnly.FromDateTime(user.CreatedAt),
                 LastActive:TimeOnly.FromTimeSpan(TimeSpan.Zero)

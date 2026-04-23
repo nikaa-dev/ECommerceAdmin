@@ -6,7 +6,7 @@ public record UserResponseDto(
     string FullName,
     string Email,
     string Role,
-    UserStatus Status,
+    string Status,
     List<string> Permission,
     TimeOnly LastActive,
     DateOnly JoinDate

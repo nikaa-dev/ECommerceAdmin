@@ -16,7 +16,7 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
     private readonly IRoleService _roleService = roleService;
 
     [Authorize(Roles = "Admin,Manager")]
-    public async Task<IActionResult> Index(string? filterByRole, UserStatus? filterByStatus, string? searchItem,int page=1)
+    public async Task<IActionResult> Index(string? filterByRole, string? filterByStatus, string? searchItem,int page=1)
     {
         var users = await userService.GetAllIncludeAsync();
 
@@ -27,9 +27,9 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         ViewBag.Status = status;
 
         ViewBag.Total = users.Count();
-        ViewBag.ActiveStatuses = users.Select(u => u.Status).Count(u => u == UserStatus.Active);
-        ViewBag.InactiveStatuses = users.Select(u => u.Status).Count(u => u == UserStatus.Inactive);
-        ViewBag.SuspendedStatuses = users.Select(u => u.Status).Count(u => u == UserStatus.Suspended);
+        ViewBag.ActiveStatuses = users.Select(u => u.Status).Count(u => u == "Active");
+        ViewBag.InactiveStatuses = users.Select(u => u.Status).Count(u => u == "Inactive");
+        ViewBag.SuspendedStatuses = users.Select(u => u.Status).Count(u => u == "Suspended");
         
         if (filterByRole != null)
             users = users.Where(r => r.Role == filterByRole).ToList();

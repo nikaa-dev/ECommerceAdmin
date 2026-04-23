@@ -241,11 +241,13 @@
                             <td class="pt-4 ps-3">
                                 <script>
                                     @{
-                                      var badgeColor = user.Status == 0 ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700";
+                                        var badgeColor = user.Status == "Active" ? "bg-green-100 text-green-700" : user.Status == "InActive" ? "bg-gray-100 text-gray-700" : "bg-red-100 text-red-700";
+                                        var iconStatus = user.Status == "Active" ? "bi bi-check2-circle" : user.Status == "InActive" ? "bi bi-clock" : "bi bi-x-circle";
                                     }
                                 </script>
                                 <span class="badge @badgeColor px-3 py-2 rounded-pill small ">
-                                    @(user.Status == 0 ? "Active" : user.Status == UserStatus.Inactive ?  "Inactive" : "Suspended")
+                                    <i class="@iconStatus"></i>
+                                    @(user.Status)
                                 </span>
                             </td>
                             <td class="pt-4 ps-3">
@@ -259,9 +261,16 @@
                                                     "Support" => "bg-orange-100 text-orange-700",
                                                     _ => "bg-gray-100 text-gray-700"
                                             };
+                                                string iconRole = user.Role switch
+                                                {
+                                                            "Admin" => "bi bi-shield - check",
+                                                            "Manager" => "bi bi-shield",
+                                                             _ => "bi bi-person-gear"
+                                                };
                                     }
                                 </script>
                                 <span class="badge px-3 py-2 rounded-pill shadow-sm @roleClass">
+                                    <i class="@iconRole fw-bold"></i>
                                     @user.Role
                                 </span>
                             </td>
