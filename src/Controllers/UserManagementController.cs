@@ -58,4 +58,9 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         }
         return Ok();
     }
+    //[HttpPost]
+    //public async Task<IActionResult> Index() 
+    //{ 
+    
+    //}
 }

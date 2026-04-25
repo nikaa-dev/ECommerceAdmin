@@ -79,7 +79,7 @@ public class UserService(
             var role = await userManager.AddToRoleAsync(user, userRolePermissionRequestDto.Role);
             if(!role.Succeeded) throw new Exception("Can't add new role to this user");
 
-            user.Status = userRolePermissionRequestDto.Status;
+            user.Status = userRolePermissionRequestDto.Status == "Active" ? UserStatus.Active : userRolePermissionRequestDto.Status == "InActive" ? UserStatus.Inactive : UserStatus.Suspended;
             await userManager.UpdateAsync(user);
 
         } catch (Exception ex) {
