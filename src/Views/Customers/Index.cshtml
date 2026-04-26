@@ -1,4 +1,5 @@
-﻿<div class="">
+﻿@model src.Extensions.Pagenations.PagedResult<src.DTO.CustomerDto.CustomerResponseDto>
+<div class="">
   <div class="d-flex justify-content-between">
     <div>
       <h3>Customers</h3>
@@ -15,47 +16,57 @@
   <div class="row d-flex justify-content-center">
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
       <p>Total Customers</p>
-      <h3>8</h3>
+      <h3>@Model.Items.Count()</h3>
     </div>
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
       <p>Active Customers</p>
-      <h3>6</h3>
+      <h3>@ViewBag.activeCustomer</h3>
     </div>
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
       <p>New This Month</p>
-      <h3>2</h3>
+      <h3>@ViewBag.NewMonth</h3>
     </div>
     <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
       <p>Avg. Order Value</p>
-      <h3>$234.56</h3>
+      <h3>$@ViewBag.Avg</h3>
     </div>
   </div>
-  <div
-    class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border"
-  >
-	
-    <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-    <input
-      type="search"
-      class="w-65 bg-light rounded-10 form-search border ps-5 bg-white text-gray fw-light"
-      placeholder="Search customers..."
-    />
-    <select
-      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border"
+  
+  <form method="get" asp-action="Index">
+    <div
+      class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border"
     >
-      <option value="All Roles" class="bg-light">All Status</option>
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
-    </select>
-    <select
-      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border"
-    >
-      <option value="Recent" class="bg-light">Short by: Recent</option>
-      <option value="Name">Short by: Name</option>
-      <option value="Order">Short by: Order</option>
-      <option value="Spending">Short by: Spending</option>
-    </select>
-  </div>
+      <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+      <input
+        name="searchItem"
+        type="search"
+        class="w-65 bg-light rounded-10 form-search border ps-5 bg-white text-gray fw-light"
+        placeholder="Search customers..."
+      />
+      <select
+        name = "filterByStatus"
+        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()"
+      >
+        <option value="All Roles" class="bg-light">All Status</option>
+        <option value="Active" selected="@(Context.Request.Query["filterByStatus"] == "Active")">Active</option>
+        <option value="InActive" selected="@(Context.Request.Query["filterByStatus"] == "InActive")">InActive</option>
+       
+      </select>
+      <select
+        name = "shortBy"
+        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()"
+      >
+        @{
+                    var selectedStatus = Context.Request.Query["shortBy"].ToString();
+         }
+        <option value="Recent" class="bg-light">Short by: Recent</option>
+        <option value="Name" selected="@(selectedStatus == "Name")">Short by: Name</option>
+        <option value="Order" selected="@(selectedStatus == "Order")">Short by: Order</option>
+        <option value="Spending" selected="@(selectedStatus == "Spending")">Short by: Spending</option>
+      </select>
+    </div>
+  </form>
+  
   <div class="mt-4 rounded-15">
     <div class="table-responsive rounded-15">
       <table class="table bg-white shadow-sm table-hover rounded-15 border">
@@ -71,44 +82,61 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="p-4 fw-semibold d-flex">
-              <div
-                class="bg-primary-subtle text-primary rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center"
-              >
-                MA
-              </div>
-			  <span class="m-2">Mark</span>
-            </td>
-            <td class="pt-4">
-              <span>john@example.com</span><br>
-			  <span class="small text-secondary">+1 (555) 123-4567</span>
-            </td>
-            <td class="pt-4">
-              <span
-                class="text-secondary"
-              >
-                2023-06-15
-              </span>
-            </td>
-            <td class="pt-4 ps-4">
-              <span>
-                12
-              </span>
-            </td>
-            <td class="pt-4 ps-4">$1,234.56</td>
-            <td class="pt-4 ps-4">
-				<span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
-					Active
-				</span>
-			</td>
-            <td class="text-center pt-4 ps-4">
-        		<i class="bi bi-eye me-3 text-secondary"></i>
-              	<i class="bi bi-envelope text-secondary"></i>
-				<i class="bi bi-three-dots-vertical text-secondary ms-3"></i>
-            </td>
-          </tr>
-          <tr>
+
+              @foreach (var customer in @Model.Items)
+              {
+                  <tr>
+                            <td class="p-4 fw-semibold d-flex">
+                                <div
+                                class="bg-primary-subtle text-primary rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center">
+                                    @{
+                                        var names = customer.Name.Split(' ');
+                                        var initials = names.Length > 1
+                                        ? $"{names[0][0]}{names[1][0]}"
+                                        : $"{names[0][0]}";
+                                    }
+                                    @initials
+                                </div>
+                                <span class="m-2">@customer.Name</span>
+                            </td>
+                            <td class="pt-4">
+                                <span>@customer.Email</span><br>
+                                <span class="small text-secondary">@customer.Contact</span>
+                            </td>
+                            <td class="pt-4">
+                                <span
+                                class="text-secondary"
+                                >
+                                    @customer.JoinDate
+                                </span>
+                            </td>
+                            <td class="pt-4 ps-4">
+                                <span>
+                                    @customer.Orders
+                                </span>
+                            </td>
+                            <td class="pt-4 ps-4">$@customer.TotalSpent</td>
+                            <td class="pt-4 ps-4">
+                                <script>
+                                    @{
+                                        var badgeColor = customer.Status ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700";
+                                    }
+                                </script>
+                                <span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
+                                    
+                                    @(customer.Status ? "Active" : "InActive")
+                                </span>
+
+                            </td>
+                            <td class="text-center pt-4 ps-4">
+                                <i class="bi bi-eye me-3 text-secondary"></i>
+                                <i class="bi bi-envelope text-secondary"></i>
+                                <i class="bi bi-three-dots-vertical text-secondary ms-3"></i>
+                            </td>
+                        </tr>
+
+              }
+                    <tr>
             <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">Showing 1 to 8 of 8 Customers</td>
             <td class="p-3 border-0 text-end">
               <button
@@ -130,4 +158,6 @@
     </div>
   </div>
 </div>
+
+
 

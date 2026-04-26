@@ -18,9 +18,9 @@ public class Order
     [Column(TypeName = "decimal(18, 2)")]
     public decimal TotalAmount { get; set; }
 
-    public string UserId { get; set; }
-    [ForeignKey("UserId")]
-    public virtual ApplicationUser? User { get; set; }
+    public string CustomerId { get; set; }
+    [ForeignKey("CustomerId")]
+    public virtual Customer? Customer { get; set; }
     
     [ForeignKey("OrderStatusId")]
     public virtual OrderStatus? OrderStatus { get; set; }

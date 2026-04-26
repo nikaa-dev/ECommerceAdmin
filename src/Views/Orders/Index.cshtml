@@ -1,24 +1,12 @@
-﻿<style>
-  p {
-    color: #6c757d;
-  }
+﻿@model src.Extensions.Pagenations.PagedResult<src.DTO.OrderDto.OrderResponseDto>
 
-  .rounded-10 {
-    border-radius: 10px;
-  }
-
-
-
+<style>
   .form-search:focus {
     outline: none; /* Remove default outline */
 
     box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
   }
-
-  .shadow-sm {
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
-  }
-
+  
   .w-30px {
     width: 40px;
   }
@@ -49,33 +37,43 @@
 
   <div
     class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex border">
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ">All Orders (8)</span>
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Pending (1)</span>
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Processing (2)</span>
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Shipped (2)</span>
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Delivered (2)</span>
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Cancelled (1)</span>
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ">All Orders (@ViewBag.Total)</span>
+    @* @foreach (var status in @ViewBag.Status)
+    {
+      <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">@status (@(ViewBag.status))</span>
+    } *@
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Pending (@ViewBag.Pending)</span> 
+     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Processing (@ViewBag.Processing)</span> 
+    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Shipped (@ViewBag.Shipped)</span>
+     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Delivered (@ViewBag.Delivered)</span>
+     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Cancelled (@ViewBag.Cancelled)</span>
   </div>
   
-  <div
-    class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
-    <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-    <input
-      type="search"
-      class="w-65 rounded-10 form-search border focus-ring ps-5"
-      placeholder="Search users by name or email..."/>
-    <select
-      class="form-select rounded-10 w-15 px-3 py-2 shadow-none border">
-      <option value="All Roles" class="bg-light">Last 30 days</option>
-      <option value="Active">Last 7 days</option>
-      <option value="Inactive">Last 90 days</option>
-      <option value="Inactive">All time</option>
-    </select>
-    <button class="rounded-10 w-15 px-3 py-2 shadow-none border bg-white">
-      <i class="bi bi-funnel h5 fw-bolder me-2"></i>
-      Filters
-    </button>
-  </div>
+  <form method="post" asp-action="Index">
+    <div
+      class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+      <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+      <input
+        name = "searchItem"
+        type="search"
+        class="w-65 rounded-10 form-search border focus-ring ps-5"
+        placeholder="Search users by name or email..."/>
+      <select
+        name = "filterByDate"
+        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border">
+        <option value="30days" selected="@(Context.Request.Query["filterByDate"] == "30days")">Last 30 days</option>
+        <option value="7days" selected="@(Context.Request.Query["filterByDate"] == "7days")">Last 7 days</option>
+        <option value="90days" selected="@(Context.Request.Query["filterByDate"] == "90days")">Last 90 days</option>
+        <option value="All" selected="@(Context.Request.Query["filterByDate"] == "All")">All time</option>
+      </select>
+      <button class="rounded-10 w-15 px-3 py-2 shadow-none border bg-white" 
+              asp-page="/Orders/Index">
+        <i class="bi bi-funnel h5 fw-bolder me-2"></i>
+        Filters
+      </button>
+    </div>
+  </form>
+  
   <div class="mt-4 rounded-15">
     <div class="table-responsive rounded-15">
       <table class="table bg-white shadow-sm table-hover rounded-15 border">
@@ -91,55 +89,78 @@
           </tr>
         </thead>
         <tbody>
+        @foreach (var order in Model.Items)
+        {
           <tr>
             <td class="p-3 fw-semibold d-flex">
-              
-			        <span class="m-2 text-primary fw-normal">#12345</span>
+              <span class="m-2 text-primary fw-normal">@order.Id</span>
             </td>
             <td class="pt-3 ps-4 fw-semibold">
-              <span>John Doe</span><br>
-			        <span class="small text-secondary">john@example.com</span>
+              <span>@order.CustomerName</span><br>
+              <span class="small text-secondary">@order.CustomerEmail</span>
             </td>
             <td class="pt-3 ps-4">
               <span
-                class="text-secondary"
-              >
-                2023-06-15
+                class="text-secondary">
+                @order.Date
               </span>
             </td>
             <td class="pt-3 ps-4">
               <span>
-                12
+                @order.Item
               </span>
             </td>
-            <td class="pt-3 ps-4">$1,234.56</td>
+            <td class="pt-3 ps-4">$@order.Total</td>
             <td class="pt-3 ">
-				<span class="badge text-success fw-normal px-3 py-2 rounded-pill bg-green-100 text-green-700">
-					Delivered
-				</span>
-			</td>
+              <script>
+                 @{
+                    var badgeColor = order.Status == "Delivered" ? "bg-green-100 text-green-700" :
+                    order.Status == "Shipped" ? "bg-blue-100 text-blue-700" :
+                    order.Status == "Processing" ? "bg-yellow-100 text-yellow-700" :
+                    order.Status == "Pending" ? "bg-orange-100 text-orange-700" :
+                    "bg-red-100 text-red-700";
+                 }
+              </script>
+              <span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
+                @order.Status
+              </span>
+            </td>
             <td class="text-center p-3">
               <i class="bi bi-eye me-3"></i>
               <i class="bi bi-box-seam "></i>
             </td>
           </tr>
-          <tr>
-            <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">Showing 1 to 8 of 8 Orders</td>
-            <td class="p-3 border-0 text-end">
-              <button
-                class="btn border btn-sm rounded-10 py-2 px-3 text-secondary"
-              >
-                Previous
-              </button>
-            </td>
-            <td class="p-3 border-0 text-start">
-              <button
-                class="btn border-0 btn-sm rounded-10 py-2 px-3 text-secondary"
-              >
-                Next
-              </button>
-            </td>
-          </tr>
+        }
+
+        <tr>
+          <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
+            @{
+              var start = 0;
+              var end = 0;
+              if (Model.TotalCount != 0)
+              {
+                start = (Model.PageNumber - 1) * Model.PageSize + 1;
+                end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
+              } 
+            }
+            Showing @start to @end of @Model.TotalCount users
+          </td>
+          <td class="p-3 border-0 text-end">
+            <a class="btn btn-sm rounded-10 py-2 px-3 border 
+                                @(Model.PageNumber == 1 ? "disabled" : "")"
+               asp-page="/UserManagement/Index"
+               asp-route-pageNumber="@(Model.PageNumber - 1)">
+              Previous
+            </a>
+          </td>
+          <td class="p-3 border-0 text-start">
+            <a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
+               asp-page="/UserManagement/Index"
+               asp-route-pageNumber="@(Model.PageNumber + 1)">
+              Next
+            </a>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>

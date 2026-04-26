@@ -2,17 +2,19 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Models;
+using src.Services.DashboardServices;
 
 namespace src.Controllers;
 
 [Authorize]
-public class DashboardController(ILogger<HomeController> logger) : Controller
+public class DashboardController(ILogger<HomeController> logger,IDashboardService dashboardService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var order = await dashboardService.GetAllAsync();
+        return View(order);
     }
     
 }

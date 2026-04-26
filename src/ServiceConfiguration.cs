@@ -17,10 +17,26 @@ using src.Services.JwtServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using src.Auth;
+using src.Models.Ecommerce;
+using src.Repositories.CustomerRepositories;
+using src.Repositories.OrderRepositories;
+using src.Repositories.OrderStatusRepositories;
+using src.Repositories.ProductCategoryRepositories;
+using src.Repositories.ProductRepositories;
 using src.Repositories.UserClaimRepositories;
+using src.Repositories.UserLoginHistoryRepositories;
 using src.Repositories.UserTokenRepositories;
+using src.Services.CustomerServices;
+using src.Services.DashboardServices;
+using src.Services.OrderServices;
+using src.Services.OrderStatusServices;
+using src.Services.ProductCategoryServices;
+using src.Services.ProductServices;
 using src.Services.UserClaimServices;
+using src.Services.UserLoginHistoryServices;
 using src.Services.UserTokenServices;
+using ProductService = src.Services.ProductServices.ProductService;
+using src.Repositories.OrderDetailRepositories;
 
 namespace src;
 
@@ -46,14 +62,29 @@ public static class ServiceConfiguration
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserTokenRepository,UserTokenRepository>();
         services.AddScoped<IUserClaimRepository, UserClaimRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IProductRepository,ProductRepository>();
+        services.AddScoped<IUserLoginHistoryRepository,UserLoginHistoryRepository>();
+        services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+        services.AddScoped<ICustomerRepository,CustomerRepository>();
+        services.AddScoped<IOrderRepository,OrderRepository>();
+        services.AddScoped<IOrderStatusRepository, OrderStatusRepository>();
+        services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
         
+        services.AddScoped<IUserTokenService, UserTokenService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserClaimService, UserClaimService>();
         services.AddScoped<IAuthService, AuthService>();
-
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IUserLoginHistoryService, UserLoginHistoryService>();
+        services.AddScoped<IProductCategoryService, ProductCategoryService>();
+        services.AddScoped<ICustomerService,CustomerService>();
+        services.AddScoped<IOrderStatusService, OrderStatusService>();
+        services.AddScoped<IDashboardService,DashboardService>();
+        
         services.AddScoped<IJwtService, JwtService>();
-        services.AddScoped<IUserTokenService, UserTokenService>();
         
         var jwtSettings = configuration.GetSection("JWT").Get<JwtConfig>();
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.Secret!));

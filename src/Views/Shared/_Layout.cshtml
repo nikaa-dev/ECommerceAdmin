@@ -18,6 +18,10 @@
            border-radius: 10px;
        }
 
+        .custom-modal {
+            max-width: 33%;
+        }
+
        .ml-250 {
            margin-left: 280px;
        }
@@ -27,7 +31,7 @@
            padding: 0;
        }
        .nav-link {
-           color: #6c757d;
+           color: black;
        }
 
            .nav-link:hover {
@@ -85,11 +89,18 @@
        .text-yellow-600 {
            color: #ca8a04; /* Tailwind yellow-600 */
        }
+
+        .text-yellow-700 {
+            color: #a16207;
+        }
        .bg-red-100 {
            background-color: #fee2e2; /* Tailwind red-100 */
        }
        .text-red-600 {
            color: #dc2626; /* Tailwind red-600 */
+       }
+       .text-red-700{
+            color: #b91c1c;
        }
        .bg-purple-100 {
            background-color: #f3e8ff; /* Tailwind purple-100 */
@@ -103,7 +114,8 @@
        .bg-orange-100 {
            background-color: #ffedd5; /* Tailwind orange-100 */
        }
-       .text-orange-700 {
+
+        .text-orange-700 {
            color: #c2410c; /* Tailwind orange-700 */
        }
        .bg-orange-500 {
@@ -135,6 +147,30 @@
        .h-30px{
            height: 40px;
        }
+
+        .w-50px {
+            width: 50px;
+        }
+
+        .h-50px {
+            height: 50px;
+        }
+
+        .w-100px {
+            width: 100px;
+        }
+
+        .h-100px {
+            height: 100px;
+        }
+
+        .w-75px {
+            width: 75px;
+        }
+
+        .h-75px {
+            height: 75px;
+        }
        .w-65 {
            width: 65%;
        }
@@ -152,14 +188,14 @@
            <nav class="col-md-3 col-lg-2 d-flex flex-column bg-white vh-100 border-end position-fixed" id="sticky-sidebar">
 
                <!-- Header -->
-               <div class="text-center border-bottom py-3">
-                   <h4>E-Commerce Admin</h4>
+               <div class="text-center border-bottom py-3 ">
+                    <h4 class="text-black fw-semibold">E-Commerce Admin</h4>
                </div>
 
                <!-- Navigation -->
-               <ul class="nav flex-column align-items-center w-100 p-3">
-                   <li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-15 py-3" href="/Dashboard/Index">
+                <ul class="nav flex-column align-items-center w-100 p-3 ">
+                   <li class="nav-item w-100 p-1 ">
+						<a class="nav-link rounded-15 py-3 " href="/Dashboard/Index">
 							<i class="bi bi-columns-gap h5"></i>
 							<span class="ms-2">Dashboard</span>
 						</a>
@@ -183,11 +219,17 @@
 						</a>
 				   </li>
                    <li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-15 py-3" href="/UserManagement/Index">
-							<i class="bi bi-person-gear h5"></i>
-							<span class="ms-2">User Management</span>
-						</a>
-					</li>
+                       <a class="nav-link rounded-15 py-3" href="/UserManagement/Index">
+                           <i class="bi bi-person-gear h5"></i>
+                           <span class="ms-2">User Management</span>
+                       </a>
+                   </li>
+                   <li class="nav-item w-100 p-1">
+                       <a class="nav-link rounded-15 py-3" href="#">
+                           <i class="bi bi-shield"></i>
+                           <span class="ms-2">Role Management</span>
+                       </a>
+                   </li>
                </ul>
 
                <!-- Footer -->

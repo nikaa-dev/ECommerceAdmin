@@ -1,5 +1,7 @@
 ﻿<!-- View (Index.cshtml) -->
-@model List<src.Services.UserServices.UserResponseDto>
+@using System.ComponentModel.Design
+@using src.Enums
+@model src.Extensions.Pagenations.PagedResult<src.DTO.UserDto.UserResponseDto>
 
 @if (TempData["Message"] != null)
 {
@@ -7,6 +9,10 @@
 }
 
     <style>
+    :root {
+        --primary-bg-color: linear-gradient(to bottom right, #10b981 0%, #14b8a6 50%, #0891b2 100%);
+        --text-gray: #9ca3af;
+    }
         p {
             color: #6c757d;
         }
@@ -24,15 +30,6 @@
         .shadow-sm {
             box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
         }
-
-        .w-30px {
-            width: 40px;
-        }
-
-        .h-30px {
-            height: 40px;
-        }
-
         .custom-gradient {
             background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
             color: white;
@@ -42,6 +39,15 @@
         .modal-footer {
             border: none !important;
         }
+
+    .form-input {
+        color: var(--text-gray);
+    }
+
+    .form-input-field {               
+        width: 100%;
+        border-radius: 10px;
+    }
     </style>
     <div class="">
         <div class="d-flex justify-content-between">
@@ -127,7 +133,7 @@
                                     data-dismiss="modal">
                                 Cancel
                             </button>
-                            <button type="button" class="btn bg-black text-white">Create User</button>
+                            <button type="submit" class="btn bg-black text-white">Create User</button>
                         </div>
                     </div>
                 </div>
@@ -140,50 +146,67 @@
                     <p>Total Users</p>
                     <i class="bi bi-person-gear h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"></i>
                 </div>
-                <h3>@Model.Count</h3>
+                <h3>@ViewBag.Total</h3>
             </div>
             <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
                 <div class="d-flex text-secondary justify-content-between">
                     <p>Active Users</p>
                     <i class="bi bi-check2-circle h5 p-2 rounded-10 bg-green-100 text-green-700"></i>
                 </div>
-                <h3>6</h3>
+                <h3>@ViewBag.ActiveStatuses</h3>
             </div>
             <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
                 <div class="d-flex text-secondary justify-content-between">
                     <p>Inactive Users</p>
                     <i class="bi bi-clock h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"></i>
                 </div>
-                <h3>1</h3>
+                <h3>@ViewBag.InActiveStatuses</h3>
             </div>
             <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
                 <div class="d-flex text-secondary justify-content-between">
                     <p>Suspended</p>
                     <i class="bi bi-exclamation-circle h5 p-2 rounded-10 bg-red-100 text-red-600"></i>
                 </div>
-                <h3>1</h3>
+                <h3>@ViewBag.SuspendedStatuses</h3>
             </div>
         </div>
+        
+            
+        <form method="get" asp-action="Index">
+            <div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+                <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+                <input type="search" name="searchItem"
+                       class="w-65 border-0 bg-light rounded-10 focus-ring form-search ps-5"
+                       placeholder="Search users by name or email..."/>
+                <select name="filterByRole" class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none" onchange="this.form.submit()">
+                    <option value="" class="bg-light">All Roles</option>
+                    @foreach (var role in ViewBag.RoleNames)
+                    {
+                        <option value="@role" selected="@(Context.Request.Query["filterByRole"] == role)">
+                            @role
+                        </option>
+                    }
+                </select>
 
-        <div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
-            <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-            <input type="search"
-                   class="w-65 border-0 bg-light rounded-10 focus-ring form-search ps-5"
-                   placeholder="Search users by name or email..." />
-            <select class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none">
-                <option value="All Roles" class="bg-light">All Roles</option>
-                @foreach (var role in ViewBag.RoleNames)
-                {
-                    <option value=@role>@role</option>
+                <select name="filterByStatus" class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none" onchange="this.form.submit()">
+                    <option value="" class="bg-light">All Status</option>
+                @{
+                    var selectedStatus = Context.Request.Query["filterByStatus"].ToString();
                 }
-            </select>
-            <select class="form-select rounded-10 border-0 w-15 bg-light px-3 py-2 shadow-none">
-                <option value="All Status" class="bg-light">All Status</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Suspended">Suspended</option>
-            </select>
-        </div>
+
+                @foreach (var status in ViewBag.Status)
+                {
+                    <option value="@status"
+                            selected="@(selectedStatus == status.ToString())">
+                        @status
+                    </option>
+                }
+                </select>
+            </div>
+
+            </form>
+            
+        
         <div class="mt-4 rounded-15">
             <div class="table-responsive rounded-15">
                 <table class="table bg-white shadow-sm table-hover rounded-15 border">
@@ -201,12 +224,18 @@
                     
                     
                     <tbody>
-                    @foreach (var user in Model)
+                    @foreach (var user in Model.Items)
                     {
                         <tr>
                             <td class="pt-4 ps-4 fw-semibold d-flex">
-                                <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center">
-                                    MA
+                                <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center pt-1 border-0">
+                                    @{
+                                        var names = user.FullName.Split(' ');
+                                        var initials = names.Length > 1
+                                        ? $"{names[0][0]}{names[1][0]}"
+                                        : $"{names[0][0]}";
+                                    }
+                                    <h6 class="d-flex justify-content-center align-items-center">@initials</h6>
                                 </div>
                                 <div class="">
                                     <span class="ms-2">@user.FullName</span><br/>
@@ -214,12 +243,38 @@
                                 </div>
                             </td>
                             <td class="pt-4 ps-3">
-                                <span class="badge bg-green-100 text-green-700 px-3 py-2 rounded-pill small">
-                                    @(user.Status ? "Active" : "Inactive")
+                                <script>
+                                    @{
+                                        var badgeColor = user.Status == "Active" ? "bg-green-100 text-green-700" : user.Status == "InActive" ? "bg-gray-100 text-gray-700" : "bg-red-100 text-red-700";
+                                        var iconStatus = user.Status == "Active" ? "bi bi-check2-circle" : user.Status == "InActive" ? "bi bi-clock" : "bi bi-x-circle";
+                                    }
+                                </script>
+                                <span class="badge @badgeColor px-3 py-2 rounded-pill small ">
+                                    <i class="@iconStatus"></i>
+                                    @(user.Status)
                                 </span>
                             </td>
                             <td class="pt-4 ps-3">
-                                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill shadow-sm">
+                                <script>
+                                     @{
+                                            string roleClass = user.Role switch
+                                            {
+                                                    "Admin" => "bg-purple-100 text-purple-700",
+                                                    "Manager" => "bg-blue-100 text-blue-700",
+                                                    "Staff" => "bg-green-100 text-green-700",
+                                                    "Support" => "bg-orange-100 text-orange-700",
+                                                    _ => "bg-gray-100 text-gray-700"
+                                            };
+                                                string iconRole = user.Role switch
+                                                {
+                                                            "Admin" => "bi bi-shield - check",
+                                                            "Manager" => "bi bi-shield",
+                                                             _ => "bi bi-person-gear"
+                                                };
+                                    }
+                                </script>
+                                <span class="badge px-3 py-2 rounded-pill shadow-sm @roleClass">
+                                    <i class="@iconRole fw-bold"></i>
                                     @user.Role
                                 </span>
                             </td>
@@ -243,11 +298,11 @@
                                     <div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-header small fw-bold" href="#">Action</a>
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item small rounded-10">
+                                        <button class="dropdown-item small rounded-10" data-toggle="modal" data-target="#viewDetail">
                                             <i class="bi bi-eye"></i>
                                             <span class="ms-2">View Details</span>
                                         </button>
-                                        <button class="dropdown-item small rounded-10">
+                                        <button class="dropdown-item small rounded-10" data-toggle="modal" data-target="#edit">
                                             <i class="bi bi-pencil-square"></i>
                                             <span class="ms-2"> Edit User</span>
                                         </button>
@@ -258,27 +313,200 @@
                                             <span class="text-danger ms-2">Delete User</span>
                                         </button>
                                     </div>
+
+                     
+                                    
+                                    <!-- ViewDetail Modal -->
+                                    <div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
+                                            <div class="modal-content ">
+                                                <div class="modal-header flex-column align-items-start mx-2">
+                                                    <h5 class="modal-title fw-semibold" id="exampleModalLabel">User Details</h5>
+                                                    <p class="text-muted mb-0">Complete information about this user</p>
+                                                    <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true" class="fs-5">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body mx-2">
+                                                    <div class="d-flex flex-row align-items-start">
+                                                        <div class="custom-gradient rounded-circle border w-75px h-75px bg-light d-flex justify-content-center pt-2 border-0">
+                                                            <h4 class="d-flex justify-content-center align-items-center">@initials</h4>
+
+                                                        </div>
+                                                        <div class="d-flex flex-column align-items-start mt-1">
+                                                            <h4 class="ms-3 fw-semibold">@user.FullName</h4>
+                                                            <div class="d-flex flex-row text-gray-700 ms-3">
+                                                                <i class="bi bi-envelope "></i>
+                                                                <p class="ms-2">@user.Email</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="border-top w-100 "></div>
+
+                                                    <div class="d-flex align-content-start row row-cols-2 ">
+                                                        <div class="col d-flex flex-column align-items-start justify-content-between my-3">
+                                                            <p class="mb-1">Role</p>
+                                                            <span class="rounded-pill @roleClass px-2 py-1">
+                                                                <i class="@iconRole fw-bold me-1"></i>
+                                                                @user.Role
+                                                            </span>
+                                                        </div>
+                                                        <div class="col d-flex flex-column align-items-start justify-content-start my-3">
+                                                            <p class="mb-1">Status</p>
+                                                            <span class="rounded-pill @badgeColor px-2 py-1">
+                                                                <i class="@iconStatus fw-bold me-1"></i>
+                                                                @user.Status
+                                                            </span>
+                                                        </div>
+                                                        <div class="col d-flex flex-column align-items-start justify-content-start my-3">
+                                                            <p class="mb-1">Join Date</p>
+                                                            <div>
+                                                                <i class=" fw-bold me-1"></i>
+                                                                @user.JoinDate
+                                                            </div>
+                                                        </div>
+                                                        <div class="col d-flex flex-column align-items-start justify-content-start my-3">
+                                                            <p class="mb-1">Last Active</p>
+                                                            <div>
+                                                                <i class="@iconStatus fw-bold me-1"></i>
+                                                                @user.JoinDate
+                                                            </div>
+                                                        </div>
+                                                        <div class="col d-flex flex-column align-items-start justify-content-start my-3">
+                                                            <p class="mb-1">Permissions</p>
+                                                            <div class="d-flex flex-row">
+                                                            @foreach (var p in user.Permission)
+                                                            {
+                                                                var permission = p.Split("::");
+                                                                var endOfPermission = permission.Length > 1 ? permission[1] : "";
+                                                                
+                                                                    <p class="badge text-secondary px-2 py-1 rounded-10 border small">
+                                                                        @(string.Join(", ", endOfPermission))
+                                                                    </p>
+                                                            }</div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="border-top w-100 "></div>
+                                                    <div class="col d-flex flex-column align-items-start justify-content-start my-3">
+                                                        <p class="mb-1">User Id</p>
+                                                        <div>#1</div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+                                                        <span>Close</span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                        <span class="ms-3">Edit User</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <!-- Edit Modal -->
+                                    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" style="max-width:33%; margin:auto;" role="document">
+                                            <div class="modal-content">
+                                                <form class="edit-user" method="post">
+                                                    <div class="modal-header flex-column align-items-start mx-2">
+                                                        <h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit User</h5>
+                                                        <p class="text-muted mb-0">Update user information, role, and permissions.</p>
+                                                        <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true" class="fs-5">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body mx-2">
+                                                        <div class="d-flex align-items-start flex-column justify-content-between">
+                                                            <div class="d-flex align-items-start flex-column w-100 mb-2">
+                                                                <label formlabel="Full Name">Full Name</label>
+                                                                <input type="text" asp-for=@user.FullName class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                            </div>
+                                                            <div class="d-flex align-items-start flex-column w-100 my-2">
+                                                                <label formlabel="Email">Email</label>
+                                                                <input type="text" asp-for=@user.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                            </div>
+                                                            <div class="d-flex align-items-start flex-column w-100 my-2">
+                                                                <label formlabel="Role">Role</label>
+                                                                <select class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                    @foreach (var role in ViewBag.RoleNames)
+                                                                    {
+                                                                        <option value=@role selected="@(user.Role == role)">
+                                                                            @role
+                                                                        </option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                            <div class="d-flex align-items-start flex-column w-100 my-2">
+                                                                <label formlabel="Status">Status</label>
+                                                                <select class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                    <option value="InActive" selected=@(user.Role == "InActive")>
+                                                                        InActive
+                                                                    </option>
+                                                                    <option value="Active" selected=@(user.Role == "Active")>
+                                                                        Active
+                                                                    </option>
+                                                                    <option value="Suspended" selected=@(user.Role == "Suspended")>
+                                                                        Suspended
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+                                                            <span>Close</span>
+                                                        </button>
+                                                        <button type="submit" class="btn btn-dark rounded-2 d-flex">
+                                                            <span>Save Changes</span>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                
                                 </div>
 
 
                             </td>
                         </tr>
                     }
+                    
                     <tr>
                         <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
-                            Showing 1 to 8 of 8 users
+                            @{
+                                var start = 0;
+                                var end = 0;
+                                if (Model.TotalCount != 0)
+                                {
+                                    start = (Model.PageNumber - 1) * Model.PageSize + 1;
+                                    end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
+                                } 
+                             }
+                            Showing @start to @end of @Model.TotalCount users
                         </td>
                         <td class="p-3 border-0 text-end">
-                            <button class="btn btn-sm rounded-10 py-2 px-3 border">
+                            <a class="btn btn-sm rounded-10 py-2 px-3 border 
+                                @(Model.PageNumber == 1 ? "disabled" : "")"
+                               asp-page="/UserManagement/Index"
+                               asp-route-pageNumber="@(Model.PageNumber - 1)">
                                 Previous
-                            </button>
+                            </a>
                         </td>
                         <td class="p-3 border-0 text-start">
-                            <button class="btn btn-sm rounded-10 py-2 px-3 border">
+                            <a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
+                               asp-page="/UserManagement/Index"
+                               asp-route-pageNumber="@(Model.PageNumber + 1)">
                                 Next
-                            </button>
+                            </a>
                         </td>
                     </tr>
+                    
                     </tbody>
                     
                 </table>

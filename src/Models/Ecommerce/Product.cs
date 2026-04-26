@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using src.Enums;
 
 namespace src.Models.Ecommerce;
 public class Product
@@ -23,7 +24,7 @@ public class Product
     public string? ImageUrl { get; set; }
 
     [Required]
-    public bool Status { get; set; }
+    public ProductStatus Status { get; set; }
 
     [Required]
     [Range(1,int.MaxValue)] 

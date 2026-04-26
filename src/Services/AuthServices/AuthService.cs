@@ -1,14 +1,11 @@
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using src.Common;
 using src.DTO.AuthDto;
 using src.Services.JwtServices;
 using Microsoft.AspNetCore.Identity;
-using src.DTO.UserDto;
 using src.Models;
 using src.Exceptions;
 using src.Services.UserClaimServices;
+using src.Services.UserLoginHistoryServices;
 using src.Services.UserTokenServices;
 
 namespace src.Services.AuthServices;
@@ -20,6 +17,7 @@ public class AuthService(
         IJwtService jwtService,
         IUserTokenService userTokenService,
         IHttpContextAccessor httpContextAccessor,
+        IUserLoginHistoryService  userLoginHistoryService,
         IUserClaimService userClaimService)
         : IAuthService
 {
@@ -49,15 +47,15 @@ public class AuthService(
         var responseDto = new TokenResponseDto
         {
             Token = tokenResponseString,
-            Expiration = DateTime.UtcNow.AddMinutes(60) // Ideally match this with your config
+            Expiration = DateTime.UtcNow.AddMinutes(60) 
         };
         
         var userToken = new IdentityUserToken<string>()
         {
-            UserId = user.Id,              // The logged-in user's Id from AspNetUsers
-            LoginProvider = "Local",       // "Local" for email/password logins
-            Name = "Token",         // Token type
-            Value = tokenResponseString // Or your generated secure token
+            UserId = user.Id,              
+            LoginProvider = "Local",       
+            Name = "Token",         
+            Value = tokenResponseString 
         };
         await userTokenService.CreateAsync(userToken);
         return new ApiResponse<TokenResponseDto>(responseDto, "User registered successfully.");
@@ -88,8 +86,18 @@ public class AuthService(
             {
                 Token = token,
                 Expiration = DateTime.UtcNow.AddMinutes(60),
-            };
-
+            }; 
+            // var userLogin = new UserLoginHistory()
+            // {
+            //     Action = actionDescription,
+            //     UserId = userId,
+            //     UserName = userName,
+            //     IpAddress = ip,
+            //     Details = requestBody,
+            //     UserAgent = userAgent,
+            // };
+            //
+            // await auditService.CreateAsync(userLogin);
             return new ApiResponse<LoginResponseDto>( res,"User logged in Successfully.");
         }
         catch(Exception ex)
@@ -119,6 +127,7 @@ public class AuthService(
             Email = user.Email
         });
     }
+    
 }
 
 
