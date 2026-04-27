@@ -28,7 +28,7 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
 
         ViewBag.Total = users.Count();
         ViewBag.ActiveStatuses = users.Select(u => u.Status).Count(u => u == "Active");
-        ViewBag.InactiveStatuses = users.Select(u => u.Status).Count(u => u == "Inactive");
+        ViewBag.InactiveStatuses = users.Select(u => u.Status).Count(u => u == "InActive");
         ViewBag.SuspendedStatuses = users.Select(u => u.Status).Count(u => u == "Suspended");
         
         if (filterByRole != null)

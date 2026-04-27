@@ -209,17 +209,17 @@
         
         <div class="mt-4 rounded-15">
             <div class="table-responsive rounded-15">
-                <table class="table bg-white shadow-sm table-hover rounded-15 border">
+                <table id="userTable" class="table bg-white shadow-sm table-hover rounded-15 border">
                     <thead class="table-light">
-                    <tr>
-                        <th class="p-4 fw-normal">User</th>
-                        <th class="p-4 fw-normal">Status</th>
-                        <th class="p-4 fw-normal">Role</th>
-                        <th class="p-4 fw-normal">Permissions</th>
-                        <th class="p-4 fw-normal">Last Active</th>
-                        <th class="p-4 fw-normal">Join Date</th>
-                        <th class="p-4 fw-normal text-center">Actions</th>
-                    </tr>
+                        <tr>
+                            <th class="p-4 fw-normal">User</th>
+                            <th class="p-4 fw-normal">Status</th>
+                            <th class="p-4 fw-normal">Role</th>
+                            <th class="p-4 fw-normal">Permissions</th>
+                            <th class="p-4 fw-normal">Last Active</th>
+                            <th class="p-4 fw-normal">Join Date</th>
+                            <th class="p-4 fw-normal text-center">Actions</th>
+                        </tr>
                     </thead>
                     
                     
@@ -238,8 +238,8 @@
                                     <h6 class="d-flex justify-content-center align-items-center">@initials</h6>
                                 </div>
                                 <div class="">
-                                    <span class="ms-2">@user.FullName</span><br/>
-                                    <p class="ms-2">@user.Email</p>
+                                    <span class="ms-2 data-fullname">@user.FullName</span><br />
+                                    <p class="ms-2 data-email">@user.Email</p>
                                 </div>
                             </td>
                             <td class="pt-4 ps-3">
@@ -249,7 +249,7 @@
                                         var iconStatus = user.Status == "Active" ? "bi bi-check2-circle" : user.Status == "InActive" ? "bi bi-clock" : "bi bi-x-circle";
                                     }
                                 </script>
-                                <span class="badge @badgeColor px-3 py-2 rounded-pill small ">
+                                <span class="badge @badgeColor px-3 py-2 rounded-pill small data-status">
                                     <i class="@iconStatus"></i>
                                     @(user.Status)
                                 </span>
@@ -273,7 +273,7 @@
                                                 };
                                     }
                                 </script>
-                                <span class="badge px-3 py-2 rounded-pill shadow-sm @roleClass">
+                                <span class="badge px-3 py-2 rounded-pill shadow-sm @roleClass data-role">
                                     <i class="@iconRole fw-bold"></i>
                                     @user.Role
                                 </span>
@@ -302,7 +302,7 @@
                                             <i class="bi bi-eye"></i>
                                             <span class="ms-2">View Details</span>
                                         </button>
-                                        <button class="dropdown-item small rounded-10" data-toggle="modal" data-target="#edit">
+                                        <button class="dropdown-item small rounded-10 edit-user-button" data-toggle="modal" data-target="#edit">
                                             <i class="bi bi-pencil-square"></i>
                                             <span class="ms-2"> Edit User</span>
                                         </button>
@@ -422,15 +422,15 @@
                                                         <div class="d-flex align-items-start flex-column justify-content-between">
                                                             <div class="d-flex align-items-start flex-column w-100 mb-2">
                                                                 <label formlabel="Full Name">Full Name</label>
-                                                                <input type="text" asp-for=@user.FullName class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <input type="text" id="fullname" asp-for=@user.FullName class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Email">Email</label>
-                                                                <input type="text" asp-for=@user.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <input type="text" id="email" asp-for=@user.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Role">Role</label>
-                                                                <select class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <select id="role" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                                     @foreach (var role in ViewBag.RoleNames)
                                                                     {
                                                                         <option value=@role selected="@(user.Role == role)">
@@ -441,7 +441,7 @@
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Status">Status</label>
-                                                                <select class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <select id="status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                                     <option value="InActive" selected=@(user.Role == "InActive")>
                                                                         InActive
                                                                     </option>
@@ -512,5 +512,25 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div>       
 
+<script>
+    $(document).ready(function () {
+
+        $(".edit-user-button").click(function () {
+            var row = $(this).closest("tr");
+
+            var name   = row.find(".data-fullname").text().trim();
+            var email  = row.find(".data-email").text().trim();
+            var status = row.find(".data-status").text().trim();
+            var role   = row.find(".data-role").text().trim();
+
+            $("#fullname").val(name);
+            $("#email").val(email);
+            $("#status").val(status);
+            $("#role").val(role);
+
+        });
+
+    });
+    </script>
