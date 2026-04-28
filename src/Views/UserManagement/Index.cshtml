@@ -228,6 +228,7 @@
                     {
                         <tr>
                             <td class="pt-4 ps-4 fw-semibold d-flex">
+                                <p class="visually-hidden data-id">@user.Id</p>
                                 <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center pt-1 border-0">
                                     @{
                                         var names = user.FullName.Split(' ');
@@ -237,7 +238,7 @@
                                     }
                                     <h6 class="d-flex justify-content-center align-items-center">@initials</h6>
                                 </div>
-                                <div class="">
+                                <div>
                                     <span class="ms-2 data-fullname">@user.FullName</span><br />
                                     <p class="ms-2 data-email">@user.Email</p>
                                 </div>
@@ -410,7 +411,9 @@
                                     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" style="max-width:33%; margin:auto;" role="document">
                                             <div class="modal-content">
-                                                <form class="edit-user" method="post">
+                                                <form id="edit-user">
+                                                    @Html.AntiForgeryToken()
+                                                    
                                                     <div class="modal-header flex-column align-items-start mx-2">
                                                         <h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit User</h5>
                                                         <p class="text-muted mb-0">Update user information, role, and permissions.</p>
@@ -421,16 +424,18 @@
                                                     <div class="modal-body mx-2">
                                                         <div class="d-flex align-items-start flex-column justify-content-between">
                                                             <div class="d-flex align-items-start flex-column w-100 mb-2">
+                                                                
+                                                                <input type="text" name="Id" id="id" hidden>
                                                                 <label formlabel="Full Name">Full Name</label>
-                                                                <input type="text" id="fullname" asp-for=@user.FullName class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <input type="text" name="FullName" id="fullname" asp-for=@user.FullName class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Email">Email</label>
-                                                                <input type="text" id="email" asp-for=@user.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <input type="text" name="Email" id="email" asp-for=@user.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Role">Role</label>
-                                                                <select id="role" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <select id="role" name="Role" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                                     @foreach (var role in ViewBag.RoleNames)
                                                                     {
                                                                         <option value=@role selected="@(user.Role == role)">
@@ -441,7 +446,7 @@
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Status">Status</label>
-                                                                <select id="status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <select id="status" name="Status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                                     <option value="InActive" selected=@(user.Role == "InActive")>
                                                                         InActive
                                                                     </option>
@@ -512,19 +517,25 @@
                 </table>
             </div>
         </div>
-    </div>       
+    </div> 
+    
 
 <script>
+    functio
     $(document).ready(function () {
 
         $(".edit-user-button").click(function () {
             var row = $(this).closest("tr");
 
+
+            var id = row.find(".data-id").text().trim();
+            console.log(id);
             var name   = row.find(".data-fullname").text().trim();
             var email  = row.find(".data-email").text().trim();
             var status = row.find(".data-status").text().trim();
             var role   = row.find(".data-role").text().trim();
 
+            $("#id").val(id);
             $("#fullname").val(name);
             $("#email").val(email);
             $("#status").val(status);
@@ -533,4 +544,32 @@
         });
 
     });
-    </script>
+
+ </script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#edit-user').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/UserManagement/Update',
+                type: 'POST',
+                data: $('#edit-user').serialize(),
+
+                success: function (response) {
+                    alert(response.message);
+                    location.reload();
+                },
+
+                error: function (xhr) {
+                    alert("Update failed");
+                }
+            });
+
+        });
+
+    });
+</script>

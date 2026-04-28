@@ -3,6 +3,7 @@ using src.Enums;
 namespace src.DTO.UserDto;
 
 public record UserResponseDto(
+    string Id,
     string FullName,
     string Email,
     string Role,

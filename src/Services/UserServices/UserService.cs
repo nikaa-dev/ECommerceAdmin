@@ -30,7 +30,7 @@ public class UserService(
         foreach (var user in users)
         {
             var roleByUsers = await userManager.GetRolesAsync(user);
-            
+
             var permissions = new List<string>();
 
             foreach (var roleName in roleByUsers)
@@ -50,25 +50,27 @@ public class UserService(
 
             permissions = permissions.Distinct().ToList();
 
-            var userStatus = user.Status == UserStatus.Active ? "Active" : user.Status == UserStatus.Inactive ? "InActive" : "Suspended";
+            var userStatus = user.Status == UserStatus.Active ? "Active" : user.Status == UserStatus.InActive ? "InActive" : "Suspended";
 
             result.Add(new UserResponseDto(
+                Id: user.Id,
                 FullName: user.FullName,
                 Email: user.Email!,
                 Role: string.Join(", ", roleByUsers),
                 Status: userStatus,
-                Permission: permissions ,
+                Permission: permissions,
                 JoinDate: DateOnly.FromDateTime(user.CreatedAt),
-                LastActive:TimeOnly.FromTimeSpan(TimeSpan.Zero)
+                LastActive: TimeOnly.FromTimeSpan(TimeSpan.Zero)
             ));
         }
-        
+
         return result;
     }
 
     public async Task AddRolePermissionUserAsync(UserRequestDto userRolePermissionRequestDto)
     {
-        try {
+        try
+        {
 
             var userName = await userManager.FindByNameAsync(userRolePermissionRequestDto.FullName);
             if (userName == null) throw new Exception("Full Name Not Found");
@@ -77,18 +79,51 @@ public class UserService(
             if (user == null) throw new Exception("Email Not Found");
 
             var role = await userManager.AddToRoleAsync(user, userRolePermissionRequestDto.Role);
-            if(!role.Succeeded) throw new Exception("Can't add new role to this user");
+            if (!role.Succeeded) throw new Exception("Can't add new role to this user");
 
-            user.Status = userRolePermissionRequestDto.Status == "Active" ? UserStatus.Active : userRolePermissionRequestDto.Status == "InActive" ? UserStatus.Inactive : UserStatus.Suspended;
+            user.Status = userRolePermissionRequestDto.Status == "Active" ? UserStatus.Active : userRolePermissionRequestDto.Status == "InActive" ? UserStatus.InActive : UserStatus.Suspended;
             await userManager.UpdateAsync(user);
 
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             Console.WriteLine(ex.Message);
         }
 
     }
 
-   
+    public async Task<bool> UpdateUser(UserRequestUpdateDto userRequest)
+    {
+        var user = await userManager.FindByIdAsync(userRequest.Id);
+
+        if (user == null)
+            return false;
+        var guid = Guid.NewGuid();
+        user.FullName = userRequest.FullName;
+        user.Email = userRequest.Email;
+        user.UserName = userRequest.Email;
+        user.EmailConfirmed = true;
+
+        user.Status = userRequest.Status switch
+        {
+            "Active" => UserStatus.Active,
+            "InActive" => UserStatus.InActive,
+            _ => UserStatus.Suspended
+        };
+        user.SecurityStamp = guid.ToString();
+
+        var result = await userManager.UpdateAsync(user);
+
+        var currentRoles = await userManager.GetRolesAsync(user);
+
+        await userManager.RemoveFromRolesAsync(user, currentRoles);
+        await userManager.AddToRoleAsync(user, userRequest.Role);
+
+        if (!result.Succeeded)
+            return false;
+
+        return true;
+    }
 }
 
 // DTO to send to the view

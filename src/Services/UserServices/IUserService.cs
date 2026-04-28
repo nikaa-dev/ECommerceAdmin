@@ -10,6 +10,7 @@ namespace src.Services.UserServices
         Task<List<UserResponseDto>> GetAllIncludeAsync();
         Task AddRolePermissionUserAsync(UserRequestDto userRolePermissionRequestDto);
 
+        Task<bool> UpdateUser(UserRequestUpdateDto userRequest);
     }
 }
 

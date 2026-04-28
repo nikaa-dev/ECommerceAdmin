@@ -58,9 +58,22 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         }
         return Ok();
     }
-    //[HttpPost]
-    //public async Task<IActionResult> Index() 
-    //{ 
     
-    //}
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Update(UserRequestUpdateDto userRequest)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var editUser = await userService.UpdateUser(userRequest);
+
+        if (!editUser)
+        {
+            return BadRequest(new { success = false, message = "Update failed" });
+        }
+
+        return Json(new { success = true, message = "User updated successfully" });
+    }
 }
