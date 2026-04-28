@@ -63,81 +63,79 @@
                 <button type="button"
                         class="btn btn-primary"
                         data-toggle="modal"
-                        data-target="#exampleModalCenter">
+                        data-target="#addUser">
                     + Add User
                 </button>
             </div>
 
-            <!-- Modal -->
-            <div class="modal fade"
-                 id="exampleModalCenter"
-                 tabindex="-1"
-                 role="dialog"
-                 aria-labelledby="exampleModalCenterTitle"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header px-4">
-                            <div class="pt-3 pb-0">
-                                <h5 class="modal-title" id="exampleModalLongTitle">
-                                    Add New User
-                                </h5>
-                                <p class="small">
-                                    Create a new admin user with specific roles and permissions
-                                </p>
-                            </div>
-                            <button type="button"
-                                    class="close position-absolute border-0 bg-white rounded-10 fs-3 end-0 top-0 text-secondary"
-                                    aria-label="Close"
-                                    data-dismiss="modal">
-                                <span aria-hidden="true">&times;</span>
+            <!-- add user Modal -->
+        <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="max-width:33%; margin:auto;" role="document">
+                <div class="modal-content">
+                    <form id="add-user">
+                        @Html.AntiForgeryToken()
+
+                        <div class="modal-header flex-column align-items-start mx-2">
+                            <h5 class="modal-title fw-semibold" id="exampleModalLabel">
+                                Add New User
+                            </h5>
+                            <p class="text-muted mb-0">Create a new admin user with specific roles and permissions.</p>
+                            <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" class="fs-5">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body px-4 pt-0">
-                            <div class="form-group mt-2">
-                                <label class="ms-2">Full Name</label>
-                                <div class="form-input">
-                                    <input type="text" placeholder="John Doe" class="w-100 h-30px border-0 rounded-10 my-2 ps-2 bg-light fw-normal" />
+                        <div class="modal-body mx-2">
+                            <div class="d-flex align-items-start flex-column justify-content-between">
+                                <div class="d-flex align-items-start flex-column w-100 mb-2">
+
+                                    <input type="text" name="Id" id="id" hidden>
+                                    <label formlabel="Full Name">Full Name</label>
+                                    <input type="text" name="FullName" id="fullname" class="form-input-field border-0 p-2 shadow-none bg-light my-1" placeholder="John Doe" required>
                                 </div>
-                            </div>
-                            <div class="form-group mt-2">
-                                <label class="ms-2">Email</label>
-                                <div class="form-input">
-                                    <input type="email" placeholder="john@admin.com" class="w-100 h-30px border-0 rounded-10 my-2 ps-2 bg-light fw-normal" />
+                                <div class="d-flex align-items-start flex-column w-100 my-2">
+                                    <label formlabel="Email">Email</label>
+                                    <input type="text" name="Email" id="email"  class="form-input-field border-0 p-2 shadow-none bg-light my-1" placeholder="john@admin.com" required>
                                 </div>
-                            </div>
-                            <div class="mt-2">
-                                <label class="ms-2">Role</label>
-                                <div>
-                                    <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
+                                <div class="d-flex align-items-start flex-column w-100 my-2">
+                                    <label formlabel="Role">Role</label>
+                                    <select id="role" name="Role" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                         @foreach (var role in ViewBag.RoleNames)
                                         {
-                                            <option value=@role>@role</option>
+                                            <option value=@role selected="@(role=="Admin")">
+                                                @role
+                                            </option>
                                         }
                                     </select>
                                 </div>
-                            </div>
-                            <div class="mt-2">
-                                <label class="ms-2">Status</label>
-                                <div>
-                                    <select class="form-select w-100 h-30px border-0 rounded-10 my-2 px-3 bg-light fw-normal">
-                                        <option value="active">Active</option>
-                                        <option value="inactive">Inactive</option>
+                                <div class="d-flex align-items-start flex-column w-100 my-2">
+                                    <label formlabel="Status">Status</label>
+                                    <select id="status" name="Status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                        <option value="InActive" >
+                                            InActive
+                                        </option>
+                                        <option value="Active" selected="true">
+                                            Active
+                                        </option>
+                                        <option value="Suspended">
+                                            Suspended
+                                        </option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer m-2">
-                            <button type="button"
-                                    class="btn bg-white border"
-                                    data-dismiss="modal">
-                                Cancel
+                        <div class="modal-footer">
+                            <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+                                <span>Close</span>
                             </button>
-                            <button type="submit" class="btn bg-black text-white">Create User</button>
+                            <button type="submit" class="btn btn-dark rounded-2 d-flex">
+                                <span>Create User</span>
+                            </button>
                         </div>
-                    </div>
+                    </form>
+
                 </div>
             </div>
+        </div>
         </div>
 
         <div class="row d-flex justify-content-center">
@@ -236,7 +234,7 @@
                                         ? $"{names[0][0]}{names[1][0]}"
                                         : $"{names[0][0]}";
                                     }
-                                    <h6 class="d-flex justify-content-center align-items-center">@initials</h6>
+                                    <h6 class="d-flex justify-content-center align-items-center data-initial">@initials</h6>
                                 </div>
                                 <div>
                                     <span class="ms-2 data-fullname">@user.FullName</span><br />
@@ -284,8 +282,8 @@
                                     @(user.Role == "Admin" ? "All Access" : string.Join(", ", user.Permission))
                                 </span>
                             </td>
-                            <td class="pt-4 ps-4">2 hours ago</td>
-                            <td class="pt-4 ps-4">@user.JoinDate</td>
+                            <td class="pt-4 ps-4 data-lastactive">@user.LastActive</td>
+                            <td class="pt-4 ps-4 data-joindate">@user.JoinDate</td>
                             <td class="text-center pt-4 position-relative">
 
                                 @* Action dropdown *@
@@ -299,11 +297,11 @@
                                     <div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-header small fw-bold" href="#">Action</a>
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item small rounded-10" data-toggle="modal" data-target="#viewDetail">
+                                        <button class="dropdown-item small rounded-10 edit-view-user-button" data-toggle="modal" data-target="#viewDetail">
                                             <i class="bi bi-eye"></i>
                                             <span class="ms-2">View Details</span>
                                         </button>
-                                        <button class="dropdown-item small rounded-10 edit-user-button" data-toggle="modal" data-target="#edit">
+                                        <button class="dropdown-item small rounded-10 edit-view-user-button" data-toggle="modal" data-target="#edit">
                                             <i class="bi bi-pencil-square"></i>
                                             <span class="ms-2"> Edit User</span>
                                         </button>
@@ -321,6 +319,7 @@
                                     <div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
                                             <div class="modal-content ">
+
                                                 <div class="modal-header flex-column align-items-start mx-2">
                                                     <h5 class="modal-title fw-semibold" id="exampleModalLabel">User Details</h5>
                                                     <p class="text-muted mb-0">Complete information about this user</p>
@@ -331,14 +330,14 @@
                                                 <div class="modal-body mx-2">
                                                     <div class="d-flex flex-row align-items-start">
                                                         <div class="custom-gradient rounded-circle border w-75px h-75px bg-light d-flex justify-content-center pt-2 border-0">
-                                                            <h4 class="d-flex justify-content-center align-items-center">@initials</h4>
+                                                            <h4 class="d-flex justify-content-center align-items-center" id="initial">@initials</h4>
 
                                                         </div>
                                                         <div class="d-flex flex-column align-items-start mt-1">
-                                                            <h4 class="ms-3 fw-semibold">@user.FullName</h4>
+                                                            <h4 class="ms-3 fw-semibold" id="v-fullname">@user.FullName</h4>
                                                             <div class="d-flex flex-row text-gray-700 ms-3">
                                                                 <i class="bi bi-envelope "></i>
-                                                                <p class="ms-2">@user.Email</p>
+                                                                <p class="ms-2" id="v-email">@user.Email</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -347,30 +346,30 @@
                                                     <div class="d-flex align-content-start row row-cols-2 ">
                                                         <div class="col d-flex flex-column align-items-start justify-content-between my-3">
                                                             <p class="mb-1">Role</p>
-                                                            <span class="rounded-pill @roleClass px-2 py-1">
+                                                            <span class="rounded-pill @roleClass px-2 py-1" id="v-role">
                                                                 <i class="@iconRole fw-bold me-1"></i>
                                                                 @user.Role
                                                             </span>
                                                         </div>
                                                         <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                             <p class="mb-1">Status</p>
-                                                            <span class="rounded-pill @badgeColor px-2 py-1">
+                                                            <span class="rounded-pill @badgeColor px-2 py-1" id="v-status">
                                                                 <i class="@iconStatus fw-bold me-1"></i>
                                                                 @user.Status
                                                             </span>
                                                         </div>
                                                         <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                             <p class="mb-1">Join Date</p>
-                                                            <div>
+                                                            <div id="v-joindate">
                                                                 <i class=" fw-bold me-1"></i>
                                                                 @user.JoinDate
                                                             </div>
                                                         </div>
                                                         <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                             <p class="mb-1">Last Active</p>
-                                                            <div>
+                                                            <div id="v-lastactive">
                                                                 <i class="@iconStatus fw-bold me-1"></i>
-                                                                @user.JoinDate
+                                                                @user.LastActive
                                                             </div>
                                                         </div>
                                                         <div class="col d-flex flex-column align-items-start justify-content-start my-3">
@@ -521,25 +520,36 @@
     
 
 <script>
-    functio
     $(document).ready(function () {
 
-        $(".edit-user-button").click(function () {
+        $(".edit-view-user-button").click(function () {
             var row = $(this).closest("tr");
 
 
             var id = row.find(".data-id").text().trim();
-            console.log(id);
+            var initial = row.find(".data-initial").text().trim();
             var name   = row.find(".data-fullname").text().trim();
             var email  = row.find(".data-email").text().trim();
             var status = row.find(".data-status").text().trim();
             var role   = row.find(".data-role").text().trim();
+            var lastactive = row.find(".data-lastactive").text().trim();
+            var joindate = row.find(".data-joindate").text().trim();
 
             $("#id").val(id);
+            $("#initial").val(initial);
             $("#fullname").val(name);
             $("#email").val(email);
             $("#status").val(status);
             $("#role").val(role);
+
+            $("#v-fullname").text(name);
+            $("#v-email").text(email);
+            $("#v-status").text(status);
+            $("#v-role").text(role);
+            $("#v-lastactive").text(lastactive);
+            $("#v-joindate").text(joindate);
+
+
 
         });
 
@@ -566,6 +576,25 @@
 
                 error: function (xhr) {
                     alert("Update failed");
+                }
+            });
+
+        });
+        $('#add-user').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/UserManagement/Create',
+                type: 'POST',
+                data: $('#add-user').serialize(),
+
+                success: function (response) {
+                    alert(response.message);
+                    location.reload();
+                },
+
+                error: function (xhr) {
+                    alert("Create failed");
                 }
             });
 

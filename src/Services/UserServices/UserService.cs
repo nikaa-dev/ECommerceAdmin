@@ -71,17 +71,22 @@ public class UserService(
     {
         try
         {
-
+            var message = "Success";
             var userName = await userManager.FindByNameAsync(userRolePermissionRequestDto.FullName);
-            if (userName == null) throw new Exception("Full Name Not Found");
+            if (userName == null) message = "Full Name Not Found";
 
             var user = await userManager.FindByEmailAsync(userRolePermissionRequestDto.Email);
-            if (user == null) throw new Exception("Email Not Found");
+            if (user == null) message = "Email Not Found";
 
             var role = await userManager.AddToRoleAsync(user, userRolePermissionRequestDto.Role);
-            if (!role.Succeeded) throw new Exception("Can't add new role to this user");
+            if (!role.Succeeded) message = "Can't add new role to this user";
 
-            user.Status = userRolePermissionRequestDto.Status == "Active" ? UserStatus.Active : userRolePermissionRequestDto.Status == "InActive" ? UserStatus.InActive : UserStatus.Suspended;
+            user.Status = userRolePermissionRequestDto.Status switch
+            {
+                "Active" => UserStatus.Active,
+                "InActive" => UserStatus.InActive,
+                _ => UserStatus.Suspended
+            };
             await userManager.UpdateAsync(user);
 
         }
@@ -124,6 +129,40 @@ public class UserService(
 
         return true;
     }
+    public async Task<(bool,string)> CreateUserAsync(UserRequestDto userRequest)
+    {
+        var user = userManager.FindByEmailAsync(userRequest.Email);
+        if (user == null)
+            return (false,"the email already register");
+        var Status = userRequest.Status switch
+        {
+            "Active" => UserStatus.Active,
+            "InActive" => UserStatus.InActive,
+            _ => UserStatus.Suspended
+        };
+        var emailConfirmed = Guid.NewGuid();
+        var newUser = new ApplicationUser()
+        {
+            Id = Guid.NewGuid().ToString(),
+            FullName = userRequest.FullName,
+            Email = userRequest.Email,
+            UserName = userRequest.Email,
+            Status = Status,
+            EmailConfirmed = true,
+            SecurityStamp = Guid.NewGuid().ToString()
+        };
+        var createResult = await userManager.CreateAsync(newUser, "P@ssw0rd123!@#");
+        if (!createResult.Succeeded)
+            return (false, "Create failed");
+
+        var addRoleResult = await userManager.AddToRoleAsync(newUser, userRequest.Role);
+
+        if (!addRoleResult.Succeeded)
+            return (false,"Create failed");
+
+        return (true,"User Created");
+    }
 }
+
 
 // DTO to send to the view

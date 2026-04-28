@@ -11,6 +11,7 @@ namespace src.Services.UserServices
         Task AddRolePermissionUserAsync(UserRequestDto userRolePermissionRequestDto);
 
         Task<bool> UpdateUser(UserRequestUpdateDto userRequest);
+        Task<(bool, string)> CreateUserAsync(UserRequestDto userRequest);
     }
 }
 

@@ -52,7 +52,9 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
     {
         try
         {
-            await userService.AddRolePermissionUserAsync(userRequest);
+            var (status,messageStatus) = await userService.CreateUserAsync(userRequest);
+            if(!status) return BadRequest(new { success = status, message = messageStatus });
+            return Json(new { success = status, message = messageStatus });
         } catch (Exception ex) { 
             Console.WriteLine(ex.ToString());
         }
