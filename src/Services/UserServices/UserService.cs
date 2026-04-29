@@ -162,6 +162,23 @@ public class UserService(
 
         return (true,"User Created");
     }
+    public async Task<(bool, string)> DeleteUserAsync(string id)
+    {
+        var user = await userManager.FindByIdAsync(id);
+        if (user == null)
+            return (false, "User Not Found");
+        
+        var currentRoles = await userManager.GetRolesAsync(user);
+        var removeRoleResult = await userManager.RemoveFromRolesAsync(user, currentRoles);
+        if (!removeRoleResult.Succeeded)
+            return (false, "Remove role failed");
+
+        var result = await userManager.DeleteAsync(user);
+        if (!result.Succeeded)
+            return (false, "delete user failed");
+
+        return (true, "User deleted");
+    }
 }
 
 

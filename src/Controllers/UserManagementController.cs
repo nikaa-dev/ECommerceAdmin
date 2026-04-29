@@ -55,13 +55,28 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
             var (status,messageStatus) = await userService.CreateUserAsync(userRequest);
             if(!status) return BadRequest(new { success = status, message = messageStatus });
             return Json(new { success = status, message = messageStatus });
-        } catch (Exception ex) { 
-            Console.WriteLine(ex.ToString());
+        } catch (Exception ex) {
+            return BadRequest(new { success = false, message = ex.Message });
         }
-        return Ok();
+        
     }
-    
-    
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        try
+        {
+            var (status,messageStatus) = await userService.DeleteUserAsync(id);
+            if (!status) return BadRequest(new { success = status, message = messageStatus });
+            return Json(new { success = status, message = messageStatus });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = ex.Message });
+        }
+
+    }
+
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Update(UserRequestUpdateDto userRequest)

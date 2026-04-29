@@ -12,6 +12,9 @@ namespace src.Services.UserServices
 
         Task<bool> UpdateUser(UserRequestUpdateDto userRequest);
         Task<(bool, string)> CreateUserAsync(UserRequestDto userRequest);
+        Task<(bool, string)> DeleteUserAsync(string id);
+
+        
     }
 }
 

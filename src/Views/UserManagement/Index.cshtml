@@ -88,17 +88,16 @@
                             <div class="d-flex align-items-start flex-column justify-content-between">
                                 <div class="d-flex align-items-start flex-column w-100 mb-2">
 
-                                    <input type="text" name="Id" id="id" hidden>
                                     <label formlabel="Full Name">Full Name</label>
-                                    <input type="text" name="FullName" id="fullname" class="form-input-field border-0 p-2 shadow-none bg-light my-1" placeholder="John Doe" required>
+                                    <input type="text" name="FullName" id="a-fullname" class="form-input-field border-0 p-2 shadow-none bg-light my-1" placeholder="John Doe" required>
                                 </div>
                                 <div class="d-flex align-items-start flex-column w-100 my-2">
                                     <label formlabel="Email">Email</label>
-                                    <input type="text" name="Email" id="email"  class="form-input-field border-0 p-2 shadow-none bg-light my-1" placeholder="john@admin.com" required>
+                                    <input type="text" name="Email" id="a-email"  class="form-input-field border-0 p-2 shadow-none bg-light my-1" placeholder="john@admin.com" required>
                                 </div>
                                 <div class="d-flex align-items-start flex-column w-100 my-2">
                                     <label formlabel="Role">Role</label>
-                                    <select id="role" name="Role" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                    <select id="a-role" name="Role" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                         @foreach (var role in ViewBag.RoleNames)
                                         {
                                             <option value=@role selected="@(role=="Admin")">
@@ -109,7 +108,7 @@
                                 </div>
                                 <div class="d-flex align-items-start flex-column w-100 my-2">
                                     <label formlabel="Status">Status</label>
-                                    <select id="status" name="Status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                    <select id="a-status" name="Status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                         <option value="InActive" >
                                             InActive
                                         </option>
@@ -297,17 +296,17 @@
                                     <div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-header small fw-bold" href="#">Action</a>
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item small rounded-10 edit-view-user-button" data-toggle="modal" data-target="#viewDetail">
+                                        <button class="dropdown-item small rounded-10 action-button" data-toggle="modal" data-target="#viewDetail">
                                             <i class="bi bi-eye"></i>
                                             <span class="ms-2">View Details</span>
                                         </button>
-                                        <button class="dropdown-item small rounded-10 edit-view-user-button" data-toggle="modal" data-target="#edit">
+                                        <button class="dropdown-item small rounded-10 action-button" data-toggle="modal" data-target="#edit">
                                             <i class="bi bi-pencil-square"></i>
                                             <span class="ms-2"> Edit User</span>
                                         </button>
 
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item small rounded-10" href="#">
+                                        <button class="dropdown-item small rounded-10 action-button" data-toggle="modal" data-target="#delete" href="#">
                                             <i class="bi bi-trash3"></i>
                                             <span class="text-danger ms-2">Delete User</span>
                                         </button>
@@ -390,7 +389,7 @@
                                                     <div class="border-top w-100 "></div>
                                                     <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                         <p class="mb-1">User Id</p>
-                                                        <div>#1</div>
+                                                        <div id="v-id">#1</div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -405,6 +404,34 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Delete Modal -->
+                                    <form id="delete-user">
+                                        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+                                                <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true" class="fs-5">&times;</span>
+                                                </button>
+                                              </div>
+                                                    <div class="border-top w-100 "></div>
+                                              <div class="modal-body d-flex flex-column align-items-start mx-2">
+                                                <input type="text" name="Id" id="d-id" hidden>
+                                                You sure you want to delete this user  
+                                                <span id="d-fullname"></span>
+                                              </div>
+                                                    <div class="border-top w-100 "></div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">No</button>
+                                                <button type="submit" class="btn btn-danger rounded-2">Yes</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </form>
+                                    
                                 
                                     <!-- Edit Modal -->
                                     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -522,11 +549,12 @@
 <script>
     $(document).ready(function () {
 
-        $(".edit-view-user-button").click(function () {
+        $(".action-button").click(function () {
             var row = $(this).closest("tr");
 
 
             var id = row.find(".data-id").text().trim();
+            console.log(id);
             var initial = row.find(".data-initial").text().trim();
             var name   = row.find(".data-fullname").text().trim();
             var email  = row.find(".data-email").text().trim();
@@ -535,21 +563,37 @@
             var lastactive = row.find(".data-lastactive").text().trim();
             var joindate = row.find(".data-joindate").text().trim();
 
+            
+
             $("#id").val(id);
             $("#initial").val(initial);
             $("#fullname").val(name);
             $("#email").val(email);
             $("#status").val(status);
+            $("#status").removeClass();
+            @* $("#status").addClass("rounded-pill px-2 py-1"); *@
             $("#role").val(role);
 
+            $("#v-id").text(id);
             $("#v-fullname").text(name);
             $("#v-email").text(email);
             $("#v-status").text(status);
+
+             if (status === "Active") {
+                    $("#v-status").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
+                }
+                else if (status === "InActive") {
+                    $("#v-status").addClass("rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
+                }
+                else {
+                    $("#v-status").addClass(" rounded-pill px-2 py-1 bg-red-100 text-red-700");
+                } 
             $("#v-role").text(role);
             $("#v-lastactive").text(lastactive);
             $("#v-joindate").text(joindate);
 
-
+            $("#d-fullname").text(name);
+            $("#d-id").val(id);
 
         });
 
@@ -598,6 +642,23 @@
                 }
             });
 
+        });
+        $('#delete-user').submit(function (e){
+            e.preventDefault();
+
+            $.ajax({
+                url: '/UserManagement/Delete',
+                type: 'POST',
+                data: $('#delete-user').serialize(),
+
+                success: function (response){
+                    alert(response.message);
+                    location.reload();
+                },
+                error: function (xhr) {
+                    alert("Delete failed");
+                }
+            });
         });
 
     });
