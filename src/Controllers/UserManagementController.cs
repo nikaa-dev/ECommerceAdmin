@@ -16,7 +16,7 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
     private readonly IRoleService _roleService = roleService;
 
     [Authorize(Roles = "Admin,Manager")]
-    public async Task<IActionResult> Index(string? filterByRole, string? filterByStatus, string? searchItem,int page=1)
+    public async Task<IActionResult> Index(string? filterByRole, string? filterByStatus, string? searchItem,int pageNumber=1)
     {
         var users = await userService.GetAllIncludeAsync();
 
@@ -42,7 +42,7 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
                 r.Email.Contains(searchItem)).ToList();
         }
         var queryable = users.AsQueryable();
-        var userPagination = queryable.ToPagedResultAsync(page, 8);
+        var userPagination = queryable.ToPagedResultAsync(pageNumber, 8);
         
         return View(userPagination);
     }

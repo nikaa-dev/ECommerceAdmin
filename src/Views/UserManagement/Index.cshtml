@@ -573,13 +573,14 @@
             $("#status").removeClass();
             @* $("#status").addClass("rounded-pill px-2 py-1"); *@
             $("#role").val(role);
+            $("#role").removeClass();
 
             $("#v-id").text(id);
             $("#v-fullname").text(name);
             $("#v-email").text(email);
             $("#v-status").text(status);
 
-             if (status === "Active") {
+                if (status === "Active") {
                     $("#v-status").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
                 }
                 else if (status === "InActive") {
@@ -588,7 +589,23 @@
                 else {
                     $("#v-status").addClass(" rounded-pill px-2 py-1 bg-red-100 text-red-700");
                 } 
-            $("#v-role").text(role);
+
+                if (role === "Admin") {
+                    $("#v-role").addClass(" rounded-pill px-2 py-1 bg-purple-100 text-purple-700");
+                }
+                else if (role === "Manager") {
+                    $("#v-role").addClass("rounded-pill px-2 py-1 bg-blue-100 text-blue-700");
+                }
+                else if (role === "Staff"){
+                    $("#v-role").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
+                }else if (role === "Support"){
+                    $("#v-role").addClass(" rounded-pill px-2 py-1 bg-orange-100 text-orange-700");
+                }
+                else{
+                    $("#v-role").addClass(" rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
+                }
+
+            $("#v-role").text(role);                                                  
             $("#v-lastactive").text(lastactive);
             $("#v-joindate").text(joindate);
 
