@@ -15,7 +15,7 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
 {
     private readonly ILogger<HomeController> _logger = logger;
     [Authorize]
-    public async Task<IActionResult> Index(string? filterByDate, string? searchItem,int page = 1, int pageSize = 8)
+    public async Task<IActionResult> Index(string? filterByDate, string? searchItem,int pageNumber = 1, int pageSize = 8)
     {
         var orders = await orderService.GetAllIncludedAsync();
         
@@ -57,7 +57,7 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         }
 
         var queryable = orders.AsQueryable();
-        var pagination = queryable.ToPagedResultAsync(page, pageSize);
+        var pagination = queryable.ToPagedResultAsync(pageNumber, pageSize);
         return View(pagination);
     }
 }
