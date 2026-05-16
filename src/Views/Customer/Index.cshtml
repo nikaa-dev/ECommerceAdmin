@@ -16,10 +16,12 @@
       <p>Manage your customer database</p>
     </div>
     <div>
-      <button type="button" class="btn btn-primary">
-			<i class="bi bi-download"></i>
-			<span>Export</span>
-		</button>
+        <form id="export-customer" method="post">
+             <button type="submit" class="btn btn-primary">
+                <i class="bi bi-download"></i>
+                <span>Export</span>
+             </button>     
+        </form>
     </div>
   </div>
 
@@ -210,7 +212,7 @@
                                                         </div>
                                                         <div class="d-flex align-items-start flex-column w-100 my-2">
                                                             <label formlabel="Role">Phone</label>
-                                                            <input type="text" name="Contact" id="phone" asp-for=@customer.Contact class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                            <input type="text" name="Phone" id="phone" asp-for=@customer.Contact class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                         </div>
                                                         <div class="d-flex align-items-start flex-column w-100 my-2">
                                                             <label formlabel="Status">Status</label>
@@ -340,7 +342,7 @@
 
               }
                     <tr>
-                        <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
+                        <td id="export_data" colspan="5" class="pt-4 ps-4 small text-secondary border-0">
                             @{
                                 var start = 0;
                                 var end = 0;
@@ -350,6 +352,9 @@
                                     end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
                                 }
                             }
+                            
+                            <p hidden id="data-page-number">@Model.PageNumber</p>
+                            <p hidden id="data-total-count">@Model.TotalCount</p>
                             Showing @start to @end of @Model.TotalCount Customers
                         </td>
                         <td class="p-3 border-0 text-end">
@@ -394,7 +399,9 @@
             var total = row.find(".data-totalspent").text().trim();
             var phone = row.find(".data-contact").text().trim();
             var order = row.find(".data-order").text().trim();
-
+            @* var start = row.find("#data-start-page").text().trim();
+            var end   = row.find("#data-page-number").text().trim();
+            var count = row.find("#data-total-count").text().trim(); *@
 
             $("#id").val(id);
             $("#initial").val(initial);
@@ -477,7 +484,7 @@
             });
 
         });
-        $('#add-user').submit(function (e) {
+        @* $('#add-user').submit(function (e) {
             e.preventDefault();
 
             $.ajax({
@@ -495,12 +502,12 @@
                 }
             });
 
-        });
+        }); *@
         $('#delete-user').submit(function (e){
             e.preventDefault();
 
             $.ajax({
-                url: '/UserManagement/Delete',
+                url: '/Customer/Delete',
                 type: 'POST',
                 data: $('#delete-user').serialize(),
 
@@ -513,6 +520,34 @@
                 }
             });
         });
+
+
+        $('#export-customer').submit(function (e) {
+            e.preventDefault();         
+
+             var paginatedData = {
+                pageNumber:   $("#data-page-number").text().trim(),
+                count: $("#data-total-count").text().trim()
+            };
+
+            $.ajax({
+                url: '/Customer/Export',
+                type: 'GET',
+                contentType: 'application/json',
+                data: paginatedData,
+
+
+                success: function (response) {
+                    alert(response.message);
+                } ,
+
+                error: function (xhr) {
+                      alert(response.message);
+                },
+
+            });
+        });
+
 
     });
 </script>

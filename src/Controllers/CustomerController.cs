@@ -1,13 +1,16 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using src.DTO.CustomerDto;
 using src.Extensions.Pagenations;
 using src.Models;
 using src.Services.CustomerServices;
+using src.Services.UserServices;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace src.Controllers;
 
-public class CustomersController(ILogger<HomeController> logger,ICustomerService customerService) : Controller
+public class CustomerController(ILogger<HomeController> logger,ICustomerService customerService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
     [Authorize]
@@ -45,5 +48,43 @@ public class CustomersController(ILogger<HomeController> logger,ICustomerService
         var paginations = queriyable.ToPagedResultAsync(pageNumber, 8);
         return View(paginations);
     }
-    
+
+    [HttpPost]
+    public async Task<IActionResult> Update(CustomerRequestUpdateDto customerRequestUpdateDto) 
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+       var editCustomer = await customerService.UpdateCustomerAsync(customerRequestUpdateDto);
+
+        if (!editCustomer)
+        {
+            return BadRequest(new { success = false, message = "Update failed" });
+        }
+
+        return Json(new { success = true, message = "Customer updated successfully" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(string Id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var deleteCustomer = await customerService.DeleteCustomerAsync(Id);
+
+        if (!deleteCustomer)
+        {
+            return BadRequest(new { success = false, message = "Delete failed" });
+        }
+
+        return Json(new { success = true, message = "Customer deleted successfully" });
+    }
+
+    public async Task Export(CutomerRequestExportDto exportCustomer) {
+
+        await customerService.ExportCustomerData(exportCustomer);
+
+    }
+
 }
