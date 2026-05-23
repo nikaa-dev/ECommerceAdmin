@@ -81,10 +81,13 @@ public class CustomerController(ILogger<HomeController> logger,ICustomerService 
         return Json(new { success = true, message = "Customer deleted successfully" });
     }
 
-    public async Task Export(CutomerRequestExportDto exportCustomer) {
+    public async Task<IActionResult> Export(CutomerRequestExportDto exportCustomer)
+    {
+        var bytes = await customerService.ExportCustomerData(exportCustomer);
 
-        await customerService.ExportCustomerData(exportCustomer);
+        var fileName = $"customer_{DateTime.Now:yyyyMMddHHmmss}.csv";
 
+        return File(bytes, "text/csv", fileName);
     }
 
 }
