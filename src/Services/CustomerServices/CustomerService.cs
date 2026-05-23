@@ -70,24 +70,6 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
         return true;
 
     }
-    //public async Task<bool> CustomerExportAsync(List<CustomerRequestExportDto> items)
-    //{
-
-    //    using (var workbook = new XLWorkbook())
-    //    {
-    //        // ?????? Worksheet ????????????????? (ClosedXML ???????? Property ???????? Column ????????????????)
-    //        var worksheet = workbook.Worksheets.Add(sheetName);
-    //        worksheet.Cell(1, 1).InsertTable(data);
-    //        worksheet.Columns().AdjustToContents(); // ???????????? Column ???????????
-
-    //        using (var stream = new MemoryStream())
-    //        {
-    //            workbook.SaveAs(stream);
-    //            return stream.ToArray();
-    //        }
-    //    }
-
-    //}
 
     public async Task<byte[]> ExportCustomerData(CutomerRequestExportDto pagination)
     {

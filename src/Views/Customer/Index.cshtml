@@ -8,6 +8,8 @@
 		width: 100%;
 		border-radius: 10px;
 	}
+
+	
 </style>
 <div class="">
 	<div class="d-flex justify-content-between">
@@ -205,7 +207,7 @@
 														</div>
 														<div class="d-flex align-items-start flex-column w-100 my-2">
 															<label formlabel="Status">Status</label>
-															<select id="status" name="Status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+															<select id="status" name="Status" style="padding:8px;padding-right:5px;border:none;width:100%;border-radius:10px;background-color:#f3f4f6;">
 																<option value="InActive">
 																	InActive
 																</option>
@@ -511,7 +513,6 @@
 		});
 
 
-
 		$('#export-customer').on('submit', function (e) {
 			e.preventDefault();
 
@@ -522,33 +523,6 @@
 
 			window.open(url, '_blank'); // better for download behavior
 		});
-
-
-		@* $('#export-customer').submit(function (e) {
-			e.preventDefault();
-
-			var paginatedData = {
-				pageNumber:   $("#data-page-number").text().trim(),
-				count: $("#data-total-count").text().trim()
-			};
-
-			$.ajax({
-                url: '/Customer/Export',
-                type: 'GET',
-                contentType: 'application/json',
-                data: paginatedData,
-
-
-                success: function (response) {
-                    alert(response.message);
-                } ,
-
-                error: function (xhr) {
-                      alert(response.message);
-                },
-
-            });
-		}); *@
 
 
 	});
