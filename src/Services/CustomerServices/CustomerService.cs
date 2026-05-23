@@ -1,5 +1,5 @@
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
+
+using Microsoft.AspNetCore.Mvc;
 using src.DTO.CustomerDto;
 using src.Extensions.Pagenations;
 using src.Models.Ecommerce;
@@ -89,13 +89,13 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
 
     //}
 
-    public async Task ExportCustomerData(CutomerRequestExportDto pagination)
+    public async Task<FileContentResult> ExportCustomerData(CutomerRequestExportDto pagination)
     {
         // find path for export
         var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         var downloadPath = Path.Combine(userProfile, "Downloads");
 
-        var fileName = "customer.csv";
+        var fileName = $"customer_{DateTime.Now.ToString("yyyyMMddHHmmss")}.csv";
 
         var fullPath = Path.Combine(downloadPath, fileName);
 
@@ -130,6 +130,7 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
         // export file
         await File.WriteAllTextAsync(fullPath, builder.ToString());
 
+        return null;
 
     }
 }
