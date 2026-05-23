@@ -11,5 +11,5 @@ public interface ICustomerService
     Task<bool> UpdateCustomerAsync(CustomerRequestUpdateDto customerRequestUpdateDto);
     Task<bool> DeleteCustomerAsync(string id);
 
-    Task<FileContentResult> ExportCustomerData(CutomerRequestExportDto request);
+    Task<byte[]> ExportCustomerData(CutomerRequestExportDto request);
 }

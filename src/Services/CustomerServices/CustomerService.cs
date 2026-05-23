@@ -89,48 +89,32 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
 
     //}
 
-    public async Task<FileContentResult> ExportCustomerData(CutomerRequestExportDto pagination)
+    public async Task<byte[]> ExportCustomerData(CutomerRequestExportDto pagination)
     {
-        // find path for export
-        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        var downloadPath = Path.Combine(userProfile, "Downloads");
-
-        var fileName = $"customer_{DateTime.Now.ToString("yyyyMMddHHmmss")}.csv";
-
-        var fullPath = Path.Combine(downloadPath, fileName);
-
-
-
-        // get row data
         var customerData = await GetCustomerIncludedAsync();
-        var customerDataQueryable = customerData.AsQueryable();
-        var customerPagination = customerDataQueryable.ToPagedResultAsync(pagination.PageNumber, pagination.Count);
+        var customerQueryable = customerData.AsQueryable();
+        var customerPagination = customerQueryable
+            .ToPagedResultAsync(pagination.PageNumber, pagination.Count);
 
-        // get all properties dynamically
         var properties = typeof(CustomerResponseDto).GetProperties();
 
         StringBuilder builder = new StringBuilder();
 
-        // create header
-        builder.AppendLine(string.Join(",",properties.Select(p => p.Name)));
+        // header
+        builder.AppendLine(string.Join(",", properties.Select(p => p.Name)));
 
-        // create row
-        foreach (var cusPage in customerPagination.Items)
+        // rows
+        foreach (var item in customerPagination.Items)
         {
             var row = properties.Select(p =>
             {
-                var value = p.GetValue(cusPage);
-
+                var value = p.GetValue(item);
                 return value?.ToString()?.Replace(",", " ");
             });
 
             builder.AppendLine(string.Join(",", row));
         }
 
-        // export file
-        await File.WriteAllTextAsync(fullPath, builder.ToString());
-
-        return null;
-
+        return Encoding.UTF8.GetBytes(builder.ToString());
     }
 }

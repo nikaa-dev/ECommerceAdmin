@@ -1,490 +1,479 @@
 ﻿@model src.Extensions.Pagenations.PagedResult<src.DTO.CustomerDto.CustomerResponseDto>
 <style>
-    .form-input {
-        color: var(--text-gray);
-    }
+	.form-input {
+		color: var(--text-gray);
+	}
 
-    .form-input-field {
-        width: 100%;
-        border-radius: 10px;
-    }
+	.form-input-field {
+		width: 100%;
+		border-radius: 10px;
+	}
 </style>
 <div class="">
-  <div class="d-flex justify-content-between">
-    <div>
-      <h3>Customers</h3>
-      <p>Manage your customer database</p>
-    </div>
-    <div>
-        <form id="export-customer" method="post">
-             <button type="submit" class="btn btn-primary">
-                <i class="bi bi-download"></i>
-                <span>Export</span>
-             </button>     
-        </form>
-    </div>
-  </div>
+	<div class="d-flex justify-content-between">
+		<div>
+			<h3>Customers</h3>
+			<p>Manage your customer database</p>
+		</div>
+		<div>
+			<form id="export-customer" method="post">
+				<button type="submit" class="btn btn-primary">
+					<i class="bi bi-download"></i>
+					<span>Export</span>
+				</button>
+			</form>
+		</div>
+	</div>
 
-  <div class="row d-flex justify-content-center">
-    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-      <p>Total Customers</p>
-      <h3>@Model.Items.Count()</h3>
-    </div>
-    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-      <p>Active Customers</p>
-      <h3>@ViewBag.activeCustomer</h3>
-    </div>
-    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-      <p>New This Month</p>
-      <h3>@ViewBag.NewMonth</h3>
-    </div>
-    <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
-      <p>Avg. Order Value</p>
-      <h3>$@ViewBag.Avg</h3>
-    </div>
-  </div>
-  
-  <form method="get" asp-action="Index">
-    <div
-      class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border"
-    >
-      <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-      <input
-        name="searchItem"
-        type="search"
-        class="w-65 bg-light rounded-10 form-search border ps-5 bg-white text-gray fw-light"
-        placeholder="Search customers..."
-      />
-      <select
-        name = "filterByStatus"
-        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()"
-      >
-        <option value="All Roles" class="bg-light">All Status</option>
-        <option value="Active" selected="@(Context.Request.Query["filterByStatus"] == "Active")">Active</option>
-        <option value="InActive" selected="@(Context.Request.Query["filterByStatus"] == "InActive")">InActive</option>
-       
-      </select>
-      <select
-        name = "shortBy"
-        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()"
-      >
-        @{
-           var selectedStatus = Context.Request.Query["shortBy"].ToString();
-         }
-        <option value="Recent" class="bg-light">Short by: Recent</option>
-        <option value="Name" selected="@(selectedStatus == "Name")">Short by: Name</option>
-        <option value="Order" selected="@(selectedStatus == "Order")">Short by: Order</option>
-        <option value="Spending" selected="@(selectedStatus == "Spending")">Short by: Spending</option>
-      </select>
-    </div>
-  </form>
-  
-  <div class="mt-4 rounded-15">
-    <div class="table-responsive rounded-15">
-      <table class="table bg-white shadow-sm table-hover rounded-15 border">
-        <thead class="table-light">
-          <tr>
-            <th class="p-4 fw-normal">Customer</th>
-            <th class="p-4 fw-normal">Contact</th>
-            <th class="p-4 fw-normal">Join Date</th>
-            <th class="p-4 fw-normal">Orders</th>
-            <th class="p-4 fw-normal">Total Spent</th>
-            <th class="p-4 fw-normal">Status</th>
-            <th class="p-4 fw-normal text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+	<div class="row d-flex justify-content-center">
+		<div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+			<p>Total Customers</p>
+			<h3>@Model.Items.Count()</h3>
+		</div>
+		<div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+			<p>Active Customers</p>
+			<h3>@ViewBag.activeCustomer</h3>
+		</div>
+		<div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+			<p>New This Month</p>
+			<h3>@ViewBag.NewMonth</h3>
+		</div>
+		<div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
+			<p>Avg. Order Value</p>
+			<h3>$@ViewBag.Avg</h3>
+		</div>
+	</div>
 
-              @foreach (var customer in @Model.Items)
-              {
-                  <tr>
-                            <td class="p-4 fw-semibold d-flex">
-                                <p class="visually-hidden data-id">@customer.Id</p>
-                                <div
-                                class="bg-primary-subtle text-primary rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center">
-                                    @{
-                                        var names = customer.Name.Split(' ');
-                                        var initials = names.Length > 1
-                                        ? $"{names[0][0]}{names[1][0]}"
-                                        : $"{names[0][0]}";
-                                    }
-                                    @initials
-                                </div>
-                                <span class="m-2 data-fullname">@customer.Name</span>
-                            </td>
-                            <td class="pt-4">
-                                <span class="data-email">@customer.Email</span><br>
-                                <span class="small text-secondary data-contact">@customer.Contact</span>
-                            </td>
-                            <td class="pt-4">
-                                <span
-                                class="text-secondary data-joindate"
-                                >
-                                    @customer.JoinDate
-                                </span>
-                            </td>
-                            <td class="pt-4 ps-4">
-                                <span class="data-order">
-                                    @customer.Orders
-                                </span>
-                            </td>
-                            <td class="pt-4 ps-4 data-totalspent">$@customer.TotalSpent</td>
-                            <td class="pt-4 ps-4">
-                                <script>
-                                    @{
-                                        var badgeColor = customer.Status ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700";
-                                    }
-                                </script>
-                                <span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor data-status">
-                                    @(customer.Status ? "Active" : "InActive")
-                                </span>
+	<form method="get" asp-action="Index">
+		<div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+			<i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+			<input name="searchItem"
+				   type="search"
+				   class="w-65 bg-light rounded-10 form-search border ps-5 bg-white text-gray fw-light"
+				   placeholder="Search customers..." />
+			<select name="filterByStatus"
+					class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()">
+				<option value="All Roles" class="bg-light">All Status</option>
+				<option value="Active" selected="@(Context.Request.Query["filterByStatus"] == "Active")">Active</option>
+				<option value="InActive" selected="@(Context.Request.Query["filterByStatus"] == "InActive")">InActive</option>
 
-                            </td>
-                            <td class="text-center pt-4 ps-4">
-                                <button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewDetail">
-                                    <i class="bi bi-eye me-3 "></i>
-                                </button>
-                                <button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#message">
-                                    <i class="bi bi-envelope "></i>
-                                </button>
-                                <button class="border-0 background-child action-button" href="#" role="button" data-toggle="dropdown" id="edit-delete" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical ms-3"></i>
-                                </button>
+			</select>
+			<select name="shortBy"
+					class="form-select rounded-10 w-15 px-3 py-2 shadow-none border " onchange="this.form.submit()">
+				@{
+					var selectedStatus = Context.Request.Query["shortBy"].ToString();
+				}
+				<option value="Recent" class="bg-light">Short by: Recent</option>
+				<option value="Name" selected="@(selectedStatus == "Name")">Short by: Name</option>
+				<option value="Order" selected="@(selectedStatus == "Order")">Short by: Order</option>
+				<option value="Spending" selected="@(selectedStatus == "Spending")">Short by: Spending</option>
+			</select>
+		</div>
+	</form>
 
-                                <div class="dropdown-menu" aria-labelledby="edit-delete">
-                                    <button class="dropdown-item" href="#" data-toggle="modal" data-target="#edit">Edit</button>
-                                    <div class="border-top w-100 "></div>
-                                    <button class="dropdown-item" href="#" data-toggle="modal" data-target="#delete">Delete</button>
-                                </div>
+	<div class="mt-4 rounded-15">
+		<div class="table-responsive rounded-15">
+			<table class="table bg-white shadow-sm table-hover rounded-15 border">
+				<thead class="table-light">
+					<tr>
+						<th class="p-4 fw-normal">Customer</th>
+						<th class="p-4 fw-normal">Contact</th>
+						<th class="p-4 fw-normal">Join Date</th>
+						<th class="p-4 fw-normal">Orders</th>
+						<th class="p-4 fw-normal">Total Spent</th>
+						<th class="p-4 fw-normal">Status</th>
+						<th class="p-4 fw-normal text-center">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
 
-                                <!-- Delete Modal -->
-                                <form id="delete-user">
-                                    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
-                                                    <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true" class="fs-5">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="border-top w-100 "></div>
-                                                <div class="modal-body d-flex flex-column align-items-start mx-2">
-                                                    <input type="text" name="Id" id="d-id" hidden>
-                                                    You sure you want to delete this user
-                                                    <span id="d-fullname"></span>
-                                                </div>
-                                                <div class="border-top w-100 "></div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">No</button>
-                                                    <button type="submit" class="btn btn-danger rounded-2">Yes</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+					@foreach (var customer in @Model.Items)
+					{
+						<tr>
+							<td class="p-4 fw-semibold d-flex">
+								<p class="visually-hidden data-id">@customer.Id</p>
+								<div class="bg-primary-subtle text-primary rounded-circle border w-30px h-30px bg-light d-flex justify-content-center align-items-center">
+									@{
+										var names = customer.Name.Split(' ');
+										var initials = names.Length > 1
+										? $"{names[0][0]}{names[1][0]}"
+										: $"{names[0][0]}";
+									}
+									@initials
+								</div>
+								<span class="m-2 data-fullname">@customer.Name</span>
+							</td>
+							<td class="pt-4">
+								<span class="data-email">@customer.Email</span><br>
+								<span class="small text-secondary data-contact">@customer.Contact</span>
+							</td>
+							<td class="pt-4">
+								<span class="text-secondary data-joindate">
+									@customer.JoinDate
+								</span>
+							</td>
+							<td class="pt-4 ps-4">
+								<span class="data-order">
+									@customer.Orders
+								</span>
+							</td>
+							<td class="pt-4 ps-4 data-totalspent">$@customer.TotalSpent</td>
+							<td class="pt-4 ps-4">
+								<script>
+									@{
+											var badgeColor = customer.Status ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700";
+									}
+								</script>
+								<span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor data-status">
+									@(customer.Status ? "Active" : "InActive")
+								</span>
 
-                                <!--Edit Modal-->
-                                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" style="max-width:33%; margin:auto;" role="document">
-                                        <div class="modal-content">
-                                            <form id="edit-user">
-                                                @Html.AntiForgeryToken()
+							</td>
+							<td class="text-center pt-4 ps-4">
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewDetail">
+									<i class="bi bi-eye me-3 "></i>
+								</button>
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#message">
+									<i class="bi bi-envelope "></i>
+								</button>
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="dropdown" id="edit-delete" aria-haspopup="true" aria-expanded="false">
+									<i class="bi bi-three-dots-vertical ms-3"></i>
+								</button>
 
-                                                <div class="modal-header flex-column align-items-start mx-2">
-                                                    <h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit Customer</h5>
-                                                    <p class="text-muted mb-0">Update customer information, role, and permissions.</p>
-                                                    <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true" class="fs-5">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body mx-2">
-                                                    <div class="d-flex align-items-start flex-column justify-content-between">
-                                                        <div class="d-flex align-items-start flex-column w-100 mb-2">
+								<div class="dropdown-menu" aria-labelledby="edit-delete">
+									<button class="dropdown-item" href="#" data-toggle="modal" data-target="#edit">Edit</button>
+									<div class="border-top w-100 "></div>
+									<button class="dropdown-item" href="#" data-toggle="modal" data-target="#delete">Delete</button>
+								</div>
 
-                                                            <input type="text" name="Id" id="id" hidden>
-                                                            <label formlabel="Full Name">Full Name</label>
-                                                            <input type="text" name="FullName" id="fullname" asp-for=@customer.Name class="form-input-field border-0 p-2 shadow-none bg-light my-1">
-                                                        </div>
-                                                        <div class="d-flex align-items-start flex-column w-100 my-2">
-                                                            <label formlabel="Email">Email</label>
-                                                            <input type="text" name="Email" id="email" asp-for=@customer.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
-                                                        </div>
-                                                        <div class="d-flex align-items-start flex-column w-100 my-2">
-                                                            <label formlabel="Role">Phone</label>
-                                                            <input type="text" name="Phone" id="phone" asp-for=@customer.Contact class="form-input-field border-0 p-2 shadow-none bg-light my-1">
-                                                        </div>
-                                                        <div class="d-flex align-items-start flex-column w-100 my-2">
-                                                            <label formlabel="Status">Status</label>
-                                                            <select id="status" name="Status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
-                                                                <option value="InActive" >
-                                                                    InActive
-                                                                </option>
-                                                                <option value="Active" >
-                                                                    Active
-                                                                </option>
-                                                                
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
-                                                        <span>Close</span>
-                                                    </button>
-                                                    <button type="submit" class="btn btn-dark rounded-2 d-flex">
-                                                        <span>Save Changes</span>
-                                                    </button>
-                                                </div>
-                                            </form>
+								<!-- Delete Modal -->
+								<form id="delete-user">
+									<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+													<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true" class="fs-5">&times;</span>
+													</button>
+												</div>
+												<div class="border-top w-100 "></div>
+												<div class="modal-body d-flex flex-column align-items-start mx-2">
+													<input type="text" name="Id" id="d-id" hidden>
+													You sure you want to delete this user
+													<span id="d-fullname"></span>
+												</div>
+												<div class="border-top w-100 "></div>
+												<div class="modal-footer">
+													<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">No</button>
+													<button type="submit" class="btn btn-danger rounded-2">Yes</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
 
-                                        </div>
-                                    </div>
-                                </div>
+								<!--Edit Modal-->
+								<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" style="max-width:33%; margin:auto;" role="document">
+										<div class="modal-content">
+											<form id="edit-user">
+												@Html.AntiForgeryToken()
 
-                                <!-- ViewDetail Modal -->
-                                <div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
-                                        <div class="modal-content ">
+												<div class="modal-header flex-column align-items-start mx-2">
+													<h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit Customer</h5>
+													<p class="text-muted mb-0">Update customer information, role, and permissions.</p>
+													<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true" class="fs-5">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body mx-2">
+													<div class="d-flex align-items-start flex-column justify-content-between">
+														<div class="d-flex align-items-start flex-column w-100 mb-2">
 
-                                            <div class="modal-header border-0 flex-column align-items-start mx-2">
-                                                <h5 class="modal-title fw-semibold" id="exampleModalLabel">Customer Details</h5>
-                                                <p class="text-muted mb-0">Complete information about this Customer</p>
-                                                <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true" class="fs-5">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body mx-2">
-                                                <div class="d-flex flex-row align-items-start my-2">
-                                                    <div class="rounded-circle border w-75px h-75px d-flex justify-content-center pt-2 border-0" style="background-color:#eff6ff;">
-                                                        <h4 class="d-flex justify-content-center align-items-center" id="initial">
-                                                            @initials
-                                                        </h4>
+															<input type="text" name="Id" id="id" hidden>
+															<label formlabel="Full Name">Full Name</label>
+															<input type="text" name="FullName" id="fullname" asp-for=@customer.Name class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+														</div>
+														<div class="d-flex align-items-start flex-column w-100 my-2">
+															<label formlabel="Email">Email</label>
+															<input type="text" name="Email" id="email" asp-for=@customer.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+														</div>
+														<div class="d-flex align-items-start flex-column w-100 my-2">
+															<label formlabel="Role">Phone</label>
+															<input type="text" name="Phone" id="phone" asp-for=@customer.Contact class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+														</div>
+														<div class="d-flex align-items-start flex-column w-100 my-2">
+															<label formlabel="Status">Status</label>
+															<select id="status" name="Status" class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+																<option value="InActive">
+																	InActive
+																</option>
+																<option value="Active">
+																	Active
+																</option>
 
-                                                    </div>
-                                                    <div class="d-flex flex-column align-items-start mt-1">
-                                                        <h4 class="ms-3 fw-semibold" id="v-fullname">FullName</h4>
-                                                        <div class="d-flex flex-row text-gray-700 ms-3">
-                                                           
-                                                            <span class="rounded-pill @badgeColor px-2 py-1" id="v-status">
-                                                                <i class=" fw-bold me-1"></i>
-                                                                Status
-                                                            </span>
-                                                           
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="border-top w-100 "></div>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+														<span>Close</span>
+													</button>
+													<button type="submit" class="btn btn-dark rounded-2 d-flex">
+														<span>Save Changes</span>
+													</button>
+												</div>
+											</form>
 
-                                                <div class="d-flex align-content-start row row-cols-2 ">
-                                                    <div class="col d-flex flex-column align-items-start justify-content-between my-1">
-                                                        <p class="mb-1">Email</p>
-                                                        <span class="rounded-pill  px-2" id="v-email">
-                                                            <i class=" fw-bold me-1"></i>
-                                                            Email
-                                                        </span>
-                                                    </div>
-                                                    <div class="col d-flex flex-column align-items-start justify-content-start my-1">
-                                                        <p class="mb-1">Phone</p>
-                                                        <div class=" px-2" id="v-phone">
-                                                            <i class=" fw-bold me-1"></i>
-                                                            Phone
-                                                        </div>
-                                                    </div>
-                                                    <div class="col d-flex flex-column align-items-start justify-content-start my-1">
-                                                        <p class="mb-1">Join Date</p>
-                                                        <div class=" px-2" id="v-joindate">
-                                                            <i class=" fw-bold me-1"></i>
-                                                           JoinDate
-                                                        </div>
-                                                    </div>
-                                                    <div class="col d-flex flex-column align-items-start justify-content-start my-1">
-                                                        <p class="mb-1">Total Order</p>
-                                                        <div class=" px-2" id="v-totalorder">
-                                                            <i class=" fw-bold me-1"></i>
-                                                            Total Order
-                                                        </div>
-                                                    </div>
-                                                    <div class=" d-flex ms-3 my-3 bg rounded-4 p-3 d-flex justify-content-between" style="height:60px;width:95%; background-color:#eff6ff;">
-                                                        <div class=" d-flex">
-                                                            <i class="bi bi-currency-dollar h5 text-primary"></i>
-                                                            <p class="ms-2 fw-normal">Total Spent</p>
-                                                        </div>
-                                                        <div class="text-primary d-flex ml-auto">
-                                                            @* <i class="bi bi-currency-dollar h5"></i> *@
-                                                            <p id="v-total">Total</p>
-                                                        </div>
-                                                        
-                                                    </div>
+										</div>
+									</div>
+								</div>
 
-                                                </div>
-                                                <div class="border-top w-100 "></div>
-                                                <div class="col d-flex flex-column align-items-start justify-content-start my-3">
-                                                    <p class="mb-1">Customer Id</p>
-                                                    <div id="v-id">#1</div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer border-0">
-                                                <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
-                                                    <span>Close</span>
-                                                </button>
-                                                <button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                    <span class="ms-3">Edit User</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+								<!-- ViewDetail Modal -->
+								<div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
+										<div class="modal-content ">
 
-                            </td>
-                        </tr>
+											<div class="modal-header border-0 flex-column align-items-start mx-2">
+												<h5 class="modal-title fw-semibold" id="exampleModalLabel">Customer Details</h5>
+												<p class="text-muted mb-0">Complete information about this Customer</p>
+												<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true" class="fs-5">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body mx-2">
+												<div class="d-flex flex-row align-items-start my-2">
+													<div class="rounded-circle border w-75px h-75px d-flex justify-content-center pt-2 border-0" style="background-color:#eff6ff;">
+														<h4 class="d-flex justify-content-center align-items-center" id="initial">
+															@initials
+														</h4>
 
-              }
-                    <tr>
-                        <td id="export_data" colspan="5" class="pt-4 ps-4 small text-secondary border-0">
-                            @{
-                                var start = 0;
-                                var end = 0;
-                                if (Model.TotalCount != 0)
-                                {
-                                    start = (Model.PageNumber - 1) * Model.PageSize + 1;
-                                    end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
-                                }
-                            }
-                            
-                            <p hidden id="data-page-number">@Model.PageNumber</p>
-                            <p hidden id="data-total-count">@Model.TotalCount</p>
-                            Showing @start to @end of @Model.TotalCount Customers
-                        </td>
-                        <td class="p-3 border-0 text-end">
-                            <a class="btn btn-sm rounded-10 py-2 px-3 border
+													</div>
+													<div class="d-flex flex-column align-items-start mt-1">
+														<h4 class="ms-3 fw-semibold" id="v-fullname">FullName</h4>
+														<div class="d-flex flex-row text-gray-700 ms-3">
+
+															<span class="rounded-pill @badgeColor px-2 py-1" id="v-status">
+																<i class=" fw-bold me-1"></i>
+																Status
+															</span>
+
+														</div>
+													</div>
+												</div>
+												<div class="border-top w-100 "></div>
+
+												<div class="d-flex align-content-start row row-cols-2 ">
+													<div class="col d-flex flex-column align-items-start justify-content-between my-1">
+														<p class="mb-1">Email</p>
+														<span class="rounded-pill  px-2" id="v-email">
+															<i class=" fw-bold me-1"></i>
+															Email
+														</span>
+													</div>
+													<div class="col d-flex flex-column align-items-start justify-content-start my-1">
+														<p class="mb-1">Phone</p>
+														<div class=" px-2" id="v-phone">
+															<i class=" fw-bold me-1"></i>
+															Phone
+														</div>
+													</div>
+													<div class="col d-flex flex-column align-items-start justify-content-start my-1">
+														<p class="mb-1">Join Date</p>
+														<div class=" px-2" id="v-joindate">
+															<i class=" fw-bold me-1"></i>
+															JoinDate
+														</div>
+													</div>
+													<div class="col d-flex flex-column align-items-start justify-content-start my-1">
+														<p class="mb-1">Total Order</p>
+														<div class=" px-2" id="v-totalorder">
+															<i class=" fw-bold me-1"></i>
+															Total Order
+														</div>
+													</div>
+													<div class=" d-flex ms-3 my-3 bg rounded-4 p-3 d-flex justify-content-between" style="height:60px;width:95%; background-color:#eff6ff;">
+														<div class=" d-flex">
+															<i class="bi bi-currency-dollar h5 text-primary"></i>
+															<p class="ms-2 fw-normal">Total Spent</p>
+														</div>
+														<div class="text-primary d-flex ml-auto">
+															@* <i class="bi bi-currency-dollar h5"></i> *@
+															<p id="v-total">Total</p>
+														</div>
+
+													</div>
+
+												</div>
+												<div class="border-top w-100 "></div>
+												<div class="col d-flex flex-column align-items-start justify-content-start my-3">
+													<p class="mb-1">Customer Id</p>
+													<div id="v-id">#1</div>
+												</div>
+											</div>
+											<div class="modal-footer border-0">
+												<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+													<span>Close</span>
+												</button>
+												<button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
+													<i class="bi bi-pencil-square"></i>
+													<span class="ms-3">Edit User</span>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</td>
+						</tr>
+
+					}
+					<tr>
+						<td id="export_data" colspan="5" class="pt-4 ps-4 small text-secondary border-0">
+							@{
+								var start = 0;
+								var end = 0;
+								if (Model.TotalCount != 0)
+								{
+									start = (Model.PageNumber - 1) * Model.PageSize + 1;
+									end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
+								}
+							}
+
+							<p hidden id="data-page-number">@Model.PageNumber</p>
+							<p hidden id="data-total-count">@Model.TotalCount</p>
+							Showing @start to @end of @Model.TotalCount Customers
+						</td>
+						<td class="p-3 border-0 text-end">
+							<a class="btn btn-sm rounded-10 py-2 px-3 border
                                 @(Model.PageNumber == 1 ? "disabled" : "")"
-                               asp-page="/Customer/Index"
-                               asp-route-pageNumber="@(Model.PageNumber - 1)">
-                                Previous
-                            </a>
-                        </td>
-                        <td class="p-3 border-0 text-start">
-                            <a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
-                               asp-page="/Customer/Index"
-                               asp-route-pageNumber="@(Model.PageNumber + 1)">
-                                Next
-                            </a>
-                        </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+							   asp-page="/Customer/Index"
+							   asp-route-pageNumber="@(Model.PageNumber - 1)">
+								Previous
+							</a>
+						</td>
+						<td class="p-3 border-0 text-start">
+							<a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
+							   asp-page="/Customer/Index"
+							   asp-route-pageNumber="@(Model.PageNumber + 1)">
+								Next
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 
 
 <script>
-    $(document).ready(function () {
+	$(document).ready(function () {
 
-        $(".action-button").click(function () {
-            var row = $(this).closest("tr");
+		$(".action-button").click(function () {
+			var row = $(this).closest("tr");
 
 
-            var id = row.find(".data-id").text().trim();
-            console.log(id);
-            var initial = row.find(".data-initial").text().trim();
-            var name   = row.find(".data-fullname").text().trim();
-            var email  = row.find(".data-email").text().trim();
-            var status = row.find(".data-status").text().trim();
-            var role   = row.find(".data-role").text().trim();
-            var lastactive = row.find(".data-lastactive").text().trim();
-            var joindate = row.find(".data-joindate").text().trim();
-            var total = row.find(".data-totalspent").text().trim();
-            var phone = row.find(".data-contact").text().trim();
-            var order = row.find(".data-order").text().trim();
-            @* var start = row.find("#data-start-page").text().trim();
+			var id = row.find(".data-id").text().trim();
+			console.log(id);
+			var initial = row.find(".data-initial").text().trim();
+			var name   = row.find(".data-fullname").text().trim();
+			var email  = row.find(".data-email").text().trim();
+			var status = row.find(".data-status").text().trim();
+			var role   = row.find(".data-role").text().trim();
+			var lastactive = row.find(".data-lastactive").text().trim();
+			var joindate = row.find(".data-joindate").text().trim();
+			var total = row.find(".data-totalspent").text().trim();
+			var phone = row.find(".data-contact").text().trim();
+			var order = row.find(".data-order").text().trim();
+			@* var start = row.find("#data-start-page").text().trim();
             var end   = row.find("#data-page-number").text().trim();
             var count = row.find("#data-total-count").text().trim(); *@
 
-            $("#id").val(id);
-            $("#initial").val(initial);
-            $("#fullname").val(name);
-            $("#email").val(email);
-            $("#status").val(status);
-            $("#status").removeClass();
-            @* $("#status").addClass("rounded-pill px-2 py-1"); *@
-            $("#role").val(role);
-            $("#role").removeClass();
+			$("#id").val(id);
+			$("#initial").val(initial);
+			$("#fullname").val(name);
+			$("#email").val(email);
+			$("#status").val(status);
+			$("#status").removeClass();
+			@* $("#status").addClass("rounded-pill px-2 py-1"); *@
+			$("#role").val(role);
+			$("#role").removeClass();
 
-            $("#v-id").text(id);
-            $("#v-fullname").text(name);
-            $("#v-email").text(email);
-            $("#v-status").text(status);
-            $("#v-total").text(total);
-            $("#v-phone").text(phone);
-            $("#v-totalorder").text(order + " orders");
-            
+			$("#v-id").text(id);
+			$("#v-fullname").text(name);
+			$("#v-email").text(email);
+			$("#v-status").text(status);
+			$("#v-total").text(total);
+			$("#v-phone").text(phone);
+			$("#v-totalorder").text(order + " orders");
 
 
-                if (status === "Active") {
-                    $("#v-status").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
-                }
-                else if (status === "InActive") {
-                    $("#v-status").addClass("rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
-                }
-                else {
-                    $("#v-status").addClass(" rounded-pill px-2 py-1 bg-red-100 text-red-700");
-                }
 
-                if (role === "Admin") {
-                    $("#v-role").addClass(" rounded-pill px-2 py-1 bg-purple-100 text-purple-700");
-                }
-                else if (role === "Manager") {
-                    $("#v-role").addClass("rounded-pill px-2 py-1 bg-blue-100 text-blue-700");
-                }
-                else if (role === "Staff"){
-                    $("#v-role").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
-                }else if (role === "Support"){
-                    $("#v-role").addClass(" rounded-pill px-2 py-1 bg-orange-100 text-orange-700");
-                }
-                else{
-                    $("#v-role").addClass(" rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
-                }
+				if (status === "Active") {
+					$("#v-status").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
+				}
+				else if (status === "InActive") {
+					$("#v-status").addClass("rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
+				}
+				else {
+					$("#v-status").addClass(" rounded-pill px-2 py-1 bg-red-100 text-red-700");
+				}
 
-            $("#v-role").text(role);
-            $("#v-lastactive").text(lastactive);
-            $("#v-joindate").text(joindate);
+				if (role === "Admin") {
+					$("#v-role").addClass(" rounded-pill px-2 py-1 bg-purple-100 text-purple-700");
+				}
+				else if (role === "Manager") {
+					$("#v-role").addClass("rounded-pill px-2 py-1 bg-blue-100 text-blue-700");
+				}
+				else if (role === "Staff"){
+					$("#v-role").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
+				}else if (role === "Support"){
+					$("#v-role").addClass(" rounded-pill px-2 py-1 bg-orange-100 text-orange-700");
+				}
+				else{
+					$("#v-role").addClass(" rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
+				}
 
-            $("#d-fullname").text(name);
-            $("#d-id").val(id);
+			$("#v-role").text(role);
+			$("#v-lastactive").text(lastactive);
+			$("#v-joindate").text(joindate);
 
-        });
+			$("#d-fullname").text(name);
+			$("#d-id").val(id);
 
-    });
+		});
+
+	});
 
 </script>
 
 
 <script>
-    $(document).ready(function () {
+	$(document).ready(function () {
 
-        $('#edit-user').submit(function (e) {
-            e.preventDefault();
+		$('#edit-user').submit(function (e) {
+			e.preventDefault();
 
-            $.ajax({
-                url: '/Customer/Update',
-                type: 'POST',
-                data: $('#edit-user').serialize(),
+			$.ajax({
+				url: '/Customer/Update',
+				type: 'POST',
+				data: $('#edit-user').serialize(),
 
-                success: function (response) {
-                    alert(response.message);
-                    location.reload();
-                },
+				success: function (response) {
+					alert(response.message);
+					location.reload();
+				},
 
-                error: function (xhr) {
-                    alert("Update failed");
-                }
-            });
+				error: function (xhr) {
+					alert("Update failed");
+				}
+			});
 
-        });
-        @* $('#add-user').submit(function (e) {
+		});
+		@* $('#add-user').submit(function (e) {
             e.preventDefault();
 
             $.ajax({
@@ -503,34 +492,47 @@
             });
 
         }); *@
-        $('#delete-user').submit(function (e){
-            e.preventDefault();
+		$('#delete-user').submit(function (e){
+			e.preventDefault();
 
-            $.ajax({
-                url: '/Customer/Delete',
-                type: 'POST',
-                data: $('#delete-user').serialize(),
+			$.ajax({
+				url: '/Customer/Delete',
+				type: 'POST',
+				data: $('#delete-user').serialize(),
 
-                success: function (response){
-                    alert(response.message);
-                    location.reload();
-                },
-                error: function (xhr) {
-                    alert("Delete failed");
-                }
-            });
-        });
+				success: function (response){
+					alert(response.message);
+					location.reload();
+				},
+				error: function (xhr) {
+					alert("Delete failed");
+				}
+			});
+		});
 
 
-        $('#export-customer').submit(function (e) {
-            e.preventDefault();         
 
-             var paginatedData = {
-                pageNumber:   $("#data-page-number").text().trim(),
-                count: $("#data-total-count").text().trim()
-            };
+		$('#export-customer').on('submit', function (e) {
+			e.preventDefault();
 
-            $.ajax({
+			var pageNumber = $("#data-page-number").text().trim();
+			var count = $("#data-total-count").text().trim();
+
+			var url = `/Customer/Export?pageNumber=${pageNumber}&count=${count}`;
+
+			window.open(url, '_blank'); // better for download behavior
+		});
+
+
+		@* $('#export-customer').submit(function (e) {
+			e.preventDefault();
+
+			var paginatedData = {
+				pageNumber:   $("#data-page-number").text().trim(),
+				count: $("#data-total-count").text().trim()
+			};
+
+			$.ajax({
                 url: '/Customer/Export',
                 type: 'GET',
                 contentType: 'application/json',
@@ -546,10 +548,10 @@
                 },
 
             });
-        });
+		}); *@
 
 
-    });
+	});
 </script>
 
 
