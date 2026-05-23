@@ -1,168 +1,237 @@
 ﻿@model src.Extensions.Pagenations.PagedResult<src.DTO.OrderDto.OrderResponseDto>
 
 <style>
-  .form-search:focus {
-    outline: none; /* Remove default outline */
+	.form-search:focus {
+		outline: none; /* Remove default outline */
 
-    box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
-  }
-  
-  .w-30px {
-    width: 40px;
-  }
+		box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
+	}
 
-  .h-30px {
-    height: 40px;
-  }
+	.w-30px {
+		width: 40px;
+	}
 
-  .custom-gradient {
-      background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
-      color: white;
-  }
+	.custom-gradient {
+		background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+		color: white;
+	}
 
 </style>
 <div class="">
-  <div class="d-flex justify-content-between">
-    <div>
-      <h3>Orders</h3>
-      <p>Manage and track customer orders</p>
-    </div>
-    <div>
-      <button type="button" class="btn btn-primary">
-			<i class="bi bi-download fw-bold"></i>
-			<span>Export</span>
-		</button>
-    </div>
-  </div>
+	<div class="d-flex justify-content-between">
+		<div>
+			<h3>Orders</h3>
+			<p>Manage and track customer orders</p>
+		</div>
+		<div>
+			<button type="button" class="btn btn-primary">
+				<i class="bi bi-download fw-bold"></i>
+				<span>Export</span>
+			</button>
+		</div>
+	</div>
 
-  <div
-    class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex border">
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ">All Orders (@ViewBag.Total)</span>
-    @* @foreach (var status in @ViewBag.Status)
+	<div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex border">
+		<span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ">All Orders (@ViewBag.Total)</span>
+		@* @foreach (var status in @ViewBag.Status)
     {
       <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">@status (@(ViewBag.status))</span>
     } *@
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Pending (@ViewBag.Pending)</span> 
-     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Processing (@ViewBag.Processing)</span> 
-    <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Shipped (@ViewBag.Shipped)</span>
-     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Delivered (@ViewBag.Delivered)</span>
-     <span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Cancelled (@ViewBag.Cancelled)</span>
-  </div>
-  
-  <form method="post" asp-action="Index">
-    <div
-      class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
-      <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-      <input
-        name = "searchItem"
-        type="search"
-        class="w-65 rounded-10 form-search border focus-ring ps-5"
-        placeholder="Search users by name or email..."/>
-      <select
-        name = "filterByDate"
-        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border">
-        <option value="30days" selected="@(Context.Request.Query["filterByDate"] == "30days")">Last 30 days</option>
-        <option value="7days" selected="@(Context.Request.Query["filterByDate"] == "7days")">Last 7 days</option>
-        <option value="90days" selected="@(Context.Request.Query["filterByDate"] == "90days")">Last 90 days</option>
-        <option value="All" selected="@(Context.Request.Query["filterByDate"] == "All")">All time</option>
-      </select>
-      <button class="rounded-10 w-15 px-3 py-2 shadow-none border bg-white" 
-              asp-page="/Orders/Index">
-        <i class="bi bi-funnel h5 fw-bolder me-2"></i>
-        Filters
-      </button>
-    </div>
-  </form>
-  
-  <div class="mt-4 rounded-15">
-    <div class="table-responsive rounded-15">
-      <table class="table bg-white shadow-sm table-hover rounded-15 border">
-        <thead class="table-light">
-          <tr>
-            <th class="p-4 fw-normal">Order ID</th>
-            <th class="p-4 fw-normal">Customer</th>
-            <th class="p-4 fw-normal">Date</th>
-            <th class="p-4 fw-normal">Items</th>
-            <th class="p-4 fw-normal">Total</th>
-            <th class="p-4 fw-normal">Status</th>
-            <th class="p-4 fw-normal text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-        @foreach (var order in Model.Items)
-        {
-          <tr>
-            <td class="p-3 fw-semibold d-flex">
-              <span class="m-2 text-primary fw-normal">@order.Id</span>
-            </td>
-            <td class="pt-3 ps-4 fw-semibold">
-              <span>@order.CustomerName</span><br>
-              <span class="small text-secondary">@order.CustomerEmail</span>
-            </td>
-            <td class="pt-3 ps-4">
-              <span
-                class="text-secondary">
-                @order.Date
-              </span>
-            </td>
-            <td class="pt-3 ps-4">
-              <span>
-                @order.Item
-              </span>
-            </td>
-            <td class="pt-3 ps-4">$@order.Total</td>
-            <td class="pt-3 ">
-              <script>
-                 @{
-                    var badgeColor = order.Status == "Delivered" ? "bg-green-100 text-green-700" :
-                    order.Status == "Shipped" ? "bg-blue-100 text-blue-700" :
-                    order.Status == "Processing" ? "bg-yellow-100 text-yellow-700" :
-                    order.Status == "Pending" ? "bg-orange-100 text-orange-700" :
-                    "bg-red-100 text-red-700";
-                 }
-              </script>
-              <span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
-                @order.Status
-              </span>
-            </td>
-            <td class="text-center p-3">
-              <i class="bi bi-eye me-3"></i>
-              <i class="bi bi-box-seam "></i>
-            </td>
-          </tr>
-        }
+		<span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Pending (@ViewBag.Pending)</span>
+		<span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Processing (@ViewBag.Processing)</span>
+		<span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Shipped (@ViewBag.Shipped)</span>
+		<span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Delivered (@ViewBag.Delivered)</span>
+		<span class="bg-blue-100 bg-opacity-25 text-primary py-2 px-3 rounded-10 ms-3">Cancelled (@ViewBag.Cancelled)</span>
+	</div>
 
-        <tr>
-          <td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
-            @{
-              var start = 0;
-              var end = 0;
-              if (Model.TotalCount != 0)
-              {
-                start = (Model.PageNumber - 1) * Model.PageSize + 1;
-                end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
-              } 
-            }
-            Showing @start to @end of @Model.TotalCount Orders
-          </td>
-          <td class="p-3 border-0 text-end">
-            <a class="btn btn-sm rounded-10 py-2 px-3 border 
+	<form method="post" asp-action="Index">
+		<div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+			<i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+			<input name="searchItem"
+				   type="search"
+				   class="w-65 rounded-10 form-search border focus-ring ps-5"
+				   placeholder="Search users by name or email..." />
+			<select name="filterByDate"
+					class="form-select rounded-10 w-15 px-3 py-2 shadow-none border">
+				<option value="30days" selected="@(Context.Request.Query["filterByDate"] == "30days")">Last 30 days</option>
+				<option value="7days" selected="@(Context.Request.Query["filterByDate"] == "7days")">Last 7 days</option>
+				<option value="90days" selected="@(Context.Request.Query["filterByDate"] == "90days")">Last 90 days</option>
+				<option value="All" selected="@(Context.Request.Query["filterByDate"] == "All")">All time</option>
+			</select>
+			<button class="rounded-10 w-15 px-3 py-2 shadow-none border bg-white"
+					asp-page="/Orders/Index">
+				<i class="bi bi-funnel h5 fw-bolder me-2"></i>
+				Filters
+			</button>
+		</div>
+	</form>
+
+	<div class="mt-4 rounded-15">
+		<div class="table-responsive rounded-15">
+			<table class="table bg-white shadow-sm table-hover rounded-15 border">
+				<thead class="table-light">
+					<tr>
+						<th class="p-4 fw-normal">Order ID</th>
+						<th class="p-4 fw-normal">Customer</th>
+						<th class="p-4 fw-normal">Date</th>
+						<th class="p-4 fw-normal">Items</th>
+						<th class="p-4 fw-normal">Total</th>
+						<th class="p-4 fw-normal">Status</th>
+						<th class="p-4 fw-normal text-center">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var order in Model.Items)
+					{
+						<tr>
+							<td class="p-3 fw-semibold d-flex">
+								<span class="m-2 text-primary fw-normal">@order.Id</span>
+							</td>
+							<td class="pt-3 ps-4 fw-semibold">
+								<span>@order.CustomerName</span><br>
+								<span class="small text-secondary">@order.CustomerEmail</span>
+							</td>
+							<td class="pt-3 ps-4">
+								<span class="text-secondary">
+									@order.Date
+								</span>
+							</td>
+							<td class="pt-3 ps-4">
+								<span>
+									@order.Item
+								</span>
+							</td>
+							<td class="pt-3 ps-4">$@order.Total</td>
+							<td class="pt-3 ">
+								<script>
+									@{
+										   var badgeColor = order.Status == "Delivered" ? "bg-green-100 text-green-700" :
+										   order.Status == "Shipped" ? "bg-blue-100 text-blue-700" :
+										   order.Status == "Processing" ? "bg-yellow-100 text-yellow-700" :
+										   order.Status == "Pending" ? "bg-orange-100 text-orange-700" :
+										   "bg-red-100 text-red-700";
+									}
+								</script>
+								<span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
+									@order.Status
+								</span>
+							</td>
+							<td class="text-center p-3">
+
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewDetail">
+									<i class="bi bi-eye me-3 "></i>
+								</button>
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewDetail">
+									<i class="bi bi-box-seam "></i>
+								</button>
+
+								<!-- ViewDetail Modal -->
+								<div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
+										<div class="modal-content ">
+
+											<div class="modal-header border-0 flex-column align-items-start mx-2">
+												<h5 class="modal-title fw-semibold" id="exampleModalLabel">Order Details</h5>
+												<p class="text-muted mb-0">Complete information about this Order</p>
+												<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true" class="fs-5">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body mx-2">
+												<div class="d-flex my-1 bg rounded-4 justify-content-between">
+													<div>
+														<h4>#Order ID</h4>
+														<p class="d-flex ">datetime</p>
+													</div>
+													<div class="">
+														<h4></h4>
+														<span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
+															@order.Status
+														</span>
+													</div>
+												</div>
+												<div class="border-top w-100 "></div>
+
+												<div class="d-flex align-content-start row row-cols-1 ">
+													<div class="col d-flex flex-column align-items-start justify-content-between my-1">
+														<p class="mb-1">Customer Information</p>
+														<span>John Doe</span>
+														<p>JohnDoe@gmail.com</p>
+													</div>
+													<div class="col d-flex flex-column align-items-start justify-content-start my-1">
+														<p class="mb-1">Shipping Address</p>
+														<p>123 Main, St NewYork, NY 1001</p>
+													</div>
+													<div class="col d-flex flex-column align-items-start justify-content-start my-1">
+														<p class="mb-1">Payment Method</p>
+														<p>Visa ending in 2424</p>
+													</div>
+									
+													<div class=" d-flex ms-3 my-3 bg rounded-4 p-3 d-flex justify-content-between" style="height:100px;width:95%; background-color:#eff6ff;">
+														<div class="d-block my-1 bg justify-content-between">
+															<p>Total Items</p>
+															<p>Total Amount</p>
+															
+														</div>
+														<div class="d-block my-1 bg justify-content-between">
+															@* <i class="bi bi-currency-dollar h5"></i> *@
+															
+															<p>$129.99</p>
+															<p>2</p>
+														</div>
+
+													</div>
+
+												</div>
+											</div>
+											<div class="modal-footer border-0">
+												<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+													<span>Close</span>
+												</button>
+												<button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
+													<i class="bi bi-printer"></i>
+													<span class="ms-3">Print Invoice</span>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</td>
+						</tr>
+					}
+
+					<tr>
+						<td colspan="5" class="pt-4 ps-4 small text-secondary border-0">
+							@{
+								var start = 0;
+								var end = 0;
+								if (Model.TotalCount != 0)
+								{
+									start = (Model.PageNumber - 1) * Model.PageSize + 1;
+									end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
+								}
+							}
+							Showing @start to @end of @Model.TotalCount Orders
+						</td>
+						<td class="p-3 border-0 text-end">
+							<a class="btn btn-sm rounded-10 py-2 px-3 border
                                 @(Model.PageNumber == 1 ? "disabled" : "")"
-               asp-page="/UserManagement/Index"
-               asp-route-pageNumber="@(Model.PageNumber - 1)">
-              Previous
-            </a>
-          </td>
-          <td class="p-3 border-0 text-start">
-            <a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
-               asp-page="/UserManagement/Index"
-               asp-route-pageNumber="@(Model.PageNumber + 1)">
-              Next
-            </a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+							   asp-page="/UserManagement/Index"
+							   asp-route-pageNumber="@(Model.PageNumber - 1)">
+								Previous
+							</a>
+						</td>
+						<td class="p-3 border-0 text-start">
+							<a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
+							   asp-page="/UserManagement/Index"
+							   asp-route-pageNumber="@(Model.PageNumber + 1)">
+								Next
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
