@@ -121,7 +121,7 @@
 								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewDetail">
 									<i class="bi bi-eye me-3 "></i>
 								</button>
-								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewDetail">
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewOrderProductDetail">
 									<i class="bi bi-box-seam "></i>
 								</button>
 
@@ -193,6 +193,98 @@
 													<span class="ms-3">Print Invoice</span>
 												</button>
 											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<!-- ViewDetail Order Product Modal -->
+								<div class="modal fade"
+									 id="viewOrderProductDetail"
+									 tabindex="-1"
+									 aria-hidden="true">
+
+									<div class="modal-dialog modal-dialog-centered modal-lg" style="max-width:40%; margin:auto;">
+										<div class="modal-content">
+
+											<!-- Header -->
+											<div class="modal-header border-0 flex-column align-items-start">
+
+												<h5 class="modal-title fw-semibold">
+													Order Products
+												</h5>
+
+												<p class="text-muted mb-0">
+													Products included in order #@order.Id
+												</p>
+
+												<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true" class="fs-5">&times;</span>
+												</button>
+
+											</div>
+
+											<!-- Body -->
+											<div class="modal-body">
+
+												<!--// foreach (var product in order.Products)	 -->
+												<!-- {-->
+													<div class="border rounded-4 p-3 mb-3 d-flex justify-content-between align-items-center">
+
+														<!-- Product Info -->
+														<div>
+															<h6 class="mb-1 fw-semibold">
+																product.Name
+															</h6>
+
+															<span class="text-secondary">
+																Quantity: 1
+																<!--product.Quantity	  -->
+															</span>
+														</div>
+
+														<!-- Price -->
+														<div class="text-end">
+
+															<div class="fw-semibold">
+																<!--Price.ToString("C")-->
+																$123
+															</div>
+
+															<small class="text-secondary">
+																Per item
+															</small>
+
+														</div>
+
+													</div>
+												 <!--// }-->
+
+												<!-- Status -->
+												<div class="border-top pt-3 mt-3 d-flex justify-content-between align-items-center">
+
+													<span class="text-secondary">
+														Order Total
+													</span>
+
+													<span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
+														@order.Status
+													</span>
+
+												</div>
+
+											</div>
+
+											<!-- Footer -->
+											<div class="modal-footer border-0">
+
+												<button type="button"
+														class="btn border rounded-2"
+														data-dismiss="modal">
+													Close
+												</button>
+											</div>
+
 										</div>
 									</div>
 								</div>
