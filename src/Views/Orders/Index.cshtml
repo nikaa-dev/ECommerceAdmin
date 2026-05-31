@@ -85,23 +85,23 @@
 					{
 						<tr>
 							<td class="p-3 fw-semibold d-flex">
-								<span class="m-2 text-primary fw-normal">@order.Id</span>
-							</td>
+								<span class="m-2 text-primary fw-normal id" >@order.Id</span>
+							</td>										 
 							<td class="pt-3 ps-4 fw-semibold">
-								<span>@order.CustomerName</span><br>
-								<span class="small text-secondary">@order.CustomerEmail</span>
+								<span class="name">@order.CustomerName</span><br>
+								<span class="small text-secondary email">@order.CustomerEmail</span>
 							</td>
 							<td class="pt-3 ps-4">
-								<span class="text-secondary">
+								<span class="text-secondary date">
 									@order.Date
 								</span>
 							</td>
 							<td class="pt-3 ps-4">
-								<span>
+								<span class="item">
 									@order.Item
 								</span>
 							</td>
-							<td class="pt-3 ps-4">$@order.Total</td>
+							<td class="pt-3 ps-4 total">$@order.Total</td>
 							<td class="pt-3 ">
 								<script>
 									@{
@@ -112,7 +112,7 @@
 										   "bg-red-100 text-red-700";
 									}
 								</script>
-								<span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
+								<span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor status">
 									@order.Status
 								</span>
 							</td>
@@ -121,173 +121,11 @@
 								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewDetail">
 									<i class="bi bi-eye me-3 "></i>
 								</button>
-								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewOrderProductDetail">
+								<button class="border-0 background-child action-button order-detail" href="#" role="button" data-toggle="modal" data-target="#viewOrderProductDetail">
 									<i class="bi bi-box-seam "></i>
 								</button>
 
-								<!-- ViewDetail Modal -->
-								<div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-									<div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
-										<div class="modal-content ">
-
-											<div class="modal-header border-0 flex-column align-items-start mx-2">
-												<h5 class="modal-title fw-semibold" id="exampleModalLabel">Order Details</h5>
-												<p class="text-muted mb-0">Complete information about this Order</p>
-												<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true" class="fs-5">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body mx-2">
-												<div class="d-flex my-1 bg rounded-4 justify-content-between">
-													<div>
-														<h4>#Order ID</h4>
-														<p class="d-flex ">datetime</p>
-													</div>
-													<div class="">
-														<h4></h4>
-														<span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
-															@order.Status
-														</span>
-													</div>
-												</div>
-												<div class="border-top w-100 "></div>
-
-												<div class="d-flex align-content-start row row-cols-1 ">
-													<div class="col d-flex flex-column align-items-start justify-content-between my-1">
-														<p class="mb-1">Customer Information</p>
-														<span>John Doe</span>
-														<p>JohnDoe@gmail.com</p>
-													</div>
-													<div class="col d-flex flex-column align-items-start justify-content-start my-1">
-														<p class="mb-1">Shipping Address</p>
-														<p>123 Main, St NewYork, NY 1001</p>
-													</div>
-													<div class="col d-flex flex-column align-items-start justify-content-start my-1">
-														<p class="mb-1">Payment Method</p>
-														<p>Visa ending in 2424</p>
-													</div>
-									
-													<div class=" d-flex ms-3 my-3 bg rounded-4 p-3 d-flex justify-content-between" style="height:100px;width:95%; background-color:#eff6ff;">
-														<div class="d-block my-1 bg justify-content-between">
-															<p>Total Items</p>
-															<p>Total Amount</p>
-															
-														</div>
-														<div class="d-block my-1 bg justify-content-between">
-															@* <i class="bi bi-currency-dollar h5"></i> *@
-															
-															<p>$129.99</p>
-															<p>2</p>
-														</div>
-
-													</div>
-
-												</div>
-											</div>
-											<div class="modal-footer border-0">
-												<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
-													<span>Close</span>
-												</button>
-												<button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
-													<i class="bi bi-printer"></i>
-													<span class="ms-3">Print Invoice</span>
-												</button>
-											</div>
-										</div>
-									</div>
-								</div>
-
-
-								<!-- ViewDetail Order Product Modal -->
-								<div class="modal fade"
-									 id="viewOrderProductDetail"
-									 tabindex="-1"
-									 aria-hidden="true">
-
-									<div class="modal-dialog modal-dialog-centered modal-lg" style="max-width:40%; margin:auto;">
-										<div class="modal-content">
-
-											<!-- Header -->
-											<div class="modal-header border-0 flex-column align-items-start">
-
-												<h5 class="modal-title fw-semibold">
-													Order Products
-												</h5>
-
-												<p class="text-muted mb-0">
-													Products included in order #@order.Id
-												</p>
-
-												<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true" class="fs-5">&times;</span>
-												</button>
-
-											</div>
-
-											<!-- Body -->
-											<div class="modal-body">
-
-												<!--// foreach (var product in order.Products)	 -->
-												<!-- {-->
-													<div class="border rounded-4 p-3 mb-3 d-flex justify-content-between align-items-center">
-
-														<!-- Product Info -->
-														<div>
-															<h6 class="mb-1 fw-semibold">
-																product.Name
-															</h6>
-
-															<span class="text-secondary">
-																Quantity: 1
-																<!--product.Quantity	  -->
-															</span>
-														</div>
-
-														<!-- Price -->
-														<div class="text-end">
-
-															<div class="fw-semibold">
-																<!--Price.ToString("C")-->
-																$123
-															</div>
-
-															<small class="text-secondary">
-																Per item
-															</small>
-
-														</div>
-
-													</div>
-												 <!--// }-->
-
-												<!-- Status -->
-												<div class="border-top pt-3 mt-3 d-flex justify-content-between align-items-center">
-
-													<span class="text-secondary">
-														Order Total
-													</span>
-
-													<span class="badge fw-normal px-3 py-2 rounded-pill @badgeColor">
-														@order.Status
-													</span>
-
-												</div>
-
-											</div>
-
-											<!-- Footer -->
-											<div class="modal-footer border-0">
-
-												<button type="button"
-														class="btn border rounded-2"
-														data-dismiss="modal">
-													Close
-												</button>
-											</div>
-
-										</div>
-									</div>
-								</div>
+								
 
 							</td>
 						</tr>
@@ -327,3 +165,346 @@
 		</div>
 	</div>
 </div>
+
+<!-- ViewDetail Modal -->
+<div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
+		<div class="modal-content ">
+
+			<div class="modal-header border-0 flex-column align-items-start mx-2">
+				<h5 class="modal-title fw-semibold" id="exampleModalLabel">Order Details</h5>
+				<p class="text-muted mb-0">Complete information about this Order</p>
+				<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" class="fs-5">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body mx-2">
+				<div class="d-flex my-1 bg rounded-4 justify-content-between">
+					<div>
+						<h4 id="v-id">#Order ID</h4>
+						<p class="d-flex" id="v-datetime">datetime</p>
+					</div>
+					<div class="">
+						<h4></h4>
+						<span class="badge fw-normal px-3 py-2 rounded-pill bg-black" id="v-status">
+							pending
+						</span>
+					</div>
+				</div>
+				<div class="border-top w-100 "></div>
+
+				<div class="d-flex align-content-start row row-cols-1 ">
+					<div class="col d-flex flex-column align-items-start justify-content-between my-1">
+						<p class="mb-1">Customer Information</p>
+						<span id="v-name">John Doe</span>
+						<p id="v-email">JohnDoe@gmail.com</p>
+					</div>
+					<div class="col d-flex flex-column align-items-start justify-content-start my-1">
+						<p class="mb-1">Shipping Address</p>
+						<p id="v-address">123 Main, St NewYork, NY 1001</p>
+					</div>
+					<div class="col d-flex flex-column align-items-start justify-content-start my-1">
+						<p class="mb-1" id="v-payment-method">Payment Method</p>
+						<p id="v-visa-end">Visa ending in 2424</p>
+					</div>
+
+					<div class=" d-flex ms-3 my-3 bg rounded-4 p-3 d-flex justify-content-between" style="height:100px;width:95%; background-color:#eff6ff;">
+						<div class="d-block my-1 bg justify-content-between">
+							<p>Total Items</p>
+							<p>Total Amount</p>
+
+						</div>
+						<div class="d-block my-1 bg justify-content-between">
+							@* <i class="bi bi-currency-dollar h5"></i> *@
+
+							<p id="v-item">$129.99</p>
+							<p id="v-amount">2</p>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer border-0">
+				<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+					<span>Close</span>
+				</button>
+				<button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
+					<i class="bi bi-printer"></i>
+					<span class="ms-3">Print Invoice</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- ViewDetail Order Product Modal -->
+<div class="modal fade"
+	 id="viewOrderProductDetail"
+	 tabindex="-1"
+	 aria-hidden="true">
+
+	<div class="modal-dialog modal-dialog-centered modal-lg" style="max-width:40%; margin:auto;">
+		<div class="modal-content">
+
+			<!-- Header -->
+			<div class="modal-header border-0 flex-column align-items-start">
+
+				<h5 class="modal-title fw-semibold">
+					Order Products
+				</h5>
+
+				<p class="text-muted mb-0">
+					Products included in order #abcdssss
+				</p>
+
+				<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" class="fs-5">&times;</span>
+				</button>
+
+			</div>
+
+			<!-- Body -->
+			<div class="modal-body">
+				<div class="border rounded-4 p-3 mb-3 d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="mb-1 fw-semibold" id="vdp-name">
+							productName
+						</h6>
+
+						<span class="text-secondary" >
+							Quantity: 
+						</span>
+						<span id="vdp-item">1</span>
+					</div>
+
+					<!-- Price -->
+					<div class="text-end">
+
+						<div class="fw-semibold" id="vdp-price">
+							$123
+						</div>
+
+						<small class="text-secondary">
+							Per item
+						</small>
+
+					</div>
+
+				</div>
+				<!--// }-->
+				<!-- Status -->
+				<div class="border-top pt-3 mt-3 d-flex justify-content-between align-items-center">
+
+					<span class="text-secondary" id="vdp-total">
+						Order Total
+					</span>
+
+					<span class="badge fw-normal px-3 py-2 rounded-pill" id="vdp-status">
+						status
+					</span>
+
+				</div>
+
+			</div>
+
+			<!-- Footer -->
+			<div class="modal-footer border-0">
+
+				<button type="button"
+						class="btn border rounded-2"
+						data-dismiss="modal">
+					Close
+				</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {
+
+		$(".action-button").click(function () {
+			var row = $(this).closest("tr");
+
+
+			var id = row.find(".id").text().trim();
+			id = "#" + id;
+
+			var name = row.find(".name").text().trim();
+			var email = row.find(".email").text().trim();
+			var date = row.find(".date").text().trim();
+
+			var item = parseInt(
+				row.find(".item").text().trim()
+			) || 0;
+
+			var total = parseFloat(
+				row.find(".total").text().replace("$", "").trim()
+			) || 0;
+
+			var status = row.find(".status").text().trim();
+
+			var amount = item * total;
+			amount = "$" + amount.toFixed(2);
+
+			// var product-name = row.find(".product-name").text().trim();
+											  
+
+			$("#v-id").text(id);
+			$("#v-datetime").text(date);
+			$("#v-status").text(status);
+			$("#v-email").text(email);
+			$("#v-name").text(name);
+
+			// $("#v-address").text(address);
+			// $("#v-datetime").text(date);
+			$("#v-status").text(status);
+			// $("#v-payment-method").text(payment-method);
+			// $("#v-visa-end").text(visa-end);
+			$("#v-item").text(item);
+			$("#v-amount").text(amount);
+
+			@* $("#status").addClass("rounded-pill px-2 py-1"); *@
+			// $("#role").val(role);
+			$("#v-status").removeClass();
+
+			// $("#vdp-name").text(product-name);
+
+			// $("#v-id").text(id);
+			// $("#v-name").text(name);
+			// $("#v-email").text(email);
+			// $("#v-status").text(status);
+
+				if (status === "Delivered") {
+					$("#v-status").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
+				}
+				else if (status === "Processing") {
+					 $("#v-status").addClass(" rounded-pill px-2 py-1 bg-yellow-100 text-yellow-700");
+				}
+				else if (status === "Pending") {
+					$("#v-status").addClass(" rounded-pill px-2 py-1 bg-orange-100 text-orange-700");
+				} 
+				else if (status === "Cancelled"){
+					$("#v-status").addClass(" rounded-pill px-2 py-1  bg-red-100 text-red-700");
+				}
+				else{
+					$("#v-status").addClass(" rounded-pill px-2 py-1  bg-blue-100 text-blue-700");
+				}
+
+				// if (role === "Admin") {
+				// 	$("#v-role").addClass(" rounded-pill px-2 py-1 bg-purple-100 text-purple-700");
+				// }
+				// else if (role === "Manager") {
+				// 	$("#v-role").addClass("rounded-pill px-2 py-1 bg-blue-100 text-blue-700");
+				// }
+				// else if (role === "Staff"){
+				// 	$("#v-role").addClass(" rounded-pill px-2 py-1 bg-green-100 text-green-700");
+				// }else if (role === "Support"){
+				// 	$("#v-role").addClass(" rounded-pill px-2 py-1 bg-orange-100 text-orange-700");
+				// }
+				// else{
+				// 	$("#v-role").addClass(" rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
+				// }
+
+			// $("#v-role").text(role);
+			// $("#v-lastactive").text(lastactive);
+			// $("#v-joindate").text(joindate);
+
+			// $("#d-fullname").text(name);
+			// $("#d-id").val(id);
+
+		});
+
+	});
+
+</script>
+
+
+<script>
+	$(document).ready(function () {
+
+		$('.order-detail').click(function (e) {
+			e.preventDefault();
+			console.log("Hello world");
+			var row = $(this).closest("tr");
+			var orderId = row.find(".id").text().trim().replace("#", "");
+
+			$.ajax({
+				url: '/Orders/OrderDetail',
+				type: 'POST',
+				data: { orderId: orderId },
+
+				success: function (res) {
+					 var html = "";
+
+					res.data.forEach(p => {
+						html += `
+							<div class="border rounded-4 p-3 mb-3 d-flex justify-content-between align-items-center">
+								<div>
+									<h6 class="mb-1 fw-semibold">${p.name}</h6>
+									<span class="text-secondary">Quantity: ${p.quantity ?? 1}</span>
+								</div>
+
+								<div class="text-end">
+									<div class="fw-semibold">$${p.price}</div>
+									<small class="text-secondary">Per item</small>
+								</div>
+							</div>
+						`;
+					});
+
+			$("#product-list").html(html);
+
+			// optional: show modal manually if needed
+			$("#viewOrderProductDetail").modal("show");
+		},
+				
+
+				error: function (xhr) {
+					alert("Get order detail failed");
+				}
+			});
+
+		});
+		$('#add-user').submit(function (e) {
+			e.preventDefault();
+
+			$.ajax({
+				url: '/UserManagement/Create',
+				type: 'POST',
+				data: $('#add-user').serialize(),
+
+				success: function (response) {
+					alert(response.message);
+					location.reload();
+				},
+
+				error: function (xhr) {
+					alert("Create failed");
+				}
+			});
+
+		});
+		$('#delete-user').submit(function (e){
+			e.preventDefault();
+
+			$.ajax({
+				url: '/UserManagement/Delete',
+				type: 'POST',
+				data: $('#delete-user').serialize(),
+
+				success: function (response){
+					alert(response.message);
+					location.reload();
+				},
+				error: function (xhr) {
+					alert("Delete failed");
+				}
+			});
+		});
+
+	});
+</script>

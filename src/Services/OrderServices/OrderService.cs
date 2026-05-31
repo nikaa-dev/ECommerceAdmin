@@ -1,4 +1,5 @@
 using src.DTO.OrderDto;
+using src.DTO.ProductDto;
 using src.Models.Ecommerce;
 using src.Repositories.OrderRepositories;
 
@@ -40,5 +41,27 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
     {
         var total = await orderRepository.GetAllAsync();
         return total.Count();
+    }
+
+    public async Task<List<ProductResponseDto>> GetProductByOrderIdAsync(string orderId)
+    {
+        var guid = Guid.Parse(orderId);
+        var order = await orderRepository.GetByIdAsync(guid);
+
+        if (order == null || order.OrderDetails == null)
+            return new List<ProductResponseDto>();
+
+        return order.OrderDetails
+            .Select(od => new ProductResponseDto
+            {
+                Id = od!.Product!.Id,
+                Name = od.Product.Name,
+                Price = od.Product.Price,
+                Category = "Null",
+                Stock = od.Product.Stock,
+                ImageUrl = od.Product.ImageUrl,
+                Status = "Null"
+            })
+            .ToList();
     }
 }

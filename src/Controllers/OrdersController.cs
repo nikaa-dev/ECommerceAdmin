@@ -5,6 +5,7 @@ using src.Extensions.Pagenations;
 using src.Models;
 using src.Models.Ecommerce;
 using src.Repositories.OrderRepositories;
+using src.Services.CustomerServices;
 using src.Services.OrderServices;
 using src.Services.OrderStatusServices;
 using System.Diagnostics;
@@ -59,5 +60,26 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         var queryable = orders.AsQueryable();
         var pagination = queryable.ToPagedResultAsync(pageNumber, pageSize);
         return View(pagination);
+    }
+
+    public async Task<IActionResult> OrderDetail(string orderId)
+    {
+       
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var products = await orderService.GetProductByOrderIdAsync(orderId);
+
+        if (products == null)
+        {
+            return BadRequest(new { success = false, message = "Get product failed" });
+        }
+
+        return Json(new
+        {
+            success = true,
+            message = "Get product successfully",
+            data = products
+        });
     }
 }
