@@ -2,6 +2,7 @@ using src.DTO.OrderDto;
 using src.DTO.ProductDto;
 using src.Models.Ecommerce;
 using src.Repositories.OrderRepositories;
+using static src.Enums.Permissions;
 
 namespace src.Services.OrderServices;
 
@@ -43,24 +44,27 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
         return total.Count();
     }
 
-    public async Task<List<ProductResponseDto>> GetProductByOrderIdAsync(string orderId)
+    public async Task<List<ProductDetailResponseDto>> GetProductByOrderIdAsync(string orderId)
     {
         var guid = Guid.Parse(orderId);
-        var order = await orderRepository.GetByIdAsync(guid);
+        var orders = await orderRepository.GetOrderIdAsync(guid);
 
-        if (order == null || order.OrderDetails == null)
-            return new List<ProductResponseDto>();
+        if (orders == null)
+            return new List<ProductDetailResponseDto>();
 
-        return order.OrderDetails
-            .Select(od => new ProductResponseDto
+        return orders
+            .SelectMany(o => o.OrderDetails)
+            .Where(od => od.Product != null)
+            .Select(od => new ProductDetailResponseDto
             {
-                Id = od!.Product!.Id,
+                Id = od.Product!.Id,
                 Name = od.Product.Name,
                 Price = od.Product.Price,
                 Category = "Null",
                 Stock = od.Product.Stock,
                 ImageUrl = od.Product.ImageUrl,
-                Status = "Null"
+                Status = "Null",
+                Quantity = od.Quantity
             })
             .ToList();
     }

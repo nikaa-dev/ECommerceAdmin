@@ -9,5 +9,5 @@ public interface IOrderService
     Task<List<OrderResponseDto>> GetAllIncludedAsync();
     Task<List<Order>> GetAllAsync();
     Task<int> GetCountAsync();
-    Task<List<ProductResponseDto>> GetProductByOrderIdAsync(string orderId);
+    Task<List<ProductDetailResponseDto>> GetProductByOrderIdAsync(string orderId);
 }
