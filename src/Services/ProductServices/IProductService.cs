@@ -5,4 +5,7 @@ namespace src.Services.ProductServices;
 public interface IProductService
 {
     Task<List<ProductResponseDto>> GetProductListingAsync();
+
+    Task<byte[]> ExportProductData(ProductRequestExportDto request);
+
 }

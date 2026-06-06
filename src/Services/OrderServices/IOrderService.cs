@@ -10,4 +10,6 @@ public interface IOrderService
     Task<List<Order>> GetAllAsync();
     Task<int> GetCountAsync();
     Task<List<ProductDetailResponseDto>> GetProductByOrderIdAsync(string orderId);
+
+    Task<byte[]> ExportOrderData(OrderRequestExportDto order);
 }

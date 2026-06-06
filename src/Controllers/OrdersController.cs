@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using src.DTO.OrderDto;
 using src.Enums;
 using src.Extensions.Pagenations;
 using src.Models;
@@ -81,5 +82,14 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
             message = "Get product successfully",
             data = products
         });
+    }
+
+    public async Task<IActionResult> Export(OrderRequestExportDto order) {
+
+        var bytes = await orderService.ExportOrderData(order);
+
+        var fileName = $"order_{DateTime.Now:yyyyMMddHHmmss}.csv";
+
+        return File(bytes, "text/csv", fileName);
     }
 }

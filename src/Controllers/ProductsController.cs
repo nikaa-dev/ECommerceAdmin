@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using src.DTO.ProductDto;
 using src.Enums;
 using src.Extensions.Pagenations;
 using src.Models;
@@ -37,6 +38,15 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
         var productResults = productQuery.ToPagedResultAsync(page, 8);
         
         return View(productResults);
+    }
+
+    public async Task<IActionResult> Export(ProductRequestExportDto request) {
+        var bytes = await productService.ExportProductData(request);
+
+        // define filename
+        var fileName = $"order_{DateTime.Now:yyyyMMddHHmmss}.csv";
+
+        return File(bytes,"text/csv", fileName);
     }
     
 }

@@ -1,7 +1,9 @@
 using src.DTO.OrderDto;
 using src.DTO.ProductDto;
+using src.Extensions.Pagenations;
 using src.Models.Ecommerce;
 using src.Repositories.OrderRepositories;
+using System.Text;
 using static src.Enums.Permissions;
 
 namespace src.Services.OrderServices;
@@ -67,5 +69,43 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
                 Quantity = od.Quantity
             })
             .ToList();
+    }
+
+
+    public async Task<byte[]> ExportOrderData(OrderRequestExportDto order)
+    {
+        // get data include
+        var orderData = await GetAllIncludedAsync();
+
+        // convert to queryable
+        var orderQueryable = orderData.AsQueryable();
+
+        // get data pagination
+        var orderPaginate = orderQueryable.ToPagedResultAsync(order.PageNumber, order.Count);
+
+        // define properties
+        var properties = typeof(OrderResponseDto).GetProperties();
+
+        // combine string
+        StringBuilder builder = new StringBuilder();
+
+        // header
+        builder.AppendLine(string.Join(",", properties.Select(p => p.Name)));
+
+        // set value into row
+        foreach (var item in orderPaginate.Items)
+        {
+            var row = properties.Select(property =>
+            {
+                var value = property.GetValue(item);
+
+                return value?.ToString()?.Replace(",", " ");
+            });
+
+            builder.AppendLine(string.Join(",", row));
+        }
+
+        // return as bytes
+        return Encoding.UTF8.GetBytes(builder.ToString());
     }
 }
