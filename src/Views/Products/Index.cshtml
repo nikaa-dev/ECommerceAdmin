@@ -17,6 +17,17 @@
 		height: 40px;
 	}
 
+	.grid-container1 {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+
+	/* First row = full width (1 column) */
+	.full-width1 {
+		grid-column: 1 / -1;
+	}
+
 	.grid-container {
 		display: grid;
 		grid-template-columns: repeat(6, 1fr);
@@ -107,23 +118,23 @@
 					{
 						<tr>
 							<td class="p-3 fw-semibold d-flex">
-								<img class="h-30px w-30px rounded-10 bg-light"
+								<img class="h-30px w-30px rounded-10 bg-light product-image-data"
 									 src="https://powermaccenter.com/cdn/shop/files/AirPods_Max_2024_Orange_PDP_Image_Position_1__en-US_e1cd9597-a5e4-4d45-a43c-317315954a0a.jpg?v=1726225876"
 									 alt="image picture" />
-								<span class="m-2 fw-normal">
+								<span class="m-2 fw-normal product-name-data">
 									@i.Name
 								</span>
 							</td>
 							<td class="pt-4 ps-4 ">
-								<span class="text-secondary">@i.Category</span>
+								<span class="text-secondary product-category-data">@i.Category</span>
 							</td>
 							<td class="pt-4 ps-4">
-								<span>
+								<span class="product-price-data">
 									$@i.Price
 								</span>
 							</td>
 							<td class="pt-4 ps-4">
-								<span class=" text-secondary">
+								<span class=" text-secondary product-stock-data">
 									@i.Stock
 								</span>
 							</td>
@@ -135,7 +146,7 @@
 									"bg-red-100 text-red-700";
 								}
 
-								<span class="badge fw-normal px-3 py-2 rounded-pill @badgeClass">
+								<span class="badge fw-normal px-3 py-2 rounded-pill @badgeClass product-status-data">
 									@i.Status
 								</span>
 							</td>
@@ -215,36 +226,36 @@
 								 alt="image picture" />
 						</div>
 						<div class="gap-1 ms-2 ">
-							<h4 class="mb-0">Smart Watch</h4>
+							<h4 class="mb-0" id="v-product-name">Smart Watch</h4>
 
-							<span class="text-muted my-1">ELEC-002</span>  <br />
+							<span class="text-muted my-1 " id="v-product-id">ELEC-002</span>  <br />
 
-							<span class="badge fw-normal px-3 py-2 rounded-pill bg-dark w-auto my-1" id="v-status">
-								Active
+							<span class="badge fw-normal px-3 py-2 rounded-pill bg-dark w-auto my-1" id="v-product-status">
+								Active																		
 							</span>
 						</div>
 					</div>
 					<div class="d-flex align-items-center">
-						<h4 class="fw-bold text-primary">$299.99</h4>
+						<h4 class="fw-bold text-primary" id="v-product-price">$299.99</h4>
 					</div>
 				</div>
 				<div class="border-top w-100 "></div>
 
-				<div class="grid-container mt-3">
+				<div class="grid-container1 mt-3">
 
 					<div class="item">
 						<p class="mb-1">CATEGORY</p>
-						<p id="v-name">Electronic</p>
+						<p id="v-product-category">Electronic</p>
 					</div>
 
 					<div class="item">
 						<p class="mb-1">STOCK QUANTITY</p>
-						<p id="v-address">23 units</p>
+						<p id="v-product-stock">23 units</p>
 					</div>
 
-					<div class="item full-width">
+					<div class="item full-width1">
 						<p class="mb-1">DESCRIPTION</p>
-						<p id="v-visa-end">Feature-rich smartwatch with health tracking, GPS, and 5-day battery.</p>
+						<p id="v-product-description">Feature-rich smartwatch with health tracking, GPS, and 5-day battery.</p>
 					</div>
 
 				</div>
@@ -320,9 +331,9 @@
 				</div>
 				<div class="border-top w-100 "></div>
 
-				<div class="grid-container mt-3">
+				<div class="grid-container1 mt-3">
 
-					<div class="item full-width">
+					<div class="item full-width1">
 						<p class="mb-1">Product Name</p>
 						<input class="w-100 border-0 rounded-3 ps-3 fw-normal" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="Wireless HeadPhone " />
 					</div>
@@ -536,6 +547,53 @@
 
 <script>
 	$(document).ready(function () {
+		
+		 $(".action-button").click(function () {
+			var row = $(this).closest("tr");
+
+
+			// var id = row.find(".data-id").text().trim();
+			// console.log(id);
+
+			var name   = row.find(".product-name-data").text().trim();
+		
+			var category  = row.find(".product-category-data").text().trim();
+			console.log(category);
+
+			var stock = row.find(".product-stock-data").text().trim();
+			stock = stock + " units";
+			var status = row.find(".product-status-data").text().trim();
+			console.log(status);
+			var price = row.find(".product-price-data").text().trim();
+			var image = row.find(".product-image-data").text().trim();
+
+
+			$("#v-product-name").text(name);
+			$("#v-product-category").text(category);
+			$("#v-product-stock").text(stock);
+			$("#v-product-status").text(status);
+			$("#v-product-price").text(price);
+
+			// $("#image").val(image);
+			// $("#status").removeClass();
+
+			// 	if (status === "Active") {
+			// 		$("#v-status").addClass("rounded-pill px-2 py-1 bg-green-100 text-green-700");
+			// 	}
+			// 	else if (status === "InActive") {
+			// 		$("#v-status").addClass("rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
+			// 	}
+			// 	else {
+			// 		$("#v-status").addClass(" rounded-pill px-2 py-1 bg-red-100 text-red-700");
+			// 	}
+
+			// $("#d-fullname").text(name);
+			// $("#d-id").val(id);
+
+		});
+
+
+
 		$('#export-product').on('submit', function (e) {
 			e.preventDefault();
 
