@@ -44,7 +44,7 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
         var bytes = await productService.ExportProductData(request);
 
         // define filename
-        var fileName = $"order_{DateTime.Now:yyyyMMddHHmmss}.csv";
+        var fileName = $"product_{DateTime.Now:yyyyMMddHHmmss}.csv";
 
         return File(bytes,"text/csv", fileName);
     }

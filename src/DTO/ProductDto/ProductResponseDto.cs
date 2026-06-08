@@ -27,6 +27,7 @@ public record ProductResponseDto
     [Range(1,int.MaxValue)] 
     public int Stock { get; set; } = 0;
     public string Category { get; set; }
+    public string? Description { get; set; }
 }
 public record ProductDetailResponseDto
 {
@@ -52,4 +53,5 @@ public record ProductDetailResponseDto
     [Range(1, int.MaxValue)]
     public int Stock { get; set; } = 0;
     public string Category { get; set; }
+    public string? Description { get; set; }
 }

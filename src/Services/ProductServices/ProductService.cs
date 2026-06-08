@@ -29,7 +29,8 @@ public class ProductService(IProductRepository productRepository):IProductServic
                 ImageUrl = product.ImageUrl,
                 Stock = product.Stock,
                 Status = Status,
-                Category = product.Category!.Name
+                Category = product.Category!.Name,
+                Description = product.Description
             };
             productResponses.Add(productResponse);
         }

@@ -137,6 +137,7 @@
 								<span class=" text-secondary product-stock-data">
 									@i.Stock
 								</span>
+								<p hidden class="product-description-data">@i.Description</p>
 							</td>
 							<td class="pt-4 ps-4">
 								@{
@@ -267,13 +268,14 @@
 								Stock Level
 							</span>
 
-							<span class="small fw-semibold text-dark">
+							<span class="small fw-semibold text-dark" id="v-product-stock-level">
 								23 / 200
 							</span>
 						</div>
 
 						<div class="progress" style="height:8px;">
 							<div class="progress-bar bg-success"
+								id="v-product-progress-bar"
 								 role="progressbar"
 								 style="width: 11.5%;"
 								 aria-valuenow="11.5"
@@ -322,7 +324,7 @@
 						<div class="gap-1 ms-2 ">
 							<span>Editing</span>   <br />
 
-							<span class="text-muted my-1">Wireless Headphone</span>  <br />
+							<span class="text-muted my-1" >Wireless Headphone</span>  <br />
 
 
 						</div>
@@ -560,12 +562,19 @@
 			var category  = row.find(".product-category-data").text().trim();
 			console.log(category);
 
-			var stock = row.find(".product-stock-data").text().trim();
+			var stock = parseInt(row.find(".product-stock-data").text().trim());
+			var stocklevel = stock + " / 200";
+			var progressbar = (stock / 200) * 100;
 			stock = stock + " units";
+
+			console.log(progressbar);
+			
 			var status = row.find(".product-status-data").text().trim();
 			console.log(status);
 			var price = row.find(".product-price-data").text().trim();
 			var image = row.find(".product-image-data").text().trim();
+			var description = row.find(".product-description-data").text().trim();
+			console.log(description);
 
 
 			$("#v-product-name").text(name);
@@ -573,6 +582,12 @@
 			$("#v-product-stock").text(stock);
 			$("#v-product-status").text(status);
 			$("#v-product-price").text(price);
+			$("#v-product-stock-level").text(stocklevel);
+			$("#v-product-description").text(description);
+			$("#v-product-progress-bar")
+				.css("width", progressbar + "%")
+				.attr("aria-valuenow", progressbar);
+
 
 			// $("#image").val(image);
 			// $("#status").removeClass();
