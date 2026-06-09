@@ -124,6 +124,7 @@
 								<span class="m-2 fw-normal product-name-data">
 									@i.Name
 								</span>
+								<p hidden class="product-id-data">@i.Id</p>
 							</td>
 							<td class="pt-4 ps-4 ">
 								<span class="text-secondary product-category-data">@i.Category</span>
@@ -306,83 +307,99 @@
 	<div class="modal-dialog modal-dialog-centered" style="max-width:35%; margin:auto;" role="document">
 		<div class="modal-content ">
 
-			<div class="modal-header border-0 flex-column align-items-start mx-2">
-				<h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit Product</h5>
-				<p class="text-muted mb-0">Update product information and inventory</p>
-				<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true" class="fs-5">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body mx-2">
-				<div class="d-flex my-1 bg rounded-4 justify-content-between">
-					<div class="d-flex my-1 bg rounded-4 ">
-						<div>
-							<img class="rounded-10 bg-light" style="width: 50px;height:50px;"
-								 src="~/img/download.png"
-								 alt="image picture" />
+			<form id="edit-product">
+				<div class="modal-header border-0 flex-column align-items-start mx-2">
+					<h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit Product</h5>
+					<p class="text-muted mb-0">Update product information and inventory</p>
+					<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" class="fs-5">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body mx-2">
+					<div class="d-flex my-1 bg rounded-4 justify-content-between">
+						<div class="d-flex my-1 bg rounded-4 ">
+							<div>
+								<img class="rounded-10 bg-light" style="width: 50px;height:50px;"
+									 src="~/img/download.png"
+									 alt="image picture" />
+							</div>
+							<div class="gap-1 ms-2 ">
+								<span>Editing</span>   <br />
+
+								<span class="text-muted my-1 e-product-name">Wireless Headphone</span>  <br />
+								
+
+							</div>
 						</div>
-						<div class="gap-1 ms-2 ">
-							<span>Editing</span>   <br />
+					
+					</div>
+					<div class="border-top w-100 "></div>
 
-							<span class="text-muted my-1" >Wireless Headphone</span>  <br />
+					<div class="grid-container1 mt-3">
 
+						<div class="item full-width1">
+							<p class="mb-1">Product Name</p>
+							<input class="w-100 border-0 rounded-3 ps-3 fw-normal e-product-name" name="Name" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="Wireless HeadPhone " />
+							<input hidden name="Id" id="e-product-id"/>
+						</div>
+						<div class="item ">
+							<p class="mb-1">Category</p>
+							<select name="Category" id="e-product-category" class="form-select border-0 rounded-3 px-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+								@foreach (var c in ViewBag.Category)
+								{
+									<option class="bg-light" value="@c" >@c</option>
+								}
+							</select>
+
+						
+						</div>
+
+						<div class="item ">
+							<p class="mb-1">Status</p>
+							<select name="Status" id="e-product-status" class="form-select border-0 rounded-3 px-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+								@foreach (var status in ViewBag.ProductStatus)
+								{
+									<option value="@status">
+										@status
+									</option>
+								}
+							</select>
+						</div>
+						<div class="item">
+							<p class="mb-1">Price ($)</p>
+							<input name="Price" id="e-product-price" type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="10">
+						</div>
+
+						<div class="item">
+							<p class="mb-1">Stock Quantity</p>
+							<input name="Stock" id="e-product-stock" type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium; height:40px;" value="20">
+						</div>
+
+					
+
+					</div>
+					<div class="col-12 mt-3">
+						<span>Description</span><br />
+					
+						<div class="border rounded-3 py-2 px-3" >
+
+							<textarea name="Description" id="e-product-description" class="w-100 border-0"
+									  placeholder="Enter product description..."
+									  style="height:60px; resize:none; outline:none;"></textarea>
 
 						</div>
 					</div>
-					
 				</div>
-				<div class="border-top w-100 "></div>
-
-				<div class="grid-container1 mt-3">
-
-					<div class="item full-width1">
-						<p class="mb-1">Product Name</p>
-						<input class="w-100 border-0 rounded-3 ps-3 fw-normal" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="Wireless HeadPhone " />
-					</div>
-					<div class="item ">
-						<p class="mb-1">Category</p>
-						<select class="form-select border-0 rounded-3 px-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
-							<option>Wireless HeadPhone</option>
-							<option>Wireless HeadPhone</option>
-						</select>
-					</div>
-
-					<div class="item ">
-						<p class="mb-1">Status</p>
-						<input class="form-select border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="Wireless HeadPhone ">
-					</div>
-					<div class="item">
-						<p class="mb-1">Price ($)</p>
-						<input type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="10">
-					</div>
-
-					<div class="item">
-						<p class="mb-1">Stock Quantity</p>
-						<input type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium; height:40px;" value="20">
-					</div>
-
-					
-
+				<div class="modal-footer border-0">
+					<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+						<span>Close</span>
+					</button>
+					<button type="submit" class="btn btn-dark rounded-2 d-flex">
+						<i class="bi bi-pencil-square"></i>
+						<span class="ms-3">Edit Product</span>
+					</button>
 				</div>
-				<div class="col-12 mt-3">
-					<span>Description</span><br />
-					
-					<div class="border rounded-4 py-2 px-3" >
-
-						<p>Premium wireless headphones with noise cancellation and 30-hour battery life.</p>
-
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer border-0">
-				<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
-					<span>Close</span>
-				</button>
-				<button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#EditProduct">
-					<i class="bi bi-pencil-square"></i>
-					<span class="ms-3">Edit Product</span>
-				</button>
-			</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -413,16 +430,16 @@
 								 alt="image picture" />
 
 							<div class="d-flex flex-column">
-								<span class="fw-medium">Editing</span>
-								<span class="text-muted small">Wireless Headphone</span>
+								<span id="d-product-name" class="fw-medium">Wireless headphone</span>
+								<span id="d-product-category-and-id" class="text-muted small">Electronics · ELEC-001</span>
 							</div>
 
 						</div>
 
 						<!-- Right: Price + Stock -->
 						<div class="d-flex flex-column text-end">
-							<span class="fw-medium">$129.99</span>
-							<span class="text-muted small">45 in stock</span>
+							<span id="d-product-price" class="fw-medium">$129.99</span>
+							<span id="d-product-stock" class="text-muted small">45 in stock</span>
 						</div>
 
 					</div>
@@ -472,7 +489,8 @@
 					<!-- Row 1 -->
 					<div class="item full-width">
 						<p class="mb-1">Product Name</p>
-						<input class="w-100 border-0 rounded-3 ps-3 fw-normal"
+						<input id="a-product-name" 
+							class="w-100 border-0 rounded-3 ps-3 fw-normal"
 							   placeholder="e.g. Wireless Headphone"
 							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
 					</div>
@@ -480,53 +498,72 @@
 					<!-- Row 2 -->
 					<div class="item half-width">
 						<p class="mb-1">SKU</p>
-						<input class="border-0 rounded-3 ps-3 w-100"
+						<input id="a-product-id" 
+							class="border-0 rounded-3 ps-3 w-100"
 							   placeholder="e.g. ELEC-010"
 							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
 					</div>
 
 					<div class="item half-width">
 						<p class="mb-1">Category</p>
-						<select class="form-select border-0 rounded-3 ps-3 w-100"
-								style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
-							<option>Wireless Headphone</option>
+						<select 
+							id="a-product-category"
+							class="form-select border-0 rounded-3 ps-3 w-100"
+							style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+							@foreach (var c in ViewBag.Category)
+							{
+								<option class="bg-light" value="@c" selected="@(Context.Request.Query["filterByCategory"] == c)">@c</option>
+							}
 						</select>
 					</div>
 
 					<!-- Row 3 -->
 					<div class="item third-width">
 						<p class="mb-1">Price ($)</p>
-						<input type="number"
+						<input id="a-product-price"
+							type="number"
 							   class="form-control border-0 rounded-3 ps-3 w-100"
-							   value="10"
+							   placeholder="0.00"
 							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
 					</div>
 
 					<div class="item third-width">
 						<p class="mb-1">Stock Quantity</p>
-						<input type="number"
+						<input 	id="a-product-stock"
+							type="number"
 							   class="form-control border-0 rounded-3 ps-3 w-100"
-							   value="20"
+							   placeholder="0"
 							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
 					</div>
 
 					<div class="item third-width">
 						<p class="mb-1">Status</p>
-						<select class="form-select border-0 rounded-3 ps-3 w-100"
+						<select id="a-product-status"
+							class="form-select border-0 rounded-3 ps-3 w-100"
 								style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
-							<option>Active</option>
+							@foreach (var status in ViewBag.ProductStatus)
+							{
+								<option value="@status">
+									@status
+								</option>
+							}
+
 						</select>
+
+							
 					</div>
 
 				</div>
 				<div class="col-12 mt-3">
 					<span>Description</span><br />
 
-					<div class="border rounded-3 py-2 px-3 mt-1" style="">
+					<div class="border rounded-3 py-2 px-3 mt-1" >
 
-						<textarea class="w-100 border-0"
-								  placeholder="Enter product description..."
-								  style="height:60px; resize:none; outline:none;"></textarea>
+						<textarea 
+							id="a-product-description"
+							class="w-100 border-0"
+							placeholder="Enter product description..."
+							style="height:60px; resize:none; outline:none;"></textarea>
 
 					</div>
 				</div>
@@ -554,8 +591,8 @@
 			var row = $(this).closest("tr");
 
 
-			// var id = row.find(".data-id").text().trim();
-			// console.log(id);
+			var id = row.find(".product-id-data").text().trim();
+			console.log(id);
 
 			var name   = row.find(".product-name-data").text().trim();
 		
@@ -565,29 +602,50 @@
 			var stock = parseInt(row.find(".product-stock-data").text().trim());
 			var stocklevel = stock + " / 200";
 			var progressbar = (stock / 200) * 100;
-			stock = stock + " units";
+			var stocktext = stock + " units";
 
 			console.log(progressbar);
 			
 			var status = row.find(".product-status-data").text().trim();
 			console.log(status);
-			var price = row.find(".product-price-data").text().trim();
+			var pricetext = row.find(".product-price-data").text().trim();
+			var price = pricetext.replace("$", "");
 			var image = row.find(".product-image-data").text().trim();
 			var description = row.find(".product-description-data").text().trim();
 			console.log(description);
 
+			var categoryAndId = category + " · " + id;
+			console.log(categoryAndId);
+
 
 			$("#v-product-name").text(name);
 			$("#v-product-category").text(category);
-			$("#v-product-stock").text(stock);
+			$("#v-product-stock").text(stocktext);
 			$("#v-product-status").text(status);
-			$("#v-product-price").text(price);
+			$("#v-product-price").text(pricetext);
 			$("#v-product-stock-level").text(stocklevel);
 			$("#v-product-description").text(description);
 			$("#v-product-progress-bar")
 				.css("width", progressbar + "%")
 				.attr("aria-valuenow", progressbar);
 
+
+			$(".e-product-name").text(name);
+			$(".e-product-name").val(name);
+			$("#e-product-category").val(category);
+			$("#e-product-status").val(status);
+			$("#e-product-price").val(price);
+			$("#e-product-stock").val(stock);
+			$("#e-product-description").text(description);
+			$("#e-product-id").val(id);
+
+
+			$("#d-product-name").text(name);
+			$("#d-product-category-and-id").text(categoryAndId);
+			$("#d-product-price").text(pricetext);
+			$("#d-product-stock").text(stocktext);
+
+			
 
 			// $("#image").val(image);
 			// $("#status").removeClass();
@@ -620,10 +678,25 @@
 			window.open(url, '_blank'); // better for download behavior
 		});
 
+		$('#edit-product').on('submit',function(e){
+			e.preventDefault();
+
+			$.ajax({
+				url: '/Products/Update',
+				type: 'POST',
+				data: $('#edit-product').serialize(),
+
+				success: function (response) {
+					alert(response.message);
+					location.reload();
+				},
+
+				error: function (xhr) {
+					alert(xhr.message);
+				}
+			});
+		});
+
 	});
-
-
-
-
 </script>
 

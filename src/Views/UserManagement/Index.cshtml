@@ -461,7 +461,7 @@
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Role">Role</label>
-                                                                <select id="role" style="padding:8px;padding-right:5px;border:none;width:100%;border-radius:10px;background-color:#f3f4f6;">
+                                                                <select id="role" name="Role" style="padding:8px;padding-right:5px;border:none;width:100%;border-radius:10px;background-color:#f3f4f6;">
                                                                     @foreach (var role in ViewBag.RoleNames)
                                                                     {
                                                                         <option value=@role selected="@(user.Role == role)">
@@ -472,7 +472,7 @@
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Status">Status</label>
-                                                                <select id="status" style="padding:8px;padding-right:5px;border:none;width:100%;border-radius:10px;background-color:#f3f4f6;">
+                                                                <select id="status" name="Status" style="padding:8px;padding-right:5px;border:none;width:100%;border-radius:10px;background-color:#f3f4f6;">
                                                                     <option value="InActive" selected=@(user.Role == "InActive")>
                                                                         InActive
                                                                     </option>
