@@ -408,16 +408,17 @@
 <!-- delete Product Modal -->
 <div class="modal fade" id="DeleteProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" style="max-width:35%; margin:auto;" role="document">
-		<div class="modal-content ">
+		<form id="delete-product">
+			<div class="modal-content ">
 
-			<div class="modal-header border-0 flex-column align-items-start mx-2">
-				<h5 class="modal-title fw-semibold" id="exampleModalLabel">Delete Product</h5>
-				<p class="text-muted mb-0">Are you sure you want to delete this product? This action cannot be undone.</p>
-				<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true" class="fs-5">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body mx-2">
+				<div class="modal-header border-0 flex-column align-items-start mx-2">
+					<h5 class="modal-title fw-semibold" id="exampleModalLabel">Delete Product</h5>
+					<p class="text-muted mb-0">Are you sure you want to delete this product? This action cannot be undone.</p>
+					<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" class="fs-5">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body mx-2">
 
 					<div class="d-flex align-items-center justify-content-between py-2 px-3 bg-light rounded-4" style="height:80px;">
 
@@ -430,6 +431,7 @@
 								 alt="image picture" />
 
 							<div class="d-flex flex-column">
+								<input hidden id="d-product-id" name="Id"/>
 								<span id="d-product-name" class="fw-medium">Wireless headphone</span>
 								<span id="d-product-category-and-id" class="text-muted small">Electronics · ELEC-001</span>
 							</div>
@@ -454,130 +456,138 @@
 					</div>
 
 				</div>
-				
-							<div class="modal-footer border-0">
-								<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
-									<span>Close</span>
-								</button>
-								<button type="button" class="btn btn-danger rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" >
-									<i class="bi bi-trash3"></i>
-									<span class="ms-3">Delete Product</span>
-								</button>
-							</div>
-						</div>
-					</div>
+
+				<div class="modal-footer border-0">
+					<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+						<span>Close</span>
+					</button>
+					<button type="submit" class="btn btn-danger rounded-2 d-flex">
+						<i class="bi bi-trash3"></i>
+						<span class="ms-3">Delete Product</span>
+					</button>
 				</div>
+			</div>
+
+		</form>
+	</div>
+</div>
 
 
 <!-- Add Product Modal -->
 <div class="modal fade" id="AddProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
-		<div class="modal-content ">
+		 <form id="add-product">
+			<div class="modal-content ">
 
-			<div class="modal-header border-0 flex-column align-items-start mx-2">
-				<h5 class="modal-title fw-semibold" id="exampleModalLabel">Add New Product</h5>
-				<p class="text-muted mb-0">Fill in the details to add a new product to your inventory</p>
-				<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true" class="fs-5">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body mx-2">
-				
-
-				<div class="grid-container ">
-
-					<!-- Row 1 -->
-					<div class="item full-width">
-						<p class="mb-1">Product Name</p>
-						<input id="a-product-name" 
-							class="w-100 border-0 rounded-3 ps-3 fw-normal"
-							   placeholder="e.g. Wireless Headphone"
-							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
-					</div>
-
-					<!-- Row 2 -->
-					<div class="item half-width">
-						<p class="mb-1">SKU</p>
-						<input id="a-product-id" 
-							class="border-0 rounded-3 ps-3 w-100"
-							   placeholder="e.g. ELEC-010"
-							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
-					</div>
-
-					<div class="item half-width">
-						<p class="mb-1">Category</p>
-						<select 
-							id="a-product-category"
-							class="form-select border-0 rounded-3 ps-3 w-100"
-							style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
-							@foreach (var c in ViewBag.Category)
-							{
-								<option class="bg-light" value="@c" selected="@(Context.Request.Query["filterByCategory"] == c)">@c</option>
-							}
-						</select>
-					</div>
-
-					<!-- Row 3 -->
-					<div class="item third-width">
-						<p class="mb-1">Price ($)</p>
-						<input id="a-product-price"
-							type="number"
-							   class="form-control border-0 rounded-3 ps-3 w-100"
-							   placeholder="0.00"
-							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
-					</div>
-
-					<div class="item third-width">
-						<p class="mb-1">Stock Quantity</p>
-						<input 	id="a-product-stock"
-							type="number"
-							   class="form-control border-0 rounded-3 ps-3 w-100"
-							   placeholder="0"
-							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
-					</div>
-
-					<div class="item third-width">
-						<p class="mb-1">Status</p>
-						<select id="a-product-status"
-							class="form-select border-0 rounded-3 ps-3 w-100"
-								style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
-							@foreach (var status in ViewBag.ProductStatus)
-							{
-								<option value="@status">
-									@status
-								</option>
-							}
-
-						</select>
-
-							
-					</div>
-
+				<div class="modal-header border-0 flex-column align-items-start mx-2">
+					<h5 class="modal-title fw-semibold" id="exampleModalLabel">Add New Product</h5>
+					<p class="text-muted mb-0">Fill in the details to add a new product to your inventory</p>
+					<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" class="fs-5">&times;</span>
+					</button>
 				</div>
-				<div class="col-12 mt-3">
-					<span>Description</span><br />
 
-					<div class="border rounded-3 py-2 px-3 mt-1" >
+				<div class="modal-body mx-2">
 
-						<textarea 
-							id="a-product-description"
-							class="w-100 border-0"
-							placeholder="Enter product description..."
-							style="height:60px; resize:none; outline:none;"></textarea>
+
+					<div class="grid-container ">
+
+						@* name *@
+						<div class="item full-width">
+							<p class="mb-1">Product Name</p>
+							<input id="a-product-name" name="Name"
+								   class="w-100 border-0 rounded-3 ps-3 fw-normal"
+								   placeholder="e.g. Wireless Headphone"
+								   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
+						</div>
+
+						@* code *@
+						<div class="item half-width">
+							<p class="mb-1">SKU</p>
+							<input id="a-product-id" name="Code"
+								   class="border-0 rounded-3 ps-3 w-100"
+								   placeholder="e.g. ELEC-010"
+								   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
+						</div>
+
+						@* category *@
+						<div class="item half-width">
+							<p class="mb-1">Category</p>
+							<select id="a-product-category" name="Category"
+									class="form-select border-0 rounded-3 ps-3 w-100"
+									style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+								@foreach (var c in ViewBag.Category)
+								{
+									<option class="bg-light" value="@c" selected="@(Context.Request.Query["filterByCategory"] == c)">@c</option>
+								}
+							</select>
+						</div>
+
+						@* price *@
+						<div class="item third-width">
+							<p class="mb-1">Price ($)</p>
+							<input id="a-product-price" name="Price"
+								   type="number"
+								   class="form-control border-0 rounded-3 ps-3 w-100"
+								   placeholder="0.00"
+								   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+						</div>
+
+						@* stock *@
+						<div class="item third-width">
+							<p class="mb-1">Stock Quantity</p>
+							<input id="a-product-stock" name="Stock"
+								   type="number"
+								   class="form-control border-0 rounded-3 ps-3 w-100"
+								   placeholder="0"
+								   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+						</div>
+
+						@* status *@
+						<div class="item third-width">
+							<p class="mb-1">Status</p>
+							<select id="a-product-status" name="Status"
+									class="form-select border-0 rounded-3 ps-3 w-100"
+									style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+								@foreach (var status in ViewBag.ProductStatus)
+								{
+									<option value="@status">
+										@status
+									</option>
+								}
+
+							</select>
+
+
+						</div>
 
 					</div>
+
+					@* description *@
+					<div class="col-12 mt-3">
+						<span>Description</span><br />
+
+						<div class="border rounded-3 py-2 px-3 mt-1">
+
+							<textarea id="a-product-description" name="Description"
+									  class="w-100 border-0"
+									  placeholder="Enter product description..."
+									  style="height:60px; resize:none; outline:none;"></textarea>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer border-0">
+					<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+						<span>Cancel</span>
+					</button>
+					<button type="submit" class="btn btn-dark rounded-2 d-flex" >
+						<i class="bi bi-plus-lg"></i>
+						<span class="ms-3">Add Product</span>
+					</button>
 				</div>
 			</div>
-			<div class="modal-footer border-0">
-				<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
-					<span>Cancel</span>
-				</button>
-				<button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#EditProduct">
-					<i class="bi bi-plus-lg"></i>
-					<span class="ms-3">Add Product</span>
-				</button>
-			</div>
-		</div>
+		</form>
 	</div>
 </div>
 
@@ -640,6 +650,7 @@
 			$("#e-product-id").val(id);
 
 
+			$("#d-product-id").val(id);
 			$("#d-product-name").text(name);
 			$("#d-product-category-and-id").text(categoryAndId);
 			$("#d-product-price").text(pricetext);
@@ -689,6 +700,45 @@
 				success: function (response) {
 					alert(response.message);
 					location.reload();
+				},
+
+				error: function (xhr) {
+					alert(xhr.message);
+				}
+			});
+		});
+
+		$('#add-product').on('submit',function(e){
+			e.preventDefault();
+
+			$.ajax({
+				url: '/Products/Create',
+				type: 'POST',
+				data: $('#add-product').serialize(),
+
+				success: function (response) {
+					alert(response.message);
+					location.reload();
+				},
+
+				error: function (xhr) {
+					alert(xhr.message);
+				}
+			});
+		});
+
+		$('#delete-product').on('submit',function(e){
+			e.preventDefault();
+
+			$.ajax({
+				url: '/Products/Delete',
+				type: 'POST',
+				data: $('#delete-product').serialize(),
+
+				success: function (response) {		
+					alert(response.message);
+					location.reload();
+					
 				},
 
 				error: function (xhr) {

@@ -48,5 +48,35 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
 
         return File(bytes,"text/csv", fileName);
     }
-    
+
+    public async Task<IActionResult> Update(ProductRequestUpdateDto request)
+    {
+        if (request == null) return BadRequest("Field is empty!");
+
+        var product = await productService.UpdateProductData(request);
+        
+
+        return product == false ? BadRequest(new { success = false, message = "Update failed" })
+            : Json(new { success = true, message = "Product Updated successfully" });
+    }
+
+    public async Task<IActionResult> Create(ProductRequestCreateDto request)
+    {
+        var product = await productService.CreateProductData(request);
+     
+
+        return product == false ? BadRequest(new { success = false, message = "Create failed" })
+            : Json(new { success = true, message = "Product Created successfully" });
+    }
+
+    public async Task<IActionResult> Delete(Guid Id)
+    {
+        
+        var product = await productService.DeleteProductData(Id);
+
+        return product == false ? BadRequest(new { success = false, message = "Delete failed" })
+            : Json(new { success = true, message = "Product Deleted successfully" });
+    }
+
+
 }

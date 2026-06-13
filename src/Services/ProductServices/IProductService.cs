@@ -8,4 +8,12 @@ public interface IProductService
 
     Task<byte[]> ExportProductData(ProductRequestExportDto request);
 
+    Task<bool> UpdateProductData(ProductRequestUpdateDto request);
+
+    Task<bool> CreateProductData(ProductRequestCreateDto request);
+
+    Task<bool> DeleteProductData(Guid id);
+
+
+
 }
