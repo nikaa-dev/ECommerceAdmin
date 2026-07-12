@@ -145,7 +145,6 @@
 								}
 							}
 
-							// define pagination key
 							<p hidden id="data-page-number">@Model.PageNumber</p>
 							<p hidden id="data-total-count">@Model.TotalCount</p>
 
@@ -236,10 +235,13 @@
 				<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
 					<span>Close</span>
 				</button>
-				<button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
+
+				<form id="print-invoice" method="post">
+				<button type="submit" class="btn btn-dark rounded-2 d-flex" data-toggle="modal">
 					<i class="bi bi-printer"></i>
 					<span class="ms-3">Print Invoice</span>
 				</button>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -262,8 +264,6 @@
 
 					$('.order-detail').click(function (e) {
 						e.preventDefault();
-
-						console.log("Hello world");
 
 						var row = $(this).closest("tr");
 						var orderId = row.find(".id").text().trim().replace("#", "");
@@ -361,7 +361,7 @@
 
 
 			var id = row.find(".id").text().trim();
-			id = "#" + id;
+			viewId = "#" + id;
 
 			var name = row.find(".name").text().trim();
 			var email = row.find(".email").text().trim();
@@ -383,7 +383,7 @@
 			// var product-name = row.find(".product-name").text().trim();
 
 
-			$("#v-id").text(id);
+			$("#v-id").text(viewId);
 			$("#v-datetime").text(date);
 			$("#v-status").text(status);
 			$("#v-email").text(email);
@@ -456,6 +456,19 @@
 			var count = $("#data-total-count").text().trim();
 
 			var url = `/Orders/Export?pageNumber=${pageNumber}&count=${count}`;
+
+			window.open(url, '_blank'); // better for download behavior
+		});
+		$('#print-invoice').on('submit', function (e) {
+			e.preventDefault();
+
+			// var pageNumber = $("#data-page-number").text().trim();
+			// var count = $("#data-total-count").text().trim();
+			var id = $("#v-id").text().trim().substring(1);
+
+			console.log(id);
+
+			var url = `/Orders/PrintInvoice?id=${id}`;
 
 			window.open(url, '_blank'); // better for download behavior
 		});

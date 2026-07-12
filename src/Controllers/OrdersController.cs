@@ -1,16 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.DTO.OrderDto;
-using src.Enums;
 using src.Extensions.Pagenations;
-using src.Models;
-using src.Models.Ecommerce;
-using src.Repositories.OrderRepositories;
-using src.Services.CustomerServices;
 using src.Services.OrderServices;
 using src.Services.OrderStatusServices;
-using System.Diagnostics;
-using static src.Enums.Permissions;
+using jsreport.AspNetCore;
+using jsreport.Types;
 
 namespace src.Controllers;
 public class OrdersController(ILogger<HomeController> logger,IOrderService orderService,IOrderStatusService orderStatusService) : Controller
@@ -92,4 +87,35 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
 
         return File(bytes, "text/csv", fileName);
     }
+
+    [MiddlewareFilter(typeof(JsReportPipeline))]
+    public async Task<IActionResult> PrintInvoice(string id)
+    {
+        Response.Headers["Content-Disposition"] = "attachment; filename=Receipt.pdf";
+
+        HttpContext.JsReportFeature()
+            .Recipe(Recipe.ChromePdf)
+            .Configure(r =>
+            {
+                r.Template.Chrome = new Chrome
+                {
+                    Width = "80mm",
+                    MarginTop = "3mm",
+                    MarginBottom = "3mm",
+                    MarginLeft = "3mm",
+                    MarginRight = "3mm",
+                    PrintBackground = true
+                };
+            });
+
+        var products = await orderService.GetProductByOrderIdAsync(id);
+
+        if (products == null)
+        {
+            return BadRequest(new { success = false, message = "Get product failed" });
+        }
+
+        return View(products);
+    }
+
 }

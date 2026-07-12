@@ -7,6 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="jsreport.AspNetCore" Version="3.8.1" />
+      <PackageReference Include="jsreport.Binary" Version="4.4.0" />
+      <PackageReference Include="jsreport.Local" Version="3.8.2" />
+      <PackageReference Include="jsreport.Types" Version="3.9.4" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />

@@ -72,6 +72,22 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "jsreport.AspNetCore": {
+              "target": "Package",
+              "version": "[3.8.1, )"
+            },
+            "jsreport.Binary": {
+              "target": "Package",
+              "version": "[4.4.0, )"
+            },
+            "jsreport.Local": {
+              "target": "Package",
+              "version": "[3.8.2, )"
+            },
+            "jsreport.Types": {
+              "target": "Package",
+              "version": "[3.9.4, )"
             }
           },
           "imports": [
