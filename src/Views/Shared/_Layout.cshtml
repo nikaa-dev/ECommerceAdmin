@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
    <meta charset="utf-8" />
@@ -206,44 +210,57 @@
                </div>
 
                <!-- Navigation -->
-                <ul class="nav flex-column align-items-center w-100 p-3 ">
-                   <li class="nav-item w-100 p-1 ">
-						<a class="nav-link rounded-15 py-3 " href="/Dashboard/Index">
-							<i class="bi bi-columns-gap h5"></i>
-							<span class="ms-2">Dashboard</span>
-						</a>
-				   </li>
-                   <li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-15 py-3" href="/Products/Index">
-							<i class="bi bi-box-seam h5"></i>
-							<span class="ms-2">Products</span>
-						</a>
-					</li>
-                   <li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-15 py-3" href="/Orders/Index">
-							<i class="bi bi-cart h5"></i>
-							<span class="ms-2">Orders</span>
-						</a>
-					</li>
-                   <li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-15 py-3" href="/Customer/Index">
-							<i class="bi bi-people h5"></i>
-							<span class="ms-2">Customers</span>
-						</a>
-				   </li>
-                   <li class="nav-item w-100 p-1">
-                       <a class="nav-link rounded-15 py-3" href="/UserManagement/Index">
-                           <i class="bi bi-person-gear h5"></i>
-                           <span class="ms-2">User Management</span>
-                       </a>
-                   </li>
-                   <li class="nav-item w-100 p-1">
-                       <a class="nav-link rounded-15 py-3" href="#">
-                           <i class="bi bi-shield"></i>
-                           <span class="ms-2">Role Management</span>
-                       </a>
-                   </li>
-               </ul>
+               <ul class="nav flex-column align-items-center w-100 p-3">
+
+    <li class="nav-item w-100 p-1">
+        <a class="nav-link rounded-10 py-2 @(controller == "Dashboard" ? "active" : "")"
+           href="@Url.Action("Index","Dashboard")">
+            <i class="bi bi-columns-gap h5"></i>
+            <span class="ms-2">Dashboard</span>
+        </a>
+    </li>
+
+    <li class="nav-item w-100 p-1">
+        <a class="nav-link rounded-10 py-2 @(controller == "Products" ? "active" : "")"
+           href="@Url.Action("Index","Products")">
+            <i class="bi bi-box-seam h5"></i>
+            <span class="ms-2">Products</span>
+        </a>
+    </li>
+
+    <li class="nav-item w-100 p-1">
+        <a class="nav-link rounded-10 py-2 @(controller == "Orders" ? "active" : "")"
+           href="@Url.Action("Index","Orders")">
+            <i class="bi bi-cart h5"></i>
+            <span class="ms-2">Orders</span>
+        </a>
+    </li>
+
+    <li class="nav-item w-100 p-1">
+        <a class="nav-link rounded-10 py-2 @(controller == "Customer" ? "active" : "")"
+           href="@Url.Action("Index","Customer")">
+            <i class="bi bi-people h5"></i>
+            <span class="ms-2">Customers</span>
+        </a>
+    </li>
+
+    <li class="nav-item w-100 p-1">
+        <a class="nav-link rounded-10 py-2 @(controller == "UserManagement" ? "active" : "")"
+           href="@Url.Action("Index","UserManagement")">
+            <i class="bi bi-person-gear h5"></i>
+            <span class="ms-2">User Management</span>
+        </a>
+    </li>
+
+    <li class="nav-item w-100 p-1">
+        <a class="nav-link rounded-10 py-2 @(controller == "RoleManagement" ? "active" : "")"
+           href="@Url.Action("Index","RoleManagement")">
+            <i class="bi bi-shield h5"></i>
+            <span class="ms-2">Role Management</span>
+        </a>
+    </li>
+
+</ul>
 
                <!-- Footer -->
                <div class="mt-auto w-100 d-flex flex-column align-items-center border-top h-auto justify-content-center p-3">
