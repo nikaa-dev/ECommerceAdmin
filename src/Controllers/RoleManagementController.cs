@@ -5,6 +5,7 @@ using src.Enums;
 using src.Services.RoleServices;
 using src.Services.UserServices;
 using src.Extensions.Pagenations;
+using src.DTO.RoleDto;
 
 namespace src.Controllers;
 
@@ -15,43 +16,39 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
     private readonly IRoleService _roleService = roleService;
 
     [Authorize(Roles = "Admin,Manager")]
-    public async Task<IActionResult> Index(string? filterByRole, string? filterByStatus, string? searchItem, int pageNumber = 1)
+    public async Task<IActionResult> Index(string? searchItem, int pageNumber = 1)
     {
+        var roles = await roleService.GetAllRoleIncludeAsync();
         var users = await userService.GetAllIncludeAsync();
 
-        var roleNames = await _roleService.GetAllNameAsync();
+        
         var status = Enum.GetValues(typeof(UserStatus)).Cast<UserStatus>().ToList();
+       
 
-        ViewBag.RoleNames = roleNames;
-        ViewBag.Status = status;
+        ViewBag.TotalRoles = roles.Count();
+        ViewBag.TotalUsers = users.Count(); 
+        ViewBag.TotalHightAccess = roles.Select(role => role.AccessLevel).Count(u => u == "Hight");
+        ViewBag.TotalMediumAccess = roles.Select(role => role.AccessLevel).Count(u => u == "Medium");
 
-        ViewBag.Total = users.Count();
-        ViewBag.ActiveStatuses = users.Select(u => u.Status).Count(u => u == "Active");
-        ViewBag.InactiveStatuses = users.Select(u => u.Status).Count(u => u == "InActive");
-        ViewBag.SuspendedStatuses = users.Select(u => u.Status).Count(u => u == "Suspended");
-
-        if (filterByRole != null)
-            users = users.Where(r => r.Role == filterByRole).ToList();
-        if (filterByStatus != null)
-            users = users.Where(r => r.Status == filterByStatus).ToList();
         if (searchItem != null)
         {
-            users = users.Where(r =>
-                r.FullName.Contains(searchItem) ||
-                r.Email.Contains(searchItem)).ToList();
+            roles = roles.Where(r =>
+                r.RoleName.Contains(searchItem) ||
+                r.Description.Contains(searchItem)).ToList();
         }
-        var queryable = users.AsQueryable();
-        var userPagination = queryable.ToPagedResultAsync(pageNumber, 8);
 
-        return View(userPagination);
+        var queryable = roles.AsQueryable();
+        var rolePagination = queryable.ToPagedResultAsync(pageNumber, 8);
+
+        return View(rolePagination);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(UserRequestDto userRequest)
+    public async Task<IActionResult> Create(RoleRequestCreateDto roleRequestCreate)
     {
         try
         {
-            var (status, messageStatus) = await userService.CreateUserAsync(userRequest);
+            var (status, messageStatus) = await roleService.CreateRoleAsync(roleRequestCreate);
             if (!status) return BadRequest(new { success = status, message = messageStatus });
             return Json(new { success = status, message = messageStatus });
         }
@@ -61,6 +58,7 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
         }
 
     }
+
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {

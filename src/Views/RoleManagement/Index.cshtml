@@ -1,7 +1,7 @@
 ﻿<!-- View (Index.cshtml) -->
 @using System.ComponentModel.Design
 @using src.Enums
-@model src.Extensions.Pagenations.PagedResult<src.DTO.UserDto.UserResponseDto>
+@model src.Extensions.Pagenations.PagedResult<src.DTO.RoleDto.RoleResponseDto>
 
 @if (TempData["Message"] != null)
 {
@@ -59,7 +59,7 @@
             <p>Manage roles and permissions for your admin system</p>
         </div>
 
-        @* add user *@
+        @* add role *@
 
         <div>
             <form id="export-product" method="post" class="gap-2">
@@ -67,18 +67,18 @@
                     <i class="bi bi-download"></i>
                     <span class="fw-light">Export</span>
                 </button>
-                <button type="button" class="btn btn-primary rounded-10" role="button" data-toggle="modal" data-target="#AddRole">
+                <button type="button" class="btn btn-primary rounded-10" role="button" data-toggle="modal" data-target="#add-role">
                     <i class="bi bi-plus-lg"></i>
                     <span class="fw-light">Add Role</span>
                 </button>
             </form>
         </div>
 
-        <!-- add user Modal -->
-        <div class="modal fade" id="AddRole" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <!-- add role Modal -->
+        <div class="modal fade" id="add-role" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" style="max-width:50%; margin:auto;" role="document">
                 <div class="modal-content">
-                    <form id="add-user">
+                    <form id="add-role">
                         @Html.AntiForgeryToken()
 
                         <div class="modal-header flex-column align-items-start mx-2">
@@ -182,20 +182,20 @@
                                             <li>User Management</li>
                                             <ul>
                                                 <li>
-                                                    <input type="checkbox" id="view-user" name="viewUser" value="viewUser">
+                                                    <input type="checkbox" id="view-role" name="viewUser" value="viewUser">
                                                     <label for="ViewUser"> View Users</label><br>
                                                 </li>
                                                 <li>
-                                                    <input type="checkbox" id="create-user" name="createUser" value="createUser">
+                                                    <input type="checkbox" id="create-role" name="createUser" value="createUser">
                                                     <label for="CreateUser"> Create Users</label><br>
                                                 </li>
                                          
                                                 <li>
-                                                    <input type="checkbox" id="edit-user" name="editUser" value="editUser">
-                                                    <label for="EditUser"> Edit Users</label><br>
+                                                    <input type="checkbox" id="edit-role" name="editUser" value="editUser">
+                                                    <label for="EditUser"> Edit Role</label><br>
                                                 </li>
                                                 <li>
-                                                    <input type="checkbox" id="delete-user" name="deleteUser" value="deleteUser">
+                                                    <input type="checkbox" id="delete-role" name="deleteUser" value="deleteUser">
                                                     <label for="DeleteUser"> Delete Users</label><br>
                                                 </li>
                                             </ul>
@@ -242,38 +242,40 @@
         </div>
     </div>
 
+    @* Total Summary *@
     <div class="row d-flex justify-content-center">
         <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
             <div class="d-flex text-secondary justify-content-between">
                 <p>Total Roles</p>
                 <i class="bi bi-shield h5 p-2 rounded-10 text-primary bg-primary bg-opacity-10"></i>
             </div>
-            <h3>@ViewBag.Total</h3>
+            <h3>@ViewBag.TotalRoles</h3>
         </div>
         <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
             <div class="d-flex text-secondary justify-content-between">
                 <p>High Access</p>
                 <i class="bi bi-shield-check h5 p-2 rounded-10 bg-red-100 text-red-600"></i>
             </div>
-            <h3>@ViewBag.ActiveStatuses</h3>
+            <h3>@ViewBag.TotalHightAccess</h3>
         </div>
         <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
             <div class="d-flex text-secondary justify-content-between">
                 <p>Medium Access</p>
                 <i class="bi bi-shield-exclamation h5 p-2 rounded-10 bg-yellow-100 text-yellow-600"></i>
             </div>
-            <h3>@ViewBag.InActiveStatuses</h3>
+            <h3>@ViewBag.TotalMediumAccess</h3>
         </div>
         <div class="col m-3 rounded-10 p-4 bg-white shadow-sm border">
             <div class="d-flex text-secondary justify-content-between">
                 <p>Total Users</p>
                 <i class="bi bi-people h5 p-2 rounded-10 bg-green-100 text-green-700"></i>
             </div>
-            <h3>@ViewBag.SuspendedStatuses</h3>
+            <h3>@ViewBag.TotalUsers</h3>
         </div>
     </div>
 
 
+    @* Search by name or descritption *@
     <form method="get" asp-action="Index">
         <div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
             <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
@@ -285,10 +287,10 @@
 
     </form>
 
-
+    @* Role List *@
     <div class="mt-4 rounded-15">
         <div class="table-responsive rounded-15">
-            <table id="userTable" class="table bg-white shadow-sm table-hover rounded-15 border">
+            <table id="roleTable" class="table bg-white shadow-sm table-hover rounded-15 border">
                 <thead class="table-light">
                     <tr>
                         <th class="p-4 fw-normal">Role Name</th>
@@ -303,41 +305,27 @@
 
 
                 <tbody>
-                    @foreach (var user in Model.Items)
+                    @foreach (var role in Model.Items)
                     {
                         <tr>
-                            <td class="pt-4 ps-4 fw-semibold d-flex">
-                                <p class="visually-hidden data-id">@user.Id</p>
-                                <div class="custom-gradient rounded-circle border w-30px h-30px bg-light d-flex justify-content-center pt-1 border-0">
-                                    @{
-                                        var names = user.FullName.Split(' ');
-                                        var initials = names.Length > 1
-                                        ? $"{names[0][0]}{names[1][0]}"
-                                        : $"{names[0][0]}";
-                                    }
-                                    <h6 class="d-flex justify-content-center align-items-center data-initial">@initials</h6>
-                                </div>
+                            @* RoleName *@
+                            <td class="pt-4 ps-4 fw-semibold">
+                                <p class="visually-hidden data-id">@role.Id</p>
+                                
                                 <div>
-                                    <span class="ms-2 data-fullname">@user.FullName</span><br />
-                                    <p class="ms-2 data-email">@user.Email</p>
+                                    <span class="ms-2 data-fullname">@role.RoleName</span><br />
                                 </div>
                             </td>
+
+                            @* Description *@
                             <td class="pt-4 ps-3">
-                                <script>
-                                    @{
-                                            var badgeColor = user.Status == "Active" ? "bg-green-100 text-green-700" : user.Status == "InActive" ? "bg-gray-100 text-gray-700" : "bg-red-100 text-red-700";
-                                            var iconStatus = user.Status == "Active" ? "bi bi-check2-circle" : user.Status == "InActive" ? "bi bi-clock" : "bi bi-x-circle";
-                                    }
-                                </script>
-                                <span class="badge @badgeColor px-3 py-2 rounded-pill small data-status">
-                                    <i class="@iconStatus"></i>
-                                    @(user.Status)
-                                </span>
+                                <span class="ms-2 data-fullname">@role.Description</span><br />
+@*      
                             </td>
                             <td class="pt-4 ps-3">
-                                <script>
+                                @* <script>
                                      @{
-                                                string roleClass = user.Role switch
+                                                    string roleClass = role.Role switch
                                                 {
                                                             "Admin" => "bg-purple-100 text-purple-700",
                                                             "Manager" => "bg-blue-100 text-blue-700",
@@ -345,26 +333,38 @@
                                                             "Support" => "bg-orange-100 text-orange-700",
                                                             _ => "bg-gray-100 text-gray-700"
                                                 };
-                                                    string iconRole = user.Role switch
+                                                        string iconRole = role.Role switch
                                                     {
                                                                     "Admin" => "bi bi-shield - check",
                                                                     "Manager" => "bi bi-shield",
                                                                      _ => "bi bi-person-gear"
                                                     };
                                     }
-                                </script>
-                                <span class="badge px-3 py-2 rounded-pill shadow-sm @roleClass data-role">
+                                </script> *@
+                                @* <span class="badge px-3 py-2 rounded-pill shadow-sm @roleClass data-role">
                                     <i class="@iconRole fw-bold"></i>
-                                    @user.Role
-                                </span>
+                                    @role.Role
+                                </span> *@
                             </td>
+
+                            @* acess *@
                             <td class="pt-4 ps-3">
                                 <span class="badge text-secondary px-2 py-1 rounded-10 border small">
-                                    @(user.Role == "Admin" ? "All Access" : string.Join(", ", user.Permission))
+                                    @role.AccessLevel
                                 </span>
                             </td>
-                            <td class="pt-4 ps-4 data-lastactive">@user.LastActive</td>
-                            <td class="pt-4 ps-4 data-joindate">@user.JoinDate</td>
+                            @* permission *@
+                            <td class="pt-4 ps-3">
+                                <span class="badge text-secondary px-2 py-1 rounded-10 border small">
+                                    @role.Permission.Count
+                                </span>
+                            </td>
+
+                            @* Total user *@
+                            <td class="pt-4 ps-4 data-joindate">@role.Users</td>
+
+                            @* created date *@
+                            <td class="pt-4 ps-4 data-joindate">@role.Created</td>
                             <td class="text-center pt-4 position-relative">
 
                                 @* Action dropdown *@
@@ -403,7 +403,7 @@
 
                                                 <div class="modal-header flex-column align-items-start mx-2">
                                                     <h5 class="modal-title fw-semibold" id="exampleModalLabel">User Details</h5>
-                                                    <p class="text-muted mb-0">Complete information about this user</p>
+                                                    <p class="text-muted mb-0">Complete information about this role</p>
                                                     <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true" class="fs-5">&times;</span>
                                                     </button>
@@ -411,52 +411,54 @@
                                                 <div class="modal-body mx-2">
                                                     <div class="d-flex flex-row align-items-start">
                                                         <div class="custom-gradient rounded-circle border w-75px h-75px bg-light d-flex justify-content-center pt-2 border-0">
-                                                            <h4 class="d-flex justify-content-center align-items-center" id="initial">@initials</h4>
+                                                            @* <h4 class="d-flex justify-content-center align-items-center" id="initial">@initials</h4> *@
 
                                                         </div>
                                                         <div class="d-flex flex-column align-items-start mt-1">
-                                                            <h4 class="ms-3 fw-semibold" id="v-fullname">@user.FullName</h4>
-                                                            <div class="d-flex flex-row text-gray-700 ms-3">
+                                                            <h4 class="ms-3 fw-semibold" id="v-fullname">@role.RoleName</h4>
+                                                            @* <div class="d-flex flex-row text-gray-700 ms-3">
                                                                 <i class="bi bi-envelope "></i>
-                                                                <p class="ms-2" id="v-email">@user.Email</p>
-                                                            </div>
+                                                                <p class="ms-2" id="v-email">@role.Email</p>
+                                                            </div> *@
                                                         </div>
                                                     </div>
                                                     <div class="border-top w-100 "></div>
 
                                                     <div class="d-flex align-content-start row row-cols-2 ">
-                                                        <div class="col d-flex flex-column align-items-start justify-content-between my-3">
+                                                        @* <div class="col d-flex flex-column align-items-start justify-content-between my-3">
                                                             <p class="mb-1">Role</p>
                                                             <span class="rounded-pill @roleClass px-2 py-1" id="v-role">
                                                                 <i class="@iconRole fw-bold me-1"></i>
-                                                                @user.Role
-                                                            </span>
-                                                        </div>
-                                                        <div class="col d-flex flex-column align-items-start justify-content-start my-3">
+                                                                @role.Role
+															</span>
+                                                            
+                                                            <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                             <p class="mb-1">Status</p>
                                                             <span class="rounded-pill @badgeColor px-2 py-1" id="v-status">
                                                                 <i class="@iconStatus fw-bold me-1"></i>
-                                                                @user.Status
+                                                                @role.Status
                                                             </span>
                                                         </div>
+                                                        </div> *@
+                                                        
                                                         <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                             <p class="mb-1">Join Date</p>
                                                             <div id="v-joindate">
                                                                 <i class=" fw-bold me-1"></i>
-                                                                @user.JoinDate
+                                                                @role.Created
                                                             </div>
                                                         </div>
-                                                        <div class="col d-flex flex-column align-items-start justify-content-start my-3">
+                                                        @* <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                             <p class="mb-1">Last Active</p>
                                                             <div id="v-lastactive">
                                                                 <i class="@iconStatus fw-bold me-1"></i>
-                                                                @user.LastActive
+                                                                @role.LastActive
                                                             </div>
-                                                        </div>
+                                                        </div> *@
                                                         <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                             <p class="mb-1">Permissions</p>
                                                             <div class="d-flex flex-row">
-                                                                @foreach (var p in user.Permission)
+                                                                @foreach (var p in role.Permission)
                                                                 {
                                                                     var permission = p.Split("::");
                                                                     var endOfPermission = permission.Length > 1 ? permission[1] : "";
@@ -481,7 +483,7 @@
                                                     </button>
                                                     <button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
                                                         <i class="bi bi-pencil-square"></i>
-                                                        <span class="ms-3">Edit User</span>
+                                                        <span class="ms-3">Edit Role</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -489,7 +491,7 @@
                                     </div>
 
                                     <!-- Delete Modal -->
-                                    <form id="delete-user">
+                                    <form id="delete-role">
                                         <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
@@ -502,7 +504,7 @@
                                                     <div class="border-top w-100 "></div>
                                                     <div class="modal-body d-flex flex-column align-items-start mx-2">
                                                         <input type="text" name="Id" id="d-id" hidden>
-                                                        You sure you want to delete this user
+                                                        You sure you want to delete this role
                                                         <span id="d-fullname"></span>
                                                     </div>
                                                     <div class="border-top w-100 "></div>
@@ -520,12 +522,12 @@
                                     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" style="max-width:33%; margin:auto;" role="document">
                                             <div class="modal-content">
-                                                <form id="edit-user">
+                                                <form id="edit-role">
                                                     @Html.AntiForgeryToken()
 
                                                     <div class="modal-header flex-column align-items-start mx-2">
-                                                        <h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit User</h5>
-                                                        <p class="text-muted mb-0">Update user information, role, and permissions.</p>
+                                                        <h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit Role</h5>
+                                                        <p class="text-muted mb-0">Update role information, role, and permissions.</p>
                                                         <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true" class="fs-5">&times;</span>
                                                         </button>
@@ -536,37 +538,37 @@
 
                                                                 <input type="text" name="Id" id="id" hidden>
                                                                 <label formlabel="Full Name">Full Name</label>
-                                                                <input type="text" name="FullName" id="fullname" asp-for=@user.FullName class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                                <input type="text" name="FullName" id="fullname" asp-for=@role.RoleName class="form-input-field border-0 p-2 shadow-none bg-light my-1">
                                                             </div>
-                                                            <div class="d-flex align-items-start flex-column w-100 my-2">
+                                                            @* <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Email">Email</label>
-                                                                <input type="text" name="Email" id="email" asp-for=@user.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
-                                                            </div>
+                                                                <input type="text" name="Email" id="email" asp-for=@role.Email class="form-input-field border-0 p-2 shadow-none bg-light my-1">
+                                                            </div> 
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Role">Role</label>
                                                                 <select id="role" name="Role" style="padding:8px;padding-right:5px;border:none;width:100%;border-radius:10px;background-color:#f3f4f6;">
                                                                     @foreach (var role in ViewBag.RoleNames)
                                                                     {
-                                                                        <option value=@role selected="@(user.Role == role)">
+                                                                        <option value=@role selected="@(role == role)">
                                                                             @role
                                                                         </option>
                                                                     }
                                                                 </select>
-                                                            </div>
-                                                            <div class="d-flex align-items-start flex-column w-100 my-2">
+                                                            </div>  *@
+                                                           @*  <div class="d-flex align-items-start flex-column w-100 my-2">
                                                                 <label formlabel="Status">Status</label>
                                                                 <select id="status" name="Status" style="padding:8px;padding-right:5px;border:none;width:100%;border-radius:10px;background-color:#f3f4f6;">
-                                                                    <option value="InActive" selected=@(user.Role == "InActive")>
+                                                                    <option value="InActive" selected=@(role.Role == "InActive")>
                                                                         InActive
                                                                     </option>
-                                                                    <option value="Active" selected=@(user.Role == "Active")>
+                                                                    <option value="Active" selected=@(role.Role == "Active")>
                                                                         Active
                                                                     </option>
-                                                                    <option value="Suspended" selected=@(user.Role == "Suspended")>
+                                                                    <option value="Suspended" selected=@(role.Role == "Suspended")>
                                                                         Suspended
                                                                     </option>
                                                                 </select>
-                                                            </div>
+                                                            </div> *@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -602,7 +604,7 @@
                                     end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
                                 }
                             }
-                            Showing @start to @end of @Model.TotalCount users
+                            Showing @start to @end of @Model.TotalCount roles
                         </td>
                         <td class="p-3 border-0 text-end">
                             <a class="btn btn-sm rounded-10 py-2 px-3 border
@@ -705,13 +707,13 @@
 <script>
     $(document).ready(function () {
 
-        $('#edit-user').submit(function (e) {
+        $('#edit-role').submit(function (e) {
             e.preventDefault();
 
             $.ajax({
                 url: '/UserManagement/Update',
                 type: 'POST',
-                data: $('#edit-user').serialize(),
+                data: $('#edit-role').serialize(),
 
                 success: function (response) {
                     alert(response.message);
@@ -724,13 +726,15 @@
             });
 
         });
-        $('#add-user').submit(function (e) {
+
+        @* Add Role *@
+        $('#add-role').submit(function (e) {
             e.preventDefault();
 
             $.ajax({
-                url: '/UserManagement/Create',
+                url: '/RoleManagement/Create',
                 type: 'POST',
-                data: $('#add-user').serialize(),
+                data: $('#add-role').serialize(),
 
                 success: function (response) {
                     alert(response.message);
@@ -741,15 +745,15 @@
                     alert("Create failed");
                 }
             });
-
         });
-        $('#delete-user').submit(function (e){
+
+        $('#delete-role').submit(function (e){
             e.preventDefault();
 
             $.ajax({
                 url: '/UserManagement/Delete',
                 type: 'POST',
-                data: $('#delete-user').serialize(),
+                data: $('#delete-role').serialize(),
 
                 success: function (response){
                     alert(response.message);
