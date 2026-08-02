@@ -415,7 +415,7 @@
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Delete Role</h5>
                                                         <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true" class="fs-5">&times;</span>
                                                         </button>
@@ -676,9 +676,9 @@
             e.preventDefault();
 
             $.ajax({
-                url: '/UserManagement/Delete',
+                url: '/RoleManagement/Delete',
                 type: 'POST',
-                data: $('#delete-role').serialize(),
+                data: $('#d-id').serialize(),
 
                 success: function (response){
                     alert(response.message);

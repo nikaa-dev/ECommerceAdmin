@@ -68,7 +68,7 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
     {
         try
         {
-            var (status, messageStatus) = await userService.DeleteUserAsync(id);
+            var (status, messageStatus) = await roleService.DeleteRoleAsync(id);
             if (!status) return BadRequest(new { success = status, message = messageStatus });
             return Json(new { success = status, message = messageStatus });
         }

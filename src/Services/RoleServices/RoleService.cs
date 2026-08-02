@@ -158,6 +158,35 @@ public class RoleService(
 
         return (true, "Role was created successfully.");
     }
+
+    public async Task<(bool status, string messageStatus)> DeleteRoleAsync(string id)
+    {
+        // Find role by Id
+        var role = await roleManager.FindByIdAsync(id);
+
+        if (role == null)
+        {
+            return (false, "Role not found.");
+        }
+
+        // Prevent deleting system roles
+        if (role.Name.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+        {
+            return (false, "Cannot delete Admin role.");
+        }
+
+        // Delete role
+        var result = await roleManager.DeleteAsync(role);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return (false, $"Failed to delete role: {errors}");
+        }
+
+        return (true, "Role deleted successfully.");
+    }
+
     private string ConvertToPermissionKey(string displayPermission)
     {
         var parts = displayPermission.Split(" ");

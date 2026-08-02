@@ -8,5 +8,7 @@ public interface IRoleService
     Task<List<string?>> GetAllNameAsync();
     Task<List<RoleResponseDto>> GetAllRoleIncludeAsync();
 
+    Task<(bool status, string messageStatus)> DeleteRoleAsync(string id);
+
     Task<Dictionary<string, List<string>>> GetLookupRolePermission();
 }
