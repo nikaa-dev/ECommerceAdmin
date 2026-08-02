@@ -21,7 +21,10 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
         var roles = await roleService.GetAllRoleIncludeAsync();
         var users = await userService.GetAllIncludeAsync();
 
-        
+        // lookup permission
+        ViewBag.rolePermissionLookup = await roleService.GetLookupRolePermission();
+
+
         var status = Enum.GetValues(typeof(UserStatus)).Cast<UserStatus>().ToList();
        
 
@@ -29,6 +32,7 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
         ViewBag.TotalUsers = users.Count(); 
         ViewBag.TotalHightAccess = roles.Select(role => role.AccessLevel).Count(u => u == "Hight");
         ViewBag.TotalMediumAccess = roles.Select(role => role.AccessLevel).Count(u => u == "Medium");
+
 
         if (searchItem != null)
         {

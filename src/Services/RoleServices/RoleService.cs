@@ -67,47 +67,110 @@ public class RoleService(
         return result;
     }
 
+    public async Task<Dictionary<string, List<string>>> GetLookupRolePermission()
+    {
+        var roles = await roleManager.Roles.ToListAsync();
+        var rolePermissions = await roleManager.GetClaimsAsync(roles?.FirstOrDefault(r => r.Name == "Admin"));
+        var displayPermissions = new Dictionary<string, List<string>>();
+
+        foreach (var rolePermission in rolePermissions)
+        {
+            var permission = rolePermission.Value.Split("::");
+
+            if (permission.Length > 1)
+            {
+                var action = char.ToUpper(permission[1][0]) + permission[1][1..].ToLower();
+                var displayPermission = $"{permission[0]} {action}";
+
+                if (!displayPermissions.ContainsKey(permission[0]))
+                {
+                    displayPermissions[permission[0]] = new List<string>();
+                }
+
+                displayPermissions[permission[0]].Add(displayPermission);
+            }
+        }
+
+        return displayPermissions;
+
+    }
+
 
     public async Task<(bool status, string messageStatus)> CreateRoleAsync(RoleRequestCreateDto roleRequest)
     {
+        // 1. Validate role name
+        if (string.IsNullOrWhiteSpace(roleRequest.RoleName))
+        {
+            return (false, "Role name is required.");
+        }
+
+        // 2. Prevent creating Admin manually
+        if (roleRequest.RoleName.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+        {
+            return (false, "Cannot manually create Admin role. It is managed by system seeder.");
+        }
+
+
+        // 3. Check duplicate role
         var roleExist = await roleManager.FindByNameAsync(roleRequest.RoleName);
-        if (roleExist == null)
-            return (false, "The role name already exist.");
- 
+
+        if (roleExist != null)
+        {
+            return (false, "The role name already exists.");
+        }
+
+
+        // 4. Create role
         var role = new ApplicationRole(roleRequest.RoleName)
         {
             Description = roleRequest.Description
         };
-        var result = await roleManager.CreateAsync(role);
-        if (!result.Succeeded)
-            return (false, "error occured submit to db.");
 
-        var rolePermission = await roleManager.FindByNameAsync(roleRequest.RoleName);
-        if (rolePermission == null) return (false, "role not found");
 
-        if (role.Name == "Admin")
+        var createResult = await roleManager.CreateAsync(role);
+
+        if (!createResult.Succeeded)
         {
-            return (false, "Cannot manually add Admin permissions. They are managed by system seeder." );
+            return (false, "Error occurred while creating role.");
         }
 
-        var currentClaims = await roleManager.GetClaimsAsync(role);
-        var currentPermissions = currentClaims.Where(c => c.Type == "Permission").ToList();
 
-        foreach (var claim in currentPermissions)
-        {
-            await roleManager.RemoveClaimAsync(role, claim);
-        }
-
+        // 5. Validate permissions
         var validPermissions = GetSystemPermissionsList();
-        foreach (var permission in roleRequest.Permission)
+
+
+        if (roleRequest.Permission != null && roleRequest.Permission.Any())
         {
-            if (validPermissions.Contains(permission))
+            foreach (var permission in roleRequest.Permission)
             {
-                await roleManager.AddClaimAsync(role, new Claim("Permission", permission));
+                var permissionKey = ConvertToPermissionKey(permission);
+                // Only add valid permissions
+                if (validPermissions.Contains(permissionKey))
+                {
+                    await roleManager.AddClaimAsync(
+                        role,
+                        new Claim("Permission", permissionKey)
+                    );
+                }
             }
         }
+
+
         return (true, "Role was created successfully.");
     }
+    private string ConvertToPermissionKey(string displayPermission)
+    {
+        var parts = displayPermission.Split(" ");
+
+        if (parts.Length < 2)
+            return displayPermission;
+
+        var module = parts[0].ToLower();
+        var action = parts[1].ToLower();
+
+        return $"{module}::{action}";
+    }
+
     private List<string> GetSystemPermissionsList()
     {
         var permissions = new List<string>();

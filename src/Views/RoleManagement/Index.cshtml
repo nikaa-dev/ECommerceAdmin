@@ -78,8 +78,7 @@
         <div class="modal fade" id="add-role" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" style="max-width:50%; margin:auto;" role="document">
                 <div class="modal-content">
-                    <form id="add-role">
-                        @Html.AntiForgeryToken()
+                    <form id="add-role-permission">
 
                         <div class="modal-header flex-column align-items-start mx-2">
                             <h5 class="modal-title fw-semibold" id="exampleModalLabel">
@@ -95,7 +94,7 @@
                                 <div class="d-flex align-items-start flex-column w-100 mb-2">
 
                                     <label formlabel="Full Name">Role Name</label>
-                                    <input type="text" name="FullName" id="a-fullname" class="form-input-field border-0 p-1 ps-3 pb-2 shadow-none bg-light my-1" placeholder="e.g., Content Manager" required>
+                                    <input type="text" name="RoleName" id="a-fullname" class="form-input-field border-0 p-1 ps-3 pb-2 shadow-none bg-light my-1" placeholder="e.g., Content Manager" required>
                                 </div>
                                 <div class="d-flex align-items-start flex-column w-100 my-2">
                                     <label formlabel="Email">Description</label>
@@ -107,120 +106,40 @@
                                 <div class="d-flex align-items-start flex-column w-100 my-2">
                                     <label formlabel="Permission">Permission</label>
                                     <div class="border rounded-10 w-100 p-3 overflow-y-auto" style="height:500px;">
+                                        <script>
+                                            var permissions = @Html.Raw(Json.Serialize(ViewBag.rolePermissionLookup));
 
+                                            console.log(permissions);
+                                        </script>
+
+
+                                        
                                         <ul class="overflow-y-auto">
-                                            <li>Dashboard</li>
-                                            <ul>
+                                            @foreach (var module in ViewBag.rolePermissionLookup)
+                                            {
                                                 <li>
-                                                    <input type="checkbox" id="view-dashboard" name="viewDashboard" value="viewDashboard">
-                                                    <label for="ViewDashboard"> View Dashboard</label><br>
+                                                    <strong>@module.Key</strong>
+
+                                                    <ul>
+                                                        @foreach (var permission in module.Value)
+                                                        {
+                                                            var permissionId = permission.ToLower()
+                                                            .Replace(" ", "-");
+
+                                                            <li>
+                                                                <input type="checkbox"
+                                                                       id="@permissionId"
+                                                                       name="Permission"
+                                                                       value="@permission">
+
+                                                                <label for="@permissionId">
+                                                                    @permission
+                                                                </label>
+                                                            </li>
+                                                        }
+                                                    </ul>
                                                 </li>
-                                                <li>
-                                                    <input type="checkbox" id="view-analytic" name="viewAnalytic" value="viewAnalytic">
-                                                    <label for="ViewAnalytic"> View Analytics</label><br>
-                                                </li>
-                                            </ul>
-                                        </ul>
-                                        <ul>
-                                            <li>Products</li>
-                                            <ul>
-                                                <li>
-                                                    <input type="checkbox" id="view-product" name="viewProduct" value="viewProduct">
-                                                    <label for="ViewProduct"> View Products</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="create-product" name="createProduct" value="createProduct">
-                                                    <label for="CreateProduct"> Create Products</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="edit-product" name="editProduct" value="editProduct">
-                                                    <label for="EditProduct"> Edit Products</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="delete-product" name="deleteProduct" value="deleteProduct">
-                                                    <label for="DeleteProduct"> Delete Products</label><br>
-                                                </li>
-                                            </ul>
-                                        </ul>
-                                        <ul>
-                                            <li>Orders</li>
-                                            <ul>
-                                                <li>
-                                                    <input type="checkbox" id="view-order" name="viewOrder" value="viewOrder">
-                                                    <label for="ViewOrder"> View Orders</label><br>
-                                                </li>
-                                         
-                                                <li>
-                                                    <input type="checkbox" id="edit-order" name="editOrder" value="editOrder">
-                                                    <label for="EditOrder"> Edit Orders</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="delete-order" name="deleteOrder" value="deleteOrder">
-                                                    <label for="DeleteOrder"> Delete Orders</label><br>
-                                                </li>
-                                            </ul>
-                                        </ul >
-                                        <ul>
-                                            <li>Customers</li>
-                                            <ul>
-                                                <li>
-                                                    <input type="checkbox" id="view-customer" name="viewCustomer" value="viewCustomer">
-                                                    <label for="ViewCustomer"> View Customers</label><br>
-                                                </li>
-                                         
-                                                <li>
-                                                    <input type="checkbox" id="edit-customer" name="editCustomer" value="editCustomer">
-                                                    <label for="EditCustomer"> Edit Customers</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="delete-customer" name="deleteCustomer" value="deleteCustomer">
-                                                    <label for="DeleteCustomer"> Delete Customers</label><br>
-                                                </li>
-                                            </ul>
-                                        </ul>
-                                        <ul>
-                                            <li>User Management</li>
-                                            <ul>
-                                                <li>
-                                                    <input type="checkbox" id="view-role" name="viewUser" value="viewUser">
-                                                    <label for="ViewUser"> View Users</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="create-role" name="createUser" value="createUser">
-                                                    <label for="CreateUser"> Create Users</label><br>
-                                                </li>
-                                         
-                                                <li>
-                                                    <input type="checkbox" id="edit-role" name="editUser" value="editUser">
-                                                    <label for="EditUser"> Edit Role</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="delete-role" name="deleteUser" value="deleteUser">
-                                                    <label for="DeleteUser"> Delete Users</label><br>
-                                                </li>
-                                            </ul>
-                                        </ul>
-                                        <ul>
-                                            <li>Role Management</li>
-                                            <ul>
-                                                <li>
-                                                    <input type="checkbox" id="view-role" name="viewRole" value="viewRole">
-                                                    <label for="ViewRole"> View Roles</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="create-role" name="createRole" value="createRole">
-                                                    <label for="CreateRole"> Create Roles</label><br>
-                                                </li>
-                                         
-                                                <li>
-                                                    <input type="checkbox" id="edit-role" name="editRole" value="editRole">
-                                                    <label for="EditRole"> Edit Roles</label><br>
-                                                </li>
-                                                <li>
-                                                    <input type="checkbox" id="delete-role" name="deleteRole" value="deleteRole">
-                                                    <label for="DeleteRole"> Delete Roles</label><br>
-                                                </li>
-                                            </ul>
+                                            }
                                         </ul>
                                     </div>
                                 </div>
@@ -728,24 +647,30 @@
         });
 
         @* Add Role *@
-        $('#add-role').submit(function (e) {
-            e.preventDefault();
+            $('#add-role-permission').submit(function (e) {
+        e.preventDefault();
+        console.log($('#add-role-permission').serialize());
 
-            $.ajax({
-                url: '/RoleManagement/Create',
-                type: 'POST',
-                data: $('#add-role').serialize(),
+        var form = $('#add-role-permission');
 
-                success: function (response) {
-                    alert(response.message);
-                    location.reload();
-                },
-
-                error: function (xhr) {
-                    alert("Create failed");
-                }
-            });
+        $.ajax({
+            url: '/RoleManagement/Create',
+            type: 'POST',
+            data: form.serialize(),
+            headers: {
+                'RequestVerificationToken':
+                    $('input[name="__RequestVerificationToken"]').val()
+            },
+            success: function (response) {
+                alert(response.message);
+                location.reload();
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert("Create failed");
+            }
         });
+    });
 
         $('#delete-role').submit(function (e){
             e.preventDefault();
