@@ -558,7 +558,8 @@
                                     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" style="max-width:50%; margin:auto;" role="document">
                                             <div class="modal-content">
-                                                <form id="add-role-permission">
+                                                <form id="edit-role-permission">
+                                                    @Html.AntiForgeryToken()
 
                                                     <div class="modal-header flex-column align-items-start mx-2">
                                                         <h5 class="modal-title fw-semibold" id="exampleModalLabel">
@@ -574,6 +575,7 @@
                                                             <div class="d-flex align-items-start flex-column w-100 mb-2">
 
                                                                 <label formlabel="Full Name">Role Name</label>
+                                                                <input hidden type="text" name="Id" id="edit-id" class="form-input-field border-0 p-1 ps-3 pb-2 shadow-none bg-light my-1" placeholder="e.g., Content Manager" required>
                                                                 <input type="text" name="RoleName" id="edit-fullname" class="form-input-field border-0 p-1 ps-3 pb-2 shadow-none bg-light my-1" placeholder="e.g., Content Manager" required>
                                                             </div>
                                                             <div class="d-flex align-items-start flex-column w-100 my-2">
@@ -618,7 +620,7 @@
                                                                                             <div class="d-flex align-items-center">
                                                                                                 <input type="checkbox"
                                                                                                        id="@permissionId"
-                                                                                                       name="PermissionName"
+                                                                                                       name= "Permission"
                                                                                                        value="@permissionValue"
                                                                                                        class="form-check-input me-2">
 
@@ -781,10 +783,11 @@
             @* edit action *@
             $("#edit-fullname").val(name);
             $("#edit-description").val(description);
+            $("#edit-id").val(id);
 
 
             // Clear all checkboxes first
-            @* $("input[name='Permission']").prop("checked", false); *@
+             $("input[name='Permission']").prop("checked", false); 
 
             $("#customer-delete").prop("checked",true);
 
@@ -792,7 +795,7 @@
             // Check permissions belonging to this role
             permissions.forEach(function (permission) {
 
-                $("input[name='PermissionName']").filter(function () {
+                $("input[name='Permission']").filter(function () {
                     return $(this).val().trim().toUpperCase() === permission.trim().toUpperCase();
                 }).prop("checked", true);
 
@@ -809,13 +812,17 @@
 <script>
     $(document).ready(function () {
 
-        $('#edit-role').submit(function (e) {
+        $('#edit-role-permission').submit(function (e) {
             e.preventDefault();
+            var formData = $("#edit-role-permission").serialize();
+
+            console.log(formData);
 
             $.ajax({
-                url: '/UserManagement/Update',
+                url: '/RoleManagement/Update',
                 type: 'POST',
-                data: $('#edit-role').serialize(),
+                data: $('#edit-role-permission').serialize(),
+
 
                 success: function (response) {
                     alert(response.message);

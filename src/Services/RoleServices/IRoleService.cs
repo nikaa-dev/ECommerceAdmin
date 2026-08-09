@@ -10,5 +10,7 @@ public interface IRoleService
 
     Task<(bool status, string messageStatus)> DeleteRoleAsync(string id);
 
+    Task<(bool status, string messageStatus)> UpdateRole(RoleRequestUpdateDto role);
+
     Task<Dictionary<string, List<string>>> GetLookupRolePermission();
 }

@@ -82,14 +82,14 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Update(UserRequestUpdateDto userRequest)
+    public async Task<IActionResult> Update(RoleRequestUpdateDto roleRequest)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var editUser = await userService.UpdateUser(userRequest);
+        var editRole = await roleService.UpdateRole(roleRequest);
 
-        if (!editUser)
+        if (!editRole.status)
         {
             return BadRequest(new { success = false, message = "Update failed" });
         }
