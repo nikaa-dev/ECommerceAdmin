@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using src.DTO.CustomerDto;
+using src.DTO.RoleDto;
 using src.DTO.UserDto;
 using src.Enums;
+using src.Extensions.Pagenations;
+using src.Services.CustomerServices;
 using src.Services.RoleServices;
 using src.Services.UserServices;
-using src.Extensions.Pagenations;
-using src.DTO.RoleDto;
 
 namespace src.Controllers;
 
@@ -78,6 +80,22 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
         }
 
     }
+    [HttpPost]
+    public IActionResult GetById(string roleId)
+    {
+        try
+        {
+            //var (status, messageStatus) = await roleService.DeleteRoleAsync(id);
+            //if (!status) return BadRequest(new { success = status, message = messageStatus });
+            //return Json(new { success = status, message = messageStatus });
+            return null;
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = ex.Message });
+        }
+
+    }
 
 
     [HttpPost]
@@ -95,5 +113,13 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
         }
 
         return Json(new { success = true, message = "User updated successfully" });
+    }
+    public async Task<IActionResult> Export(RoleManagementRequestExportDto export)
+    {
+        var bytes = await roleService.ExportRoleData(export);
+
+        var fileName = $"Role_{DateTime.Now:yyyyMMddHHmmss}.csv";
+
+        return File(bytes, "text/csv", fileName);
     }
 }

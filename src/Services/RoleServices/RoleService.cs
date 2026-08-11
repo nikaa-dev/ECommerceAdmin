@@ -2,13 +2,16 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using src.DBConnection;
+using src.DTO.CustomerDto;
 using src.DTO.RoleDto;
 using src.DTO.UserDto;
 using src.Enums;
+using src.Extensions.Pagenations;
 using src.Models;
 using src.Services.RoleServices;
 using System.Security;
 using System.Security.Claims;
+using System.Text;
 using static src.Enums.Permissions;
 
 namespace src.Services.RoleServices;
@@ -187,6 +190,7 @@ public class RoleService(
         return (true, "Role deleted successfully.");
     }
 
+    
     public async Task<(bool status, string messageStatus)> UpdateRole(
      RoleRequestUpdateDto role)
     {
@@ -349,4 +353,34 @@ public class RoleService(
         return permissions;
 
     }
+
+    public async Task<byte[]> ExportRoleData(RoleManagementRequestExportDto pagination)
+    {
+        var roleData = await GetAllRoleIncludeAsync();
+        var roleQueryable = roleData.AsQueryable();
+        var rolePagenation = roleQueryable
+            .ToPagedResultAsync(pagination.PageNumber, pagination.Count);
+
+        var properties = typeof(RoleResponseDto).GetProperties();
+
+        StringBuilder builder = new StringBuilder();
+
+        // header
+        builder.AppendLine(string.Join(",", properties.Select(p => p.Name)));
+
+        // rows
+        foreach (var item in rolePagenation.Items)
+        {
+            var row = properties.Select(p =>
+            {
+                var value = p.GetValue(item);
+                return value?.ToString()?.Replace(",", " ");
+            });
+
+            builder.AppendLine(string.Join(",", row));
+        }
+
+        return Encoding.UTF8.GetBytes(builder.ToString());
     }
+
+}
