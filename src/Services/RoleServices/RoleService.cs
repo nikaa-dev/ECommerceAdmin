@@ -190,7 +190,36 @@ public class RoleService(
         return (true, "Role deleted successfully.");
     }
 
-    
+    public async Task<(bool status, RoleAndPermissionResponseDto data)>
+    GetPermissionByRoleId(string id)
+    {
+        var role = await roleManager.FindByIdAsync(id);
+
+        if (role == null)
+        {
+            return (false, new RoleAndPermissionResponseDto());
+        }
+
+        var claims = await roleManager.GetClaimsAsync(role);
+
+        var permissions = claims
+            .Where(c => c.Type == "Permission")
+            .Select(c => c.Value)
+            .ToList();
+
+        var response = new RoleAndPermissionResponseDto
+        {
+            Id = role.Id,
+            Name = role.Name,
+            Description = role.Description,
+            //CreatedAt = role.CreatedAt.ToString("yyyy/MM/dd"), // if CreatedAt exists
+            CreatedAt = "2010/10/10",
+            Permissions = permissions
+        };
+
+        return (true, response);
+    }
+
     public async Task<(bool status, string messageStatus)> UpdateRole(
      RoleRequestUpdateDto role)
     {

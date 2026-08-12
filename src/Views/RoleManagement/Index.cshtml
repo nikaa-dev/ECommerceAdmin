@@ -287,7 +287,7 @@
                                     <div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-header small fw-bold" href="#">Action</a>
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item small rounded-10 action-button" id="view-detail" data-toggle="modal" data-target="#viewDetail">
+                                        <button class="dropdown-item small rounded-10 action-button view" data-toggle="modal" data-target="#viewDetail">
                                             <i class="bi bi-eye"></i>
                                             <span class="ms-2">View Details</span>
                                         </button>
@@ -307,36 +307,72 @@
 
 
                                     <!-- ViewDetail Modal -->
-                                    <div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" style="max-width:50%; margin:auto;" role="document">
-                                            <div class="modal-content ">
+                                    <!-- View Detail Modal -->
+                                    
+                                    <div class="modal fade"
+                                         id="viewDetail"
+                                         tabindex="-1"
+                                         role="dialog"
+                                         aria-labelledby="viewDetailLabel"
+                                         aria-hidden="true">
 
+                                        <div class="modal-dialog modal-dialog-centered"
+                                             style="max-width:50%; margin:auto;"
+                                             >
+
+                                            <div class="modal-content">
+
+                                                <!-- Header -->
                                                 <div class="modal-header flex-column align-items-start mx-2">
-                                                    <h5 class="modal-title fw-semibold" id="exampleModalLabel">Role Details</h5>
-                                                    <p class="text-muted mb-0">Complete information about this role and its permissions</p>
-                                                    <button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+
+                                                    <h5 class="modal-title fw-semibold" id="viewDetailLabel">
+                                                        Role Details
+                                                    </h5>
+
+                                                    <p class="text-muted mb-0">
+                                                        Complete information about this role and its permissions
+                                                    </p>
+
+                                                    <button type="button"
+                                                            class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white"
+                                                            data-dismiss="modal"
+                                                            aria-label="Close">
+
                                                         <span aria-hidden="true" class="fs-5">&times;</span>
+
                                                     </button>
+
                                                 </div>
+
+
+                                                <!-- Body -->
                                                 <div class="modal-body mx-2">
+
+                                                    <!-- Role Header -->
                                                     <div class="d-flex align-items-center gap-3">
 
                                                         <!-- Icon -->
-                                                        <div class="custom-gradient rounded-3 border bg-light d-flex justify-content-center align-items-center flex-shrink-0 border-0"
+                                                        <div class="custom-gradient rounded-3
+                                                                    d-flex justify-content-center
+                                                                    align-items-center flex-shrink-0"
                                                              style="width:50px;height:50px;">
+
                                                             <i class="bi bi-shield-lock text-danger fs-4"></i>
+
                                                         </div>
 
 
                                                         <!-- Role Information -->
                                                         <div class="d-flex flex-column">
 
-                                                            <h4 class="fw-semibold mb-1 d-flex" id="v-fullname">
-                                                                @role.RoleName
+                                                            <h4 class="fw-semibold mb-1"
+                                                                id="v-fullname">
+                                                                -
                                                             </h4>
 
-                                                            <p class="text-secondary mb-0" id="v-role-detail">
-                                                                Full system access with all permissions
+                                                            <p class="text-secondary mb-0"
+                                                               id="v-role-detail">
+                                                                -
                                                             </p>
 
                                                         </div>
@@ -344,148 +380,577 @@
 
                                                         <!-- Access Badge -->
                                                         <div class="ms-auto">
-                                                            <span class="badge rounded-pill bg-danger-subtle text-danger px-4 py-2 fs-6" id="v-access-level">
-                                                                High Access
+
+                                                            <span class="badge rounded-pill
+                                         px-4 py-2 fs-6"
+                                                                  id="v-access-level">
+                                                                -
                                                             </span>
+
                                                         </div>
 
                                                     </div>
+
+
                                                     <div class="border-top w-100 mt-3"></div>
 
-                                                    <div class="mt-3 ">
-                                                    
-                                                        <div class="row g-3 justify-content-between">
 
+                                                    <!-- Statistics -->
+                                                    <div class="mt-3">
+
+                                                        <div class="row g-3">
+
+                                                            <!-- Permissions -->
                                                             <div class="col-md-4">
+
                                                                 <div class="bg-light rounded-3 p-3 role-stat-card">
+
                                                                     <div class="text-secondary mb-2">
                                                                         Permissions
                                                                     </div>
-                                                                    <div class="fs-3" id="v-permission-count">
-                                                                        20
+
+                                                                    <div class="fs-3"
+                                                                         id="v-permission-count">
+                                                                        0
                                                                     </div>
+
                                                                 </div>
+
                                                             </div>
 
+
+                                                            <!-- Users -->
                                                             <div class="col-md-4">
+
                                                                 <div class="bg-light rounded-3 p-3 role-stat-card">
+
                                                                     <div class="text-secondary mb-2">
                                                                         Users
                                                                     </div>
-                                                                    <div class="fs-3" id="v-user-count">
-                                                                        2
+
+                                                                    <div class="fs-3"
+                                                                         id="v-user-count">
+                                                                        0
                                                                     </div>
+
                                                                 </div>
+
                                                             </div>
 
+
+                                                            <!-- Created -->
                                                             <div class="col-md-4">
+
                                                                 <div class="bg-light rounded-3 p-3 role-stat-card">
+
                                                                     <div class="text-secondary mb-2">
                                                                         Created
                                                                     </div>
+
                                                                     <div id="v-role-create">
-                                                                        2023-01-10
+                                                                        -
                                                                     </div>
+
                                                                 </div>
+
                                                             </div>
 
                                                         </div>
-                                                        
-
-                                                        <div class="mt-3">
-                                                            <div class=" d-flex align-items-start">
-                                                                <h5 class="fw-semibold mb-3">
-                                                                    Assigned Permissions
-                                                                </h5>
-                                                            </div>
 
 
-                                                            @foreach (var group in role.Permission.GroupBy(p => p.Split("::")[0]))
-                                                            {
-                                                                <div class="border rounded-3 p-3 mb-3">
+                                                        <!-- Permissions -->
+                                                        <div class="mt-4">
 
-                                                                    <!-- Module -->
-                                                                    <h5 class="mb-3 d-flex justify-content-start">
-                                                                        @group.Key
-                                                                    </h5>
+                                                            <h5 class="fw-semibold mb-3">
+                                                                Assigned Permissions
+                                                            </h5>
 
-                                                                    <!-- Permission list -->
-                                                                    <div class="row">
+                                                            <!-- JavaScript inserts permissions here -->
+                                                            <div id="v-permissions">
+                                                                <script>
+                                                                    $(document).ready(function () {
 
-                                                                        @foreach (var p in group)
-                                                                        {
-                                                                            var permission = p.Split("::");
+                                                                        $(document).on("click", ".view", function (e) {
 
-                                                                            var action = permission.Length > 1
-                                                                            ? permission[1]
-                                                                            : "";
+                                                                            e.preventDefault();
 
-                                                                            var permissionName = action switch
-                                                                            {
-                                                                                "read" => $"View {group.Key}",
-                                                                                "create" => $"Create {group.Key}",
-                                                                                "update" => $"Edit {group.Key}",
-                                                                                "delete" => $"Delete {group.Key}",
-                                                                                _ => action
-                                                                            };
+                                                                            var row = $(this).closest("tr");
 
-                                                                            <div class="col-md-6">
+                                                                            // ==========================
+                                                                            // Get Role ID
+                                                                            // ==========================
 
-                                                                                <div class="d-flex align-items-center mb-2">
+                                                                            var roleId = row.find(".data-id")
+                                                                                .text()
+                                                                                .trim()
+                                                                                .replace("#", "");
 
-                                                                                    <!-- Blue dot -->
-                                                                                    <span class="me-2"
-                                                                                          style="
-                                                                                                  width:7px;
-                                                                                                  height:7px;
-                                                                                                  background:#0d6efd;
-                                                                                                  border-radius:50%;
-                                                                                                  display:inline-block;
-                                                                                              ">
-                                                                                    </span>
+                                                                            console.log("Role ID:", roleId);
 
-                                                                                    <!-- Permission -->
-                                                                                    <span class="text-secondary">
-                                                                                        @permissionName
-                                                                                    </span>
 
-                                                                                </div>
+                                                                            // ==========================
+                                                                            // Call API
+                                                                            // ==========================
 
-                                                                            </div>
+                                                                            $.ajax({
+
+                                                                                url: '/RoleManagement/GetById',
+
+                                                                                type: 'POST',
+
+                                                                                data: {
+                                                                                    roleId: roleId
+                                                                                },
+
+
+                                                                                success: function (res) {
+
+                                                                                    console.log("Role response:", res);
+
+
+                                                                                    if (!res || !res.data) {
+
+                                                                                        alert("Role not found.");
+
+                                                                                        return;
+                                                                                    }
+
+
+                                                                                    // ==========================
+                                                                                    // Get Role
+                                                                                    // ==========================
+
+                                                                                    var role = Array.isArray(res.data)
+                                                                                        ? res.data[0]
+                                                                                        : res.data;
+
+
+                                                                                    if (!role) {
+
+                                                                                        alert("Role not found.");
+
+                                                                                        return;
+                                                                                    }
+
+
+                                                                                    // ==========================
+                                                                                    // Read Properties
+                                                                                    // ==========================
+
+                                                                                    var roleName =
+                                                                                        role.roleName ??
+                                                                                        role.RoleName ??
+                                                                                        "";
+
+
+                                                                                    var description =
+                                                                                        role.description ??
+                                                                                        role.Description ??
+                                                                                        "No description";
+
+
+                                                                                    var permissions =
+                                                                                        role.permissions ??
+                                                                                        role.Permission ??
+                                                                                        role.permission ??
+                                                                                        [];
+
+
+                                                                                    var userCount =
+                                                                                        role.userCount ??
+                                                                                        role.UserCount ??
+                                                                                        role.users ??
+                                                                                        role.Users ??
+                                                                                        0;
+
+
+                                                                                    var createdDate =
+                                                                                        role.createdDate ??
+                                                                                        role.CreatedDate ??
+                                                                                        role.created ??
+                                                                                        role.Created ??
+                                                                                        "";
+
+
+                                                                                    var id =
+                                                                                        role.id ??
+                                                                                        role.Id ??
+                                                                                        roleId;
+
+
+                                                                                    // Make sure permissions is an array
+                                                                                    if (!Array.isArray(permissions)) {
+
+                                                                                        permissions = [];
+
+                                                                                    }
+
+
+                                                                                    // ==========================
+                                                                                    // Permission Count
+                                                                                    // ==========================
+
+                                                                                    var permissionCount = permissions.length;
+
+
+                                                                                    // ==========================
+                                                                                    // Role Information
+                                                                                    // ==========================
+
+                                                                                    $("#v-fullname").text(roleName);
+
+                                                                                    $("#v-role-detail").text(description);
+
+                                                                                    $("#v-permission-count").text(permissionCount);
+
+                                                                                    $("#v-user-count").text(userCount);
+
+                                                                                    $("#v-role-create").text(createdDate);
+
+                                                                                    $("#v-id").text("#" + id);
+
+
+                                                                                    // ==========================
+                                                                                    // Access Level
+                                                                                    // ==========================
+
+                                                                                    var accessLevel = "No Access";
+
+                                                                                    var accessClass =
+                                                                                        "bg-secondary-subtle text-secondary";
+
+
+                                                                                    if (permissionCount >= 15) {
+
+                                                                                        accessLevel = "High Access";
+
+                                                                                        accessClass =
+                                                                                            "bg-danger-subtle text-danger";
+
+                                                                                    }
+                                                                                    else if (permissionCount >= 8) {
+
+                                                                                        accessLevel = "Medium Access";
+
+                                                                                        accessClass =
+                                                                                            "bg-warning-subtle text-warning";
+
+                                                                                    }
+                                                                                    else if (permissionCount > 0) {
+
+                                                                                        accessLevel = "Low Access";
+
+                                                                                        accessClass =
+                                                                                            "bg-primary-subtle text-primary";
+
+                                                                                    }
+
+
+                                                                                    $("#v-access-level")
+                                                                                        .removeClass()
+                                                                                        .addClass(
+                                                                                            "badge rounded-pill px-4 py-2 fs-6 " +
+                                                                                            accessClass
+                                                                                        )
+                                                                                        .text(accessLevel);
+
+
+                                                                                    // ==========================
+                                                                                    // Group Permissions
+                                                                                    // ==========================
+
+                                                                                    var groupedPermissions = {};
+
+
+                                                                                    $.each(permissions, function (index, permission) {
+
+                                                                                        if (!permission) {
+                                                                                            return;
+                                                                                        }
+
+
+                                                                                        var parts = permission.split("::");
+
+                                                                                        var module = parts[0] || "";
+
+                                                                                        var action = parts[1] || "";
+
+
+                                                                                        if (!groupedPermissions[module]) {
+
+                                                                                            groupedPermissions[module] = [];
+
+                                                                                        }
+
+
+                                                                                        groupedPermissions[module].push(action);
+
+                                                                                    });
+
+
+                                                                                    // ==========================
+                                                                                    // Build Permission HTML
+                                                                                    // ==========================
+
+                                                                                    var permissionHtml = "";
+
+
+                                                                                    $.each(
+                                                                                        groupedPermissions,
+                                                                                        function (module, actions) {
+
+                                                                                            permissionHtml += `
+
+                                                                                                <div class="border rounded-3 p-3 mb-3">
+
+                                                                                                    <h5 class="mb-3">
+                                                                                                        ${escapeHtml(module)}
+                                                                                                    </h5>
+
+                                                                                                    <div class="row">
+
+                                                                                            `;
+
+
+                                                                                            $.each(actions, function (index, action) {
+
+                                                                                                var permissionName = "";
+
+
+                                                                                                switch (action.toLowerCase()) {
+
+                                                                                                    case "read":
+
+                                                                                                        permissionName =
+                                                                                                            `View ${module}`;
+
+                                                                                                        break;
+
+
+                                                                                                    case "create":
+
+                                                                                                        permissionName =
+                                                                                                            `Create ${module}`;
+
+                                                                                                        break;
+
+
+                                                                                                    case "update":
+
+                                                                                                        permissionName =
+                                                                                                            `Edit ${module}`;
+
+                                                                                                        break;
+
+
+                                                                                                    case "delete":
+
+                                                                                                        permissionName =
+                                                                                                            `Delete ${module}`;
+
+                                                                                                        break;
+
+
+                                                                                                    default:
+
+                                                                                                        permissionName = action;
+
+                                                                                                        break;
+
+                                                                                                }
+
+
+                                                                                                permissionHtml += `
+
+                                                                                                    <div class="col-md-6">
+
+                                                                                                        <div class="d-flex align-items-center mb-2">
+
+                                                                                                            <span class="me-2"
+                                                                                                                  style="
+                                                                                                                    width:7px;
+                                                                                                                    height:7px;
+                                                                                                                    background:#0d6efd;
+                                                                                                                    border-radius:50%;
+                                                                                                                    display:inline-block;
+                                                                                                                  ">
+                                                                                                            </span>
+
+                                                                                                            <span class="text-secondary">
+
+                                                                                                                ${escapeHtml(permissionName)}
+
+                                                                                                            </span>
+
+                                                                                                        </div>
+
+                                                                                                    </div>
+
+                                                                                                `;
+
+                                                                                            });
+
+
+                                                                                            permissionHtml += `
+
+                                                                                                    </div>
+
+                                                                                                </div>
+
+                                                                                            `;
+
+                                                                                        }
+                                                                                    );
+
+
+                                                                                    // ==========================
+                                                                                    // No Permissions
+                                                                                    // ==========================
+
+                                                                                    if (permissionHtml === "") {
+
+                                                                                        permissionHtml = `
+
+                                                                                            <div class="border rounded-3 p-3">
+
+                                                                                                <span class="text-secondary">
+
+                                                                                                    No permissions assigned.
+
+                                                                                                </span>
+
+                                                                                            </div>
+
+                                                                                        `;
+
+                                                                                    }
+
+
+                                                                                    // ==========================
+                                                                                    // Display Permissions
+                                                                                    // ==========================
+
+                                                                                    $("#v-permissions").html(permissionHtml);
+
+
+                                                                                    // ==========================
+                                                                                    // Save ID for Edit
+                                                                                    // ==========================
+
+                                                                                    $("#view-edit-role")
+                                                                                        .data("role-id", id);
+
+
+                                                                                    // ==========================
+                                                                                    // Open Modal
+                                                                                    // ==========================
+
+                                                                                    $("#viewDetail").modal("show");
+
+                                                                                },
+
+
+                                                                                error: function (xhr) {
+
+                                                                                    console.error(
+                                                                                        "Get role detail failed:",
+                                                                                        xhr.responseText
+                                                                                    );
+
+                                                                                    alert("Get role detail failed.");
+
+                                                                                }
+
+                                                                            });
+
+                                                                        });
+
+
+
+
+                                                                        // ==========================
+                                                                        // HTML Escape
+                                                                        // ==========================
+
+                                                                        function escapeHtml(value) {
+
+                                                                            if (value === null || value === undefined) {
+
+                                                                                return "";
+
+                                                                            }
+
+
+                                                                            return String(value)
+                                                                                .replace(/&/g, "&amp;")
+                                                                                .replace(/</g, "&lt;")
+                                                                                .replace(/>/g, "&gt;")
+                                                                                .replace(/"/g, "&quot;")
+                                                                                .replace(/'/g, "&#039;");
+
                                                                         }
 
-                                                                    </div>
+                                                                    });
+                                                                </script>
+                                                            </div>
 
-                                                                </div>
-                                                            }
-
-
-
-                                                           
                                                         </div>
 
                                                     </div>
-                                                   
-                                                   
-                                                    <div class="border-top w-100 "></div>
-                                                    <div class="col d-flex flex-column align-items-start justify-content-start my-3">
-                                                        <p class="mb-1">User Id</p>
-                                                        <div id="v-id">#1</div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
-                                                        <span>Close</span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#edit">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                        <span class="ms-3">Edit Role</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
+
+                                                    <div class="border-top w-100 mt-3"></div>
+
+
+                                                    <!-- Role ID -->
+                                                    <div class="d-flex flex-column align-items-start my-3">
+
+                                                        <p class="mb-1">
+                                                            Role Id
+                                                        </p>
+
+                                                        <div id="v-id">
+                                                            -
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <!-- Footer -->
+                                                <div class="modal-footer">
+
+                                                    <button type="button"
+                                                            class="btn border bg-white rounded-2"
+                                                            data-dismiss="modal">
+
+                                                        Close
+
+                                                    </button>
+
+
+                                                    <button type="button"
+                                                            data-toggle="modal"
+                                                            data-dismiss="modal"
+                                                            data-target="#edit"
+                                                            class="btn btn-dark rounded-2 d-flex">
+
+                                                        <i class="bi bi-pencil-square"></i>
+
+                                                        <span class="ms-3">
+                                                            Edit Role
+                                                        </span>
+
+                                                    </button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
                                     <!-- Delete Modal -->
                                     <form id="delete-role">
                                         <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

@@ -15,4 +15,5 @@ public interface IRoleService
 
     Task<Dictionary<string, List<string>>> GetLookupRolePermission();
     Task<byte[]> ExportRoleData(RoleManagementRequestExportDto pagination);
+    Task<(bool status, RoleAndPermissionResponseDto data)> GetPermissionByRoleId(string id);
 }

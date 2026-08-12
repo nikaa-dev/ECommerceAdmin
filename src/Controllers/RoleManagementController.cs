@@ -81,14 +81,14 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
 
     }
     [HttpPost]
-    public IActionResult GetById(string roleId)
+    public async Task<IActionResult> GetById(string roleId)
     {
         try
         {
-            //var (status, messageStatus) = await roleService.DeleteRoleAsync(id);
-            //if (!status) return BadRequest(new { success = status, message = messageStatus });
-            //return Json(new { success = status, message = messageStatus });
-            return null;
+            var (status, permissions) = await roleService.GetPermissionByRoleId(roleId);
+            if (!status) return BadRequest(new { success = status, message = "Error get permission occured" });
+            return Json(new { success = status, data = permissions });
+
         }
         catch (Exception ex)
         {
