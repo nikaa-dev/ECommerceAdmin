@@ -235,8 +235,26 @@
                             @* RoleName *@
                             <td class="pt-4 ps-4 fw-semibold">
                                 <p class="visually-hidden data-id">@role.Id</p>
+                                <script>
+                                     @{
+                                                    string roleClass = role.RoleName switch
+                                                {
+                                                             "Admin" => "bg-red-100 text-red-600",
+                                                            "Manager" => "bg-yellow-100 text-yellow-600",
+                                                                    _ => "bg-green-100 text-green-700"
+                                                };
+                                                            string iconRole = role.RoleName switch
+                                                    {
+                                                                    "Admin" => "bi bi-shield-check",
+                                                                    "Manager" => "bi bi-shield-exclamation",
+                                                                    _ => "bi bi-shield"
+                                                    };
+                                    }
+                                </script>
                                 
+
                                 <div>
+                                    <i class="@iconRole p-2 rounded-10 @roleClass data-role"></i>
                                     <span class="ms-2 data-fullname">@role.RoleName</span><br />
                                 </div>
                             </td>
@@ -251,13 +269,24 @@
 
                             @* acess *@
                             <td class="pt-4 ps-3">
-                                <span class="badge data-access-level text-secondary px-2 py-1 rounded-10 border small">
+                                <script>
+                                    @{
+                                    string accessLevelClass = role.AccessLevel switch
+                                                {
+                                                             "High" => "bg-red-100 text-red-600",
+                                                            "Medium" => "bg-yellow-100 text-yellow-600",
+                                                                    _ => "bg-green-100 text-green-700"
+                                                };
+                                    }
+                                </script>
+                                <span class="@accessLevelClass badge data-access-level px-2 py-1 rounded-10 border small">
                                     @role.AccessLevel
                                 </span>
                             </td>
                             @* permission *@
                             <td class="pt-4 ps-3">
-                                <span class="badge data-permission-count text-secondary px-2 py-1 rounded-10 border small">
+                                <span class=" data-permission-count text-secondary px-2 py-1 rounded-10">
+                                    <i class="bi bi-lock "></i>
                                     @role.Permission.Count
                                 </span>
 
@@ -270,7 +299,10 @@
                             </td>
 
                             @* Total user *@
-                            <td class="pt-4 ps-4 data-user-count">@role.Users</td>
+                            <td class="pt-4 ps-4 data-user-count">
+                                <i class="bi bi-people"></i>
+                                @role.Users
+                             </td>
 
                             @* created date *@
                             <td class="pt-4 ps-4 data-joindate">@role.Created</td>
