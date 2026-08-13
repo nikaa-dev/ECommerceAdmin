@@ -27,4 +27,5 @@ public class RoleAndPermissionResponseDto
     public string Description { get; set; }
     public string CreatedAt { get; set; }
     public List<string> Permissions { get; set; }
+    public int UserCount { get; set; }
 }            

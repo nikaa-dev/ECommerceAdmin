@@ -207,6 +207,8 @@ public class RoleService(
             .Select(c => c.Value)
             .ToList();
 
+        var usersInRole = await userManager.GetUsersInRoleAsync(role.Name!);
+
         var response = new RoleAndPermissionResponseDto
         {
             Id = role.Id,
@@ -214,7 +216,8 @@ public class RoleService(
             Description = role.Description,
             //CreatedAt = role.CreatedAt.ToString("yyyy/MM/dd"), // if CreatedAt exists
             CreatedAt = "2010/10/10",
-            Permissions = permissions
+            Permissions = permissions,
+            UserCount = usersInRole.Count()
         };
 
         return (true, response);

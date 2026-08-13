@@ -461,9 +461,11 @@
                                                         <!-- Permissions -->
                                                         <div class="mt-4">
 
-                                                            <h5 class="fw-semibold mb-3">
-                                                                Assigned Permissions
-                                                            </h5>
+                                                            <div class="d-flex align-items-start">
+                                                                <h5 class="fw-semibold mb-3 ">
+                                                                    Assigned Permissions
+                                                                </h5>
+                                                            </div>
 
                                                             <!-- JavaScript inserts permissions here -->
                                                             <div id="v-permissions">
@@ -538,8 +540,8 @@
                                                                                     // ==========================
 
                                                                                     var roleName =
-                                                                                        role.roleName ??
-                                                                                        role.RoleName ??
+                                                                                        role.Name ??
+                                                                                        role.name ??
                                                                                         "";
 
 
@@ -565,8 +567,8 @@
 
 
                                                                                     var createdDate =
-                                                                                        role.createdDate ??
-                                                                                        role.CreatedDate ??
+                                                                                        role.createdAt ??
+                                                                                        role.CreatedAt ??
                                                                                         role.created ??
                                                                                         role.Created ??
                                                                                         "";
@@ -703,9 +705,11 @@
 
                                                                                                 <div class="border rounded-3 p-3 mb-3">
 
-                                                                                                    <h5 class="mb-3">
-                                                                                                        ${escapeHtml(module)}
-                                                                                                    </h5>
+                                                                                                    <div class="d-flex align-items-start">
+                                                                                                        <h5 class="mb-3">
+                                                                                                            ${escapeHtml(module)}
+                                                                                                        </h5>
+                                                                                                    </div>
 
                                                                                                     <div class="row">
 
@@ -776,7 +780,7 @@
                                                                                                                   ">
                                                                                                             </span>
 
-                                                                                                            <span class="text-secondary">
+                                                                                                            <span class="text-secondary ">
 
                                                                                                                 ${escapeHtml(permissionName)}
 
@@ -845,7 +849,7 @@
                                                                                     // Open Modal
                                                                                     // ==========================
 
-                                                                                    $("#viewDetail").modal("show");
+                                                                                    // $("#viewDetail").modal("show");
 
                                                                                 },
 
