@@ -16,11 +16,11 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<style>
 		/*  (min-width: 1537px) {
-					.test
-					{
-						color: red;
-					}
-				} */
+							.test
+							{
+								color: red;
+							}
+						} */
 		.rounded-15 {
 			border-radius: 15px !important;
 		}
@@ -218,66 +218,68 @@
 	</style>
 </head>
 <body>
-	<div>
-		<div class="d-flex">
+	<div class="bg-light">
+		<!-- Header -->
+		<div class=" ps-4 pt-4 ">
+			<h4 class="text-black fw-semibold">Settings</h4>
+			<span>Manage your account preferences and configurations</span>
+		</div>
+		<div class="d-flex ">
 
 			<!-- Sidebar -->
-			<nav class="d-none d-md-flex col-md-3 col-lg-2 flex-column bg-white vh-100 border-end position-fixed">
-
-				<!-- Header -->
-				<div class="text-center border-bottom py-3 ">
-					<h4 class="text-black fw-semibold">E-Commerce Admin</h4>
-				</div>
+			<nav class="d-none bg-light d-md-flex col-md-3 col-lg-2 flex-column vh-100 position-fixed">
 
 				<!-- Navigation -->
 				<ul class="nav flex-column align-items-center w-100 p-3">
 
 					<li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-10 py-2 @(controller == "Dashboard" ? "active" : "")"
-						   href="@Url.Action("Index", "Dashboard")">
-							<i class="bi bi-columns-gap h5 position-relative" style="bottom:2px;"></i>
-							<span class="ms-2 position-relative" style="bottom:2px;">Dashboard</span>
+						<a class="nav-link rounded-10 py-2 @(controller == "Profile" ? "active" : "")"
+						   href="@Url.Action("Index", "Profile")">
+							<i class="bi bi-person h5 position-relative" style="bottom:2px;"></i>
+							<span class="ms-2 position-relative" style="bottom:2px;">Profile</span>
 						</a>
 					</li>
 
 					<li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-10 py-2 @(controller == "Products" ? "active" : "")"
-						   href="@Url.Action("Index", "Products")">
-							<i class="bi bi-box-seam h5 position-relative" style="bottom:2px;"></i>
-							<span class="ms-2 position-relative" style="bottom:2px;">Products</span>
+						<a class="nav-link rounded-10 py-2 @(controller == "Notifications" ? "active" : "")"
+						   href="@Url.Action("Index", "Notifications")">
+							<i class="bi bi-bell h5 position-relative" style="bottom:2px;"></i>
+							<span class="ms-2 position-relative" style="bottom:2px;">Notifications</span>
 						</a>
 					</li>
 
 					<li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-10 py-2 @(controller == "Orders" ? "active" : "")"
-						   href="@Url.Action("Index", "Orders")">
-							<i class="bi bi-cart h5 position-relative" style="bottom:2px;"></i>
-							<span class="ms-2 position-relative" style="bottom:2px;">Orders</span>
-						</a>
-					</li>
-
-					<li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-10 py-2 @(controller == "Customer" ? "active" : "")"
-						   href="@Url.Action("Index", "Customer")">
-							<i class="bi bi-people h5 position-relative" style="bottom:2px;"></i>
-							<span class="ms-2 position-relative" style="bottom:3px;">Customers</span>
-						</a>
-					</li>
-
-					<li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-10 py-2 @(controller == "UserManagement" ? "active" : "")"
-						   href="@Url.Action("Index", "UserManagement")">
-							<i class="bi bi-person-gear h5 position-relative" style="bottom:2px;"></i>
-							<span class="ms-2 position-relative" style="bottom:3px;">User Management</span>
-						</a>
-					</li>
-
-					<li class="nav-item w-100 p-1">
-						<a class="nav-link rounded-10 py-2 @(controller == "RoleManagement" ? "active" : "")"
-						   href="@Url.Action("Index", "RoleManagement")">
+						<a class="nav-link rounded-10 py-2 @(controller == "Security" ? "active" : "")"
+						   href="@Url.Action("Index", "Security")">
 							<i class="bi bi-shield h5 position-relative" style="bottom:2px;"></i>
+							<span class="ms-2 position-relative" style="bottom:2px;">Security</span>
+						</a>
+					</li>
+
+
+					<li class="nav-item w-100 p-1">
+						<a class="nav-link rounded-10 py-2 @(controller == "Billing" ? "active" : "")"
+						   href="@Url.Action("Index", "Billing")">
+							<i class="bi bi-credit-card h5 position-relative" style="bottom:2px;"></i>
+							<span class="ms-2 position-relative" style="bottom:3px;">Billing</span>
+						</a>
+					</li>
+
+					<li class="nav-item w-100 p-1">
+						<a class="nav-link rounded-10 py-2 @(controller == "Appearance" ? "active" : "")"
+						   href="@Url.Action("Index", "Appearance")">
+							<i class="bi bi-palette h5 position-relative" style="bottom:2px;"></i>
 							<span class="ms-2 position-relative" style="bottom:3px;">
-								Role Management
+								Appearance
+							</span>
+						</a>
+					</li>
+					<li class="nav-item w-100 p-1">
+						<a class="nav-link rounded-10 py-2 @(controller == "Regional" ? "active" : "")"
+						   href="@Url.Action("Index", "Regional")">
+							<i class="bi bi-globe h5 position-relative" style="bottom:2px;"></i>
+							<span class="ms-2 position-relative" style="bottom:3px;">
+								Regional
 							</span>
 						</a>
 					</li>
@@ -287,31 +289,25 @@
 				<!-- Footer -->
 				<div class="mt-auto w-100 d-flex flex-column align-items-center border-top h-auto justify-content-center p-3">
 					<a class="w-100 my-1 p-2 rounded-10 footer-item text-black"
-					   asp-controller="Setting"
+					   asp-controller="Dashboard"
 					   asp-action="Index">
 						<i class="bi bi-gear h5"></i>
-						<span class="ms-2">Settings</span>
+						<span class="ms-2">Dashbaord</span>
 					</a>
 
-					<form asp-controller="Account" asp-action="Logout" method="post" class="w-100">
-						@Html.AntiForgeryToken()
-
-						<button type="submit"
-								class="w-100 my-1 p-2 rounded-10 footer-item text-black border-0 bg-transparent text-start">
-							<i class="bi bi-box-arrow-right h5"></i>
-							<span class="ms-2">Logout</span>
-						</button>
-					</form>
 				</div>
 
 			</nav>
 
 			<!-- Main Content -->
-			<main class="col-12 col-md-9 col-lg-10 p-3 bg-light" style="margin-left: 16.666%;">
-				<div class="p-3 rounded-15  ">
+			<main class="col-12 col-md-9 col-lg-10 p-3 mt-3 " style="margin-left: 16.666%;">
+				<div class="p-3 rounded-15">
 					@RenderBody()
 				</div>
 			</main>
+
+			
+
 
 		</div>
 	</div>
