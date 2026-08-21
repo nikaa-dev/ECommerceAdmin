@@ -375,7 +375,7 @@
                                                     </button>
 
                                                 </div>
-
+                                                
 
                                                 <!-- Body -->
                                                 <div class="modal-body mx-2">
@@ -387,9 +387,10 @@
                                                         <div class="custom-gradient rounded-3
                                                                     d-flex justify-content-center
                                                                     align-items-center flex-shrink-0"
+                                                             id="icon-container"
                                                              style="width:50px;height:50px;">
 
-                                                            <i class="bi bi-shield-lock text-danger fs-4"></i>
+                                                            <i class="bi bi-shield-lock text-danger fs-4" id="icon"></i>
 
                                                         </div>
 
@@ -413,8 +414,7 @@
                                                         <!-- Access Badge -->
                                                         <div class="ms-auto">
 
-                                                            <span class="badge rounded-pill
-                                         px-4 py-2 fs-6"
+                                                            <span class="badge rounded-pill px-4 py-2 fs-6"
                                                                   id="v-access-level">
                                                                 -
                                                             </span>
@@ -678,6 +678,48 @@
                                                                                             "bg-primary-subtle text-primary";
 
                                                                                     }
+                                                                                                                                                                                                                                                                                                                                           @{
+                                                                                
+                                                                    }
+
+                                                                                    if(roleName == "Admin"){
+                                                                                        $("#icon-container")
+                                                                                        .removeClass()
+                                                                                        .addClass(
+                                                                                            " rounded-3 d-flex justify-content-center align-items-center flex-shrink-0 bg-red-100 text-red-600"
+                                                                                        );
+                                                                                        $("#icon")
+                                                                                            .removeClass()
+                                                                                            .addClass(
+                                                                                                "bi bi-shield-check text-danger fs-4"
+                                                                                            );
+                                                                                    } 
+                                                                                    else if(roleName == "Manager")
+                                                                                    {
+                                                                                        $("#icon-container")
+                                                                                        .removeClass()
+                                                                                        .addClass(
+                                                                                            " rounded-3 d-flex justify-content-center align-items-center flex-shrink-0 bg-yellow-100 text-yellow-600"
+                                                                                        );
+                                                                                        $("#icon")
+                                                                                            .removeClass()
+                                                                                            .addClass(
+                                                                                                "bi bi-shield-exclamation fs-4"
+                                                                                            );
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        $("#icon-container")
+                                                                                        .removeClass()
+                                                                                        .addClass(
+                                                                                            " rounded-3 d-flex justify-content-center align-items-center flex-shrink-0 bg-green-100 text-green-700"
+                                                                                        );
+                                                                                        $("#icon")
+                                                                                            .removeClass()
+                                                                                            .addClass(
+                                                                                                "bi bi-shield fs-4"
+                                                                                            );
+                                                                                    }
 
 
                                                                                     $("#v-access-level")
@@ -687,6 +729,10 @@
                                                                                             accessClass
                                                                                         )
                                                                                         .text(accessLevel);
+                                                                                    
+                                                                                    
+
+                                                                                  
 
 
                                                                                     // ==========================
