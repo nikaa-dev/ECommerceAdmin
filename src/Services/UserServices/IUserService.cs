@@ -14,7 +14,10 @@ namespace src.Services.UserServices
         Task<(bool, string)> CreateUserAsync(UserRequestDto userRequest);
         Task<(bool, string)> DeleteUserAsync(string id);
 
-        
+        Task<(bool, string, ProfileUserResponseDto)> GetUserProfile(string userId);
+
+
+
     }
 }
 

@@ -179,6 +179,40 @@ public class UserService(
 
         return (true, "User deleted");
     }
+
+    public async Task<(bool, string, ProfileUserResponseDto)> GetUserProfile(string userId)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+
+        if (user == null)
+            return (false, "User Not Found", null);
+
+        var currentRoleNames = await userManager.GetRolesAsync(user);
+        var currentRoles = await roleManager.Roles
+                    .Where(r => currentRoleNames.Contains(r.Name))
+                    .ToListAsync();
+
+
+        var userProfile = new ProfileUserResponseDto(
+
+            userId,
+            user.FullName,
+            "null",
+            user.PhoneNumber!,
+            user.Email!,
+            string.Join(",",currentRoles.Select(r => r.Name)),
+            string.Join(",",currentRoles.Select(r => r.Description)),
+            user.Status,
+            "Null",
+            "Null",
+            TimeOnly.MaxValue,
+            user.CreatedAt
+        );
+
+        return (true, "User listing data", userProfile);
+    }
+
+
 }
 
 
