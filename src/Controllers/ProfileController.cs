@@ -16,6 +16,15 @@ namespace src.Controllers
             
 
             return View(user);
+        }   
+        public async Task<IActionResult> Update()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var (status,message,user) = await userService.GetUserProfile(userId);
+            
+
+            return View(user);
         }
 
 
