@@ -1,3 +1,203 @@
 ﻿@{
     Layout = "../Shared/_SettingLayout";
 }
+@model src.DTO.UserDto.NotificationSettingsDto
+
+<style>
+    .notif-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 16px 0;
+    }
+
+        .notif-row + .notif-row {
+            border-top: 1px solid #f0f0f0;
+        }
+
+    .notif-icon-wrap {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f4f6fb;
+        flex-shrink: 0;
+    }
+
+    /* Toggle switch */
+    .form-switch .form-check-input {
+        width: 2.5em;
+        height: 1.4em;
+        cursor: pointer;
+    }
+
+        .form-switch .form-check-input:checked {
+            background-color: #4a6cf7;
+            border-color: #4a6cf7;
+        }
+</style>
+
+<div class="col rounded-15 bg-white shadow-sm border">
+    <div class="border-bottom">
+        <div class="m-4">
+            <h6 class="fw-bold">Notification Preferences</h6>
+            <span class="text-secondary">
+                Choose how and when you want to be notified
+            </span>
+        </div>
+    </div>
+
+    <div>
+        <form id="notification-settings">
+
+            @Html.AntiForgeryToken()
+
+            <div class="px-4">
+
+                <!-- Email notifications -->
+                <div class="notif-row">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="notif-icon-wrap">
+                            <i class="bi bi-envelope text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="mb-0 fw-semibold">Email Notifications</p>
+                            <span class="text-secondary small">
+                                Receive updates and alerts via email
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox"
+                               name="EmailEnabled" value="true"
+                               @(Model.EmailEnabled ? "checked" : "") />
+                    </div>
+                </div>
+
+                <!-- Push notifications -->
+                <div class="notif-row">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="notif-icon-wrap">
+                            <i class="bi bi-phone text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="mb-0 fw-semibold">Push Notifications</p>
+                            <span class="text-secondary small">
+                                Get real-time alerts on your device
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox"
+                               name="PushEnabled" value="true"
+                               @(Model.PushEnabled ? "checked" : "") />
+                    </div>
+                </div>
+
+                <!-- SMS notifications -->
+                <div class="notif-row">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="notif-icon-wrap">
+                            <i class="bi bi-chat-dots text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="mb-0 fw-semibold">SMS Notifications</p>
+                            <span class="text-secondary small">
+                                Receive important alerts via text message
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox"
+                               name="SmsEnabled" value="true"
+                               @(Model.SmsEnabled ? "checked" : "") />
+                    </div>
+                </div>
+
+                <!-- Marketing emails -->
+                <div class="notif-row">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="notif-icon-wrap">
+                            <i class="bi bi-megaphone text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="mb-0 fw-semibold">Marketing & Promotions</p>
+                            <span class="text-secondary small">
+                                News, product updates, and special offers
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox"
+                               name="MarketingEnabled" value="true"
+                               @(Model.MarketingEnabled ? "checked" : "") />
+                    </div>
+                </div>
+
+                <!-- Security alerts (recommended to keep locked on) -->
+                <div class="notif-row">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="notif-icon-wrap">
+                            <i class="bi bi-shield-check text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="mb-0 fw-semibold">Security Alerts</p>
+                            <span class="text-secondary small">
+                                Sign-in attempts and account changes
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox"
+                               name="SecurityAlertsEnabled" value="true"
+                               checked
+                               disabled />
+                        <input type="hidden" name="SecurityAlertsEnabled" value="true" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pe-4 pb-4 pt-2 d-flex justify-content-end align-items-end">
+                <span id="notification-status" class="me-3 small" role="status" aria-live="polite"></span>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-floppy me-2"></i>
+                    Save Changes
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#notification-settings').submit(function (e) {
+            e.preventDefault();
+
+            const submitButton = $(this).find('button[type="submit"]');
+            const status = $('#notification-status');
+
+            submitButton.prop('disabled', true);
+            status.removeClass('text-danger text-success').text('Saving...');
+
+            $.ajax({
+                url: '/Notifications/Update',
+                type: 'POST',
+                data: $('#notification-settings').serialize(),
+                success: function (response) {
+                    status.addClass('text-success').text(response.message);
+                },
+                error: function (xhr) {
+                    var msg = xhr.responseJSON?.message || "Update failed";
+                    status.addClass('text-danger').text(msg);
+                },
+                complete: function () {
+                    submitButton.prop('disabled', false);
+                }
+            });
+        });
+    });
+</script>

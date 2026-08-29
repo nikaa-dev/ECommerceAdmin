@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using src.DTO.UserDto;
 using src.Models;
 using src.Services.UserServices;
 using System.Security.Claims;
@@ -25,6 +26,27 @@ namespace src.Controllers
             
 
             return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(ProfileUserRequestDto update)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            //if (!ModelState.IsValid)
+            //{
+            //    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            //    return BadRequest(new { message = string.Join(" ", errors) });
+            //}
+
+            var (success, message) = await userService.UpdateUserProfile(userId, update);
+            if (!success)
+                return BadRequest(new { message });
+
+            return Ok(new { message });
         }
 
 

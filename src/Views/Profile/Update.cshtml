@@ -89,61 +89,94 @@
         </div>
     </div>
     <div>
-        <div class="grid-container1 py-4 px-4">
-            <div class="d-flex align-items-start flex-column w-100 mb-2">
-                <div>
-                    <i class="bi bi-person"></i>
-                    <label>Full Name</label>
-                </div>
-                <input value=@Model.FullName asp-for="FullName" class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
-            </div>
-            <div class="d-flex align-items-start flex-column w-100 mb-2">
-                <div>
-                    <i class="bi bi-envelope"></i>
-                    <label>Email Address</label>
-                </div>
-                <input value=@Model.Email class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
-            </div>
-            <div class="d-flex align-items-start flex-column w-100 mb-2">
-                <div>
-                    <i class="bi bi-telephone"></i>
-                    <label>Phone Number</label>
-                </div>
-                <input value=@Model.PhoneNumber class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
-            </div>
-            <div class="d-flex align-items-start flex-column w-100 mb-2">
-                <div>
-                    <i class="bi bi-building"></i>
-                    <label>Company</label>
-                </div>
-                <input value=@Model.Company class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
-            </div>
-            <div class="d-flex align-items-start flex-column w-100 mb-2 full-width1">
-                <div>
-                    <i class="bi bi-geo-alt"></i>
-                    <label>Address</label>
-                </div>
-                <input value=@Model.Address class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
-            </div>
-            <div class="full-width1">
-                <span>Bio</span>
-                <div class="border rounded-3 py-2 px-3">
+        <form id="edit-profile">
 
-                    <textarea name="Description"
-                              id="e-product-description"
-                              class="w-100 border-0"
-                              style="height:60px; resize:none; outline:none;">E-commerce administrator managing store operations.</textarea>
+            @Html.AntiForgeryToken()
+
+            <div class="grid-container1 py-4 px-4">
+                <div class="d-flex align-items-start flex-column w-100 mb-2">
+                    <div>
+                        <i class="bi bi-person"></i>
+                        <label>Full Name</label>
+                    </div>
+                    <input value=@Model.FullName name="FullName" class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
                 </div>
+                <div class="d-flex align-items-start flex-column w-100 mb-2">
+                    <div>
+                        <i class="bi bi-envelope"></i>
+                        <label>Email Address</label>
+                    </div>
+                    <input value=@Model.Email name="Email" class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+                </div>
+                <div class="d-flex align-items-start flex-column w-100 mb-2">
+                    <div>
+                        <i class="bi bi-telephone"></i>
+                        <label>Phone Number</label>
+                    </div>
+                    <input value=@Model.PhoneNumber name="PhoneNumber" class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+                </div>
+                <div class="d-flex align-items-start flex-column w-100 mb-2">
+                    <div>
+                        <i class="bi bi-building"></i>
+                        <label>Company</label>
+                    </div>
+                    <input value=@Model.Company name="Company" class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+                </div>
+                <div class="d-flex align-items-start flex-column w-100 mb-2 full-width1">
+                    <div>
+                        <i class="bi bi-geo-alt"></i>
+                        <label>Address</label>
+                    </div>
+                    <input value=@Model.Address name="Address" class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+                </div>
+                <div class="full-width1">
+                    <span>Bio</span>
+                    <div class="border rounded-3 py-2 px-3">
+
+                        <textarea name="Description"
+                                  id="e-product-description"
+                                  class="w-100 border-0"
+                                  style="height:60px; resize:none; outline:none;">E-commerce administrator managing store operations.</textarea>
+                    </div>
+                </div>
+
             </div>
+            <div class="pe-4 pb-4 d-flex justify-content-end align-items-end">
 
-        </div>
-        <div class="pe-4 pb-4 d-flex justify-content-end align-items-end">
-
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-floppy me-2"></i>
-                Save Changes
-            </button>
-        </div>
-
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-floppy me-2"></i>
+                    Save Changes
+                </button>
+            </div>
+            </form>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#edit-profile').submit(function (e) {
+            e.preventDefault();
+
+            var data = $('#edit-profile');
+            console.log(data.serialize());
+            $.ajax({
+                url: '/Profile/Update',
+                type: 'POST',
+                data: $('#edit-profile').serialize(),
+
+                success: function (response) {
+                    alert(response.message);
+                    location.reload();
+                },
+
+                error: function (xhr) {
+                    alert("Update failed");
+                }
+            });
+
+        });
+
+    });
+</script>

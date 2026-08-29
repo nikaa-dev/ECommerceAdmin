@@ -212,6 +212,78 @@ public class UserService(
         return (true, "User listing data", userProfile);
     }
 
+    public async Task<(bool, string)> UpdateUserProfile(string userId, ProfileUserRequestDto request)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+            return (false, "Invalid user id");
+
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+            return (false, "User not found");
+
+        // Only self-editable fields — Id, RoleName, and Status are intentionally
+        // ignored here; they must go through a separate admin-authorized flow.
+        user.FullName = request.FullName?.Trim() ?? user.FullName;
+        user.PhoneNumber = request.PhoneNumber?.Trim() ?? user.PhoneNumber;
+        //user.Company = request.Company?.Trim();
+        //user.Address = request.Address?.Trim();
+        //user.Description = request.Description?.Trim();
+
+        if (!string.Equals(user.Email, request.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            var emailResult = await userManager.SetEmailAsync(user, request.Email);
+            if (!emailResult.Succeeded)
+                return (false, "update email false");
+        }
+
+        var updateResult = await userManager.UpdateAsync(user);
+        if (!updateResult.Succeeded)
+            return (false, "update false");
+
+        return (true, "Profile updated successfully");
+    }
+
+    public async Task<(bool, string, NotificationSettingsDto?)> GetNotificationSettings(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+            return (false, "Invalid user id", null);
+
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+            return (false, "User not found", null);
+
+        return (true, "Notification settings retrieved", new NotificationSettingsDto
+        {
+            //EmailEnabled = user.EmailNotificationsEnabled,
+            //PushEnabled = user.PushNotificationsEnabled,
+            //SmsEnabled = user.SmsNotificationsEnabled,
+            //MarketingEnabled = user.MarketingNotificationsEnabled,
+            SecurityAlertsEnabled = true
+        });
+    }
+
+    public async Task<(bool, string)> UpdateNotificationSettings(string userId, NotificationSettingsDto request)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+            return (false, "Invalid user id");
+
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+            return (false, "User not found");
+
+        //user.EmailNotificationsEnabled = request.EmailEnabled;
+        //user.PushNotificationsEnabled = request.PushEnabled;
+        //user.SmsNotificationsEnabled = request.SmsEnabled;
+        //user.MarketingNotificationsEnabled = request.MarketingEnabled;
+        //// Critical account activity alerts cannot be disabled from preferences.
+        //user.SecurityAlertsEnabled = true;
+
+        var result = await userManager.UpdateAsync(user);
+        return result.Succeeded
+            ? (true, "Notification preferences saved successfully")
+            : (false, "Unable to save notification preferences");
+    }
+
 
 }
 

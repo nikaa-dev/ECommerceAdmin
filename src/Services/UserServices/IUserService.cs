@@ -16,6 +16,11 @@ namespace src.Services.UserServices
 
         Task<(bool, string, ProfileUserResponseDto)> GetUserProfile(string userId);
 
+        Task<(bool, string)> UpdateUserProfile(string userId, ProfileUserRequestDto request);
+
+        Task<(bool, string, NotificationSettingsDto?)> GetNotificationSettings(string userId);
+        Task<(bool, string)> UpdateNotificationSettings(string userId, NotificationSettingsDto request);
+
 
 
     }
