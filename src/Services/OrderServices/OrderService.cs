@@ -19,6 +19,7 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
             return orders.Select(order => new OrderResponseDto()
             {
                 Id = order.Id.ToString(),
+                Code = order.Code,
                 Status = order.OrderStatus?.Name ?? "Unknown",
                 Date = order.OrderDate,
                 Item = order.OrderDetails.Sum(od => od.Quantity),

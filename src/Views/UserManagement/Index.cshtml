@@ -277,9 +277,37 @@
                                 </span>
                             </td>
                             <td class="pt-4 ps-3">
-                                <span class="badge text-secondary px-2 py-1 rounded-10 border small">
-                                    @(user.Role == "Admin" ? "All Access" : string.Join(", ", user.Permission))
-                                </span>
+                                @{
+                                    var modules = user.Permission
+                                    .Select(p => p.Split("::")[0])
+                                    .Distinct()
+                                    .ToList();
+                                }
+
+                                <div class="d-flex flex-column align-items-start gap-1">
+                                    @if (user.Role == "Admin")
+                                    {
+                                        <span class="badge text-dark fw-normal px-2 py-1 rounded-10 border small data-permission">
+                                            All Access
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var module in modules.Take(2))
+                                        {
+                                            <span class="badge text-dark fw-normal px-2 py-1 rounded-10 border small data-permission">
+                                                @module
+                                            </span>
+                                        }
+
+                                        @if (modules.Count > 2)
+                                        {
+                                            <span class="badge text-dark fw-normal px-2 py-1 rounded-10 border small data-permission">
+                                                +@(modules.Count - 2)
+                                            </span>
+                                        }
+                                    }
+                                </div>
                             </td>
                             <td class="pt-4 ps-4 data-lastactive">@user.LastActive</td>
                             <td class="pt-4 ps-4 data-joindate">@user.JoinDate</td>
@@ -371,18 +399,16 @@
                                                                 @user.LastActive
                                                             </div>
                                                         </div>
+                                                       
+
                                                         <div class="col d-flex flex-column align-items-start justify-content-start my-3">
                                                             <p class="mb-1">Permissions</p>
-                                                            <div class="d-flex flex-row">
-                                                            @foreach (var p in user.Permission)
-                                                            {
-                                                                var permission = p.Split("::");
-                                                                var endOfPermission = permission.Length > 1 ? permission[1] : "";
-                                                                
-                                                                    <p class="badge text-secondary px-2 py-1 rounded-10 border small">
-                                                                        @(string.Join(", ", endOfPermission))
-                                                                    </p>
-                                                            }</div>
+
+                                                            <div class="d-flex flex-row flex-wrap gap-2">
+                                                                <span class="text-secondary px-2 py-1 rounded-10 small" id="v-permission">
+                                                                    Role
+                                                                </span>
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -562,8 +588,19 @@
             var role   = row.find(".data-role").text().trim();
             var lastactive = row.find(".data-lastactive").text().trim();
             var joindate = row.find(".data-joindate").text().trim();
+            var permissions = [];
+            row.find(".data-permission").each(function() {
+                var text = $(this).text().trim();
+                if (text) {
+                    permissions.push(text);
+                }
+            });
 
-            
+            var badgesHtml = permissions.map(function(p) {
+                return `<span class="BADGE text-secondary px-2 py-1 rounded-10 border small">${p}</span>`;
+            }).join("");
+
+            $("#v-permission").html(badgesHtml);
 
             $("#id").val(id);
             $("#initial").val(initial);
@@ -605,7 +642,7 @@
                     $("#v-role").addClass(" rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
                 }
 
-            $("#v-role").text(role);                                                  
+            $("#v-role").text(role);               
             $("#v-lastactive").text(lastactive);
             $("#v-joindate").text(joindate);
 

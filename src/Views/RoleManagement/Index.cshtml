@@ -66,17 +66,20 @@
 
         @* add role *@
 
-        <div>
-            <form id="export-role" method="post" class="gap-2">
-                <button type="submit" class="btn border rounded-10">
+        <div class="d-flex align-items-center gap-2">
+            <!-- Export Form -->
+            <form id="export-role" method="post" class="m-0">
+                <button type="submit" class="btn btn-light border d-flex align-items-center gap-2 rounded-3 shadow-sm">
                     <i class="bi bi-download"></i>
-                    <span class="fw-light">Export</span>
-                </button>
-                <button type="submit" class="btn btn-primary rounded-10" role="button" data-toggle="modal" data-target="#add-role">
-                    <i class="bi bi-plus-lg"></i>
-                    <span class="fw-light">Add Role</span>
+                    <span class="fw-normal">Export</span>
                 </button>
             </form>
+
+            <!-- Add Role Button -->
+            <button type="button" class="btn btn-primary d-flex align-items-center gap-2 rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#add-role">
+                <i class="bi bi-plus-lg"></i>
+                <span class="fw-normal">Add Role</span>
+            </button>
         </div>
 
         <!-- add role Modal -->
@@ -285,17 +288,18 @@
                             </td>
                             @* permission *@
                             <td class="pt-4 ps-3">
-                                <span class=" data-permission-count text-secondary px-2 py-1 rounded-10">
-                                    <i class="bi bi-lock "></i>
-                                    @role.Permission.Count
+                                <!-- Visible Count -->
+                                <span class="data-permission-count d-inline-flex align-items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4M4.5 7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7zM8 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
+                                    </svg>
+                                    <span class="text-dark">@role.Permission.Count</span>
                                 </span>
 
-                               
-
+                                <!-- Hidden Data -->
                                 <span class="data-permissions" hidden>
-                                    @string.Join(",", @role.Permission)
+                                    @string.Join(",", role.Permission)
                                 </span>
-
                             </td>
 
                             @* Total user *@
