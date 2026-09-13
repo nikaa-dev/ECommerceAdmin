@@ -53,12 +53,26 @@
 				   type="search"
 				   class="w-65 rounded-10 form-search border focus-ring ps-5"
 				   placeholder="Search users by name or email..." />
-			<select name="filterByDate"
+			<select id="filterByDate"
+					name="filterByDate"
 					class="form-select rounded-10 w-15 px-3 py-2 shadow-none border">
-				<option value="30days" selected="@(Context.Request.Query["filterByDate"] == "30days")">Last 30 days</option>
-				<option value="7days" selected="@(Context.Request.Query["filterByDate"] == "7days")">Last 7 days</option>
-				<option value="90days" selected="@(Context.Request.Query["filterByDate"] == "90days")">Last 90 days</option>
-				<option value="All" selected="@(Context.Request.Query["filterByDate"] == "All")">All time</option>
+
+				<option value="All" selected="@(ViewBag.FilterByDate == "All")">
+					All time
+				</option>
+
+				<option value="30days" selected="@(ViewBag.FilterByDate == "30days")">
+					Last 30 days
+				</option>
+
+				<option value="7days" selected="@(ViewBag.FilterByDate == "7days")">
+					Last 7 days
+				</option>
+
+				<option value="90days" selected="@(ViewBag.FilterByDate == "90days")">
+					Last 90 days
+				</option>
+
 			</select>
 			<button class="rounded-10 w-15 px-3 py-2 shadow-none border bg-white"
 					asp-page="/Orders/Index">
@@ -87,7 +101,7 @@
 					{
 						<tr>
 							<td class="p-3 fw-semibold d-flex">
-								<span class="m-2 text-primary fw-normal id">@order.Code</span>
+								<span class="m-2 text-primary fw-normal id">@order.Id</span>
 							</td>
 							<td class="pt-3 ps-4 fw-semibold">
 								<span class="name">@order.CustomerName</span><br>

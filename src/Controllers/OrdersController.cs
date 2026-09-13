@@ -19,6 +19,9 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         ViewBag.Total = orders.Count;
         ViewBag.Status = await orderStatusService.GetAllAsync();
 
+        ViewBag.FilterByDate = filterByDate;
+        ViewBag.SearchItem = searchItem;
+
         ViewBag.Pending = orders.Count(o => o.Status == "Pending");
         ViewBag.Processing = orders.Count(o => o.Status == "Processing");
         ViewBag.Completed = orders.Count(o => o.Status == "Completed");
@@ -50,7 +53,9 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         }
         if (!string.IsNullOrEmpty(searchItem))
         {
-            orders = orders.Where(o => o.Id.Contains(searchItem)).ToList();
+            orders = orders.Where(o => o.Id.ToUpper().Contains(searchItem.ToUpper()) ||
+                            o.CustomerName.ToUpper().Contains(searchItem.ToUpper()) ||
+                            o.CustomerEmail.ToUpper().Contains(searchItem.ToUpper())).ToList();
         }
 
         var queryable = orders.AsQueryable();

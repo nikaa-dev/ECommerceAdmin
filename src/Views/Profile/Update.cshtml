@@ -113,7 +113,12 @@
                         <i class="bi bi-telephone"></i>
                         <label>Phone Number</label>
                     </div>
-                    <input value=@Model.PhoneNumber name="PhoneNumber" class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+                    <input type="tel"
+                           id="phoneNumber"
+                           value="@Model.PhoneNumber"
+                           name="PhoneNumber"
+                           placeholder="(555) 555-5555"
+                           class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
                 </div>
                 <div class="d-flex align-items-start flex-column w-100 mb-2">
                     <div>
@@ -168,11 +173,17 @@
 
                 success: function (response) {
                     alert(response.message);
-                    location.reload();
+                    window.location.href = '/Profile/Index';
                 },
 
-                error: function (xhr) {
-                    alert("Update failed");
+               error: function (xhr) {
+                    // This triggers when the backend returns the 400 BadRequest(...)
+                    // The JSON payload is automatically parsed into xhr.responseJSON
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        alert(xhr.responseJSON.message);
+                    } else {
+                        alert("An unexpected error occurred.");
+                    }
                 }
             });
 

@@ -24,9 +24,11 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
         
         if (filterByStatus != null)
             products = products.Where(p => p.Status == filterByStatus).ToList();
-        
+
         if (searchItem != null)
-            products = products.Where(p => p.Name.Contains(searchItem)).ToList();
+            products = products
+                        .Where(p => p.Name.ToUpper().Contains(searchItem.ToUpper()))
+                        .ToList();
 
         var category = await productCategoryService.GetAllAsync();
         var status = Enum.GetValues(typeof(ProductStatus)).Cast<ProductStatus>().ToList();

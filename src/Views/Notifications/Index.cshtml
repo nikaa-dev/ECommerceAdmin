@@ -190,9 +190,12 @@
                 success: function (response) {
                     status.addClass('text-success').text(response.message);
                 },
-                error: function (xhr) {
-                    var msg = xhr.responseJSON?.message || "Update failed";
-                    status.addClass('text-danger').text(msg);
+              error: function (xhr) {
+                   if (xhr.responseJSON && xhr.responseJSON.message) {
+                        alert(xhr.responseJSON.message);
+                    } else {
+                        alert("An unexpected error occurred.");
+                    }
                 },
                 complete: function () {
                     submitButton.prop('disabled', false);

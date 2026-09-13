@@ -368,7 +368,7 @@
 						</div>
 						<div class="item">
 							<p class="mb-1">Price ($)</p>
-							<input name="Price" id="e-product-price" type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="10">
+							<input name="Price" id="e-product-price" step="0.01" type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="10">
 						</div>
 
 						<div class="item">
@@ -705,7 +705,13 @@
 				},
 
 				error: function (xhr) {
-					alert(xhr.message);
+					// This triggers when the backend returns the 400 BadRequest(...)
+					// The JSON payload is automatically parsed into xhr.responseJSON
+					if (xhr.responseJSON && xhr.responseJSON.message) {
+						alert(xhr.responseJSON.message);
+					} else {
+						alert("An unexpected error occurred.");
+					}
 				}
 			});
 		});
@@ -724,7 +730,13 @@
 				},
 
 				error: function (xhr) {
-					alert(xhr.message);
+					// This triggers when the backend returns the 400 BadRequest(...)
+					// The JSON payload is automatically parsed into xhr.responseJSON
+					if (xhr.responseJSON && xhr.responseJSON.message) {
+						alert(xhr.responseJSON.message);
+					} else {
+						alert("An unexpected error occurred.");
+					}
 				}
 			});
 		});
@@ -744,7 +756,13 @@
 				},
 
 				error: function (xhr) {
-					alert(xhr.message);
+					// This triggers when the backend returns the 400 BadRequest(...)
+					// The JSON payload is automatically parsed into xhr.responseJSON
+					if (xhr.responseJSON && xhr.responseJSON.message) {
+						alert(xhr.responseJSON.message);
+					} else {
+						alert("An unexpected error occurred.");
+					}
 				}
 			});
 		});

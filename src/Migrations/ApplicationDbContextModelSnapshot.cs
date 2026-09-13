@@ -190,9 +190,6 @@ namespace src.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("EmailNotificationsEnabled")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -211,9 +208,6 @@ namespace src.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<bool>("MarketingNotificationsEnabled")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
@@ -225,15 +219,6 @@ namespace src.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
-
-                    b.Property<bool>("PushNotificationsEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("SecurityAlertsEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("SmsNotificationsEnabled")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -399,6 +384,9 @@ namespace src.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
 
                     b.Property<string>("CustomerId")
                         .IsRequired()

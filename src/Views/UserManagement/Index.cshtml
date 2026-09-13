@@ -240,7 +240,7 @@
                                     <p class="ms-2 data-email">@user.Email</p>
                                 </div>
                             </td>
-                            <td class="pt-4 ps-3">
+                            <td class="align-middle ps-3">
                                 <script>
                                     @{
                                         var badgeColor = user.Status == "Active" ? "bg-green-100 text-green-700" : user.Status == "InActive" ? "bg-gray-100 text-gray-700" : "bg-red-100 text-red-700";
@@ -252,7 +252,7 @@
                                     @(user.Status)
                                 </span>
                             </td>
-                            <td class="pt-4 ps-3">
+                            <td class="align-middle ps-3">
                                 <script>
                                      @{
                                             string roleClass = user.Role switch
@@ -276,7 +276,7 @@
                                     @user.Role
                                 </span>
                             </td>
-                            <td class="pt-4 ps-3">
+                            <td class="align-middle ps-3">
                                 @{
                                     var modules = user.Permission
                                     .Select(p => p.Split("::")[0])
@@ -285,6 +285,13 @@
                                 }
 
                                 <div class="d-flex flex-column align-items-start gap-1">
+
+                                    @foreach (var module in modules)
+                                    {
+                                        <span hidden class="badge text-dark fw-normal px-2 py-1 rounded-10 border small data-permissions">
+                                            @module
+                                        </span>
+                                    }
                                     @if (user.Role == "Admin")
                                     {
                                         <span class="badge text-dark fw-normal px-2 py-1 rounded-10 border small data-permission">
@@ -309,8 +316,8 @@
                                     }
                                 </div>
                             </td>
-                            <td class="pt-4 ps-4 data-lastactive">@user.LastActive</td>
-                            <td class="pt-4 ps-4 data-joindate">@user.JoinDate</td>
+                            <td class="align-middle data-lastactive">@user.LastActive</td>
+                            <td class="align-middle data-joindate">@user.JoinDate</td>
                             <td class="text-center pt-4 position-relative">
 
                                 @* Action dropdown *@
@@ -589,7 +596,7 @@
             var lastactive = row.find(".data-lastactive").text().trim();
             var joindate = row.find(".data-joindate").text().trim();
             var permissions = [];
-            row.find(".data-permission").each(function() {
+            row.find(".data-permissions").each(function() {
                 var text = $(this).text().trim();
                 if (text) {
                     permissions.push(text);
@@ -673,7 +680,12 @@
                 },
 
                 error: function (xhr) {
-                    alert("Update failed");
+                   
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        alert(xhr.responseJSON.message);
+                    } else {
+                        alert("An unexpected error occurred.");
+                    }
                 }
             });
 
@@ -692,7 +704,12 @@
                 },
 
                 error: function (xhr) {
-                    alert("Create failed");
+                   
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        alert(xhr.responseJSON.message);
+                    } else {
+                        alert("An unexpected error occurred.");
+                    }
                 }
             });
 
@@ -709,8 +726,12 @@
                     alert(response.message);
                     location.reload();
                 },
-                error: function (xhr) {
-                    alert("Delete failed");
+                 error: function (xhr) {
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        alert(xhr.responseJSON.message);
+                    } else {
+                        alert("An unexpected error occurred.");
+                    }
                 }
             });
         });
