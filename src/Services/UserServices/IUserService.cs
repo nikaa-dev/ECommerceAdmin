@@ -21,7 +21,7 @@ namespace src.Services.UserServices
         Task<(bool, string, NotificationSettingsDto?)> GetNotificationSettings(string userId);
         Task<(bool, string)> UpdateNotificationSettings(string userId, NotificationSettingsDto request);
 
-
+        Task<(bool, string)> RemoveProfilePhoto(string userId);
 
     }
 }

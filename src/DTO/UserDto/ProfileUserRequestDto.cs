@@ -6,7 +6,7 @@ namespace src.DTO.UserDto
     {
         public string Id { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
-        public string PhotoProfile { get; set; } = string.Empty;
+        public IFormFile? PhotoProfile { get; set; }
         public string PhoneNumber { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string RoleName { get; set; } = string.Empty;

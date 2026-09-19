@@ -4,10 +4,8 @@
 <style>
 	.form-search:focus {
 		outline: none; /* Remove default outline */
-
 		box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
 	}
-
 
 	.w-30px {
 		width: 40px;
@@ -63,8 +61,6 @@
 					<span class="fw-light">Add Product</span>
 				</button>
 			</form>
-			
-
 		</div>
 	</div>
 	<form method="get" asp-action="Index">
@@ -118,8 +114,9 @@
 					{
 						<tr>
 							<td class="p-3 fw-semibold d-flex">
+								<!-- Using the dynamic image URL from the database -->
 								<img class="h-30px w-30px rounded-10 bg-light product-image-data"
-									 src="https://powermaccenter.com/cdn/shop/files/AirPods_Max_2024_Orange_PDP_Image_Position_1__en-US_e1cd9597-a5e4-4d45-a43c-317315954a0a.jpg?v=1726225876"
+									 src="/@i.ImageUrl"
 									 alt="image picture" />
 								<span class="m-2 fw-normal product-name-data">
 									@i.Name
@@ -223,9 +220,8 @@
 				<div class="d-flex my-1 bg rounded-4 justify-content-between">
 					<div class="d-flex my-1 bg rounded-4 ">
 						<div>
-							<img class="rounded-10 bg-light" style="width: 100px;height:100px;"
-								 @* src="~/img/google.png"  *@
-								 src="https://powermaccenter.com/cdn/shop/files/AirPods_Max_2024_Orange_PDP_Image_Position_1__en-US_e1cd9597-a5e4-4d45-a43c-317315954a0a.jpg?v=1726225876" 
+							<img id="v-product-image" class="rounded-10 bg-light" style="width: 100px;height:100px;"
+								 src="~/img/google.png"
 								 alt="image picture" />
 						</div>
 						<div class="gap-1 ms-2 ">
@@ -234,7 +230,7 @@
 							<span class="text-muted my-1 " id="v-product-id">ELEC-002</span>  <br />
 
 							<span class="badge fw-normal px-3 py-2 rounded-pill bg-dark w-auto my-1" id="v-product-status">
-								Active																		
+								Active
 							</span>
 						</div>
 					</div>
@@ -277,7 +273,7 @@
 
 						<div class="progress" style="height:8px;">
 							<div class="progress-bar bg-success"
-								id="v-product-progress-bar"
+								 id="v-product-progress-bar"
 								 role="progressbar"
 								 style="width: 11.5%;"
 								 aria-valuenow="11.5"
@@ -307,8 +303,8 @@
 <div class="modal fade" id="EditProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" style="max-width:35%; margin:auto;" role="document">
 		<div class="modal-content ">
-
-			<form id="edit-product">
+			<!-- Added enctype for file upload support -->
+			<form id="edit-product" enctype="multipart/form-data">
 				<div class="modal-header border-0 flex-column align-items-start mx-2">
 					<h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit Product</h5>
 					<p class="text-muted mb-0">Update product information and inventory</p>
@@ -320,19 +316,17 @@
 					<div class="d-flex my-1 bg rounded-4 justify-content-between">
 						<div class="d-flex my-1 bg rounded-4 ">
 							<div>
-								<img class="rounded-10 bg-light" style="width: 50px;height:50px;"
-									 src="https://powermaccenter.com/cdn/shop/files/AirPods_Max_2024_Orange_PDP_Image_Position_1__en-US_e1cd9597-a5e4-4d45-a43c-317315954a0a.jpg?v=1726225876"
+								<img id="e-product-image" class="rounded-10 bg-light" style="width: 50px;height:50px;"
+									 src="~/img/google.png"
 									 alt="image picture" />
 							</div>
 							<div class="gap-1 ms-2 ">
 								<span>Editing</span>   <br />
 
 								<span class="text-muted my-1 e-product-name">Wireless Headphone</span>  <br />
-								
-
 							</div>
 						</div>
-					
+
 					</div>
 					<div class="border-top w-100 "></div>
 
@@ -341,18 +335,16 @@
 						<div class="item full-width1">
 							<p class="mb-1">Product Name</p>
 							<input class="w-100 border-0 rounded-3 ps-3 fw-normal e-product-name" name="Name" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="Wireless HeadPhone " />
-							<input hidden name="Id" id="e-product-id"/>
+							<input hidden name="Id" id="e-product-id" />
 						</div>
 						<div class="item ">
 							<p class="mb-1">Category</p>
 							<select name="Category" id="e-product-category" class="form-select border-0 rounded-3 px-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
 								@foreach (var c in ViewBag.Category)
 								{
-									<option class="bg-light" value="@c" >@c</option>
+									<option class="bg-light" value="@c">@c</option>
 								}
 							</select>
-
-						
 						</div>
 
 						<div class="item ">
@@ -376,18 +368,20 @@
 							<input name="Stock" id="e-product-stock" type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium; height:40px;" value="20">
 						</div>
 
-					
-
+					</div>
+					<div class="item full-width1 mt-3">
+						<p class="mb-1">Update Product Image</p>
+						<input name="Image" type="file" accept="image/*"
+							   class="form-control border-0 rounded-3 ps-3 w-100"
+							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
 					</div>
 					<div class="col-12 mt-3">
 						<span>Description</span><br />
-					
-						<div class="border rounded-3 py-2 px-3" >
 
+						<div class="border rounded-3 py-2 px-3">
 							<textarea name="Description" id="e-product-description" class="w-100 border-0"
 									  placeholder="Enter product description..."
 									  style="height:60px; resize:none; outline:none;"></textarea>
-
 						</div>
 					</div>
 				</div>
@@ -425,14 +419,12 @@
 
 						<!-- Left: Image + Info -->
 						<div class="d-flex align-items-center gap-3">
-
-							<img src="https://powermaccenter.com/cdn/shop/files/AirPods_Max_2024_Orange_PDP_Image_Position_1__en-US_e1cd9597-a5e4-4d45-a43c-317315954a0a.jpg?v=1726225876"
-								 class="rounded-3"
-								 style="width:50px;height:50px;"
+							<img id="d-product-image" class="h-30px w-30px rounded-10 bg-light product-image-data"
+								 src="~/img/google.png"
 								 alt="image picture" />
 
 							<div class="d-flex flex-column">
-								<input hidden id="d-product-id" name="Id"/>
+								<input hidden id="d-product-id" name="Id" />
 								<span id="d-product-name" class="fw-medium">Wireless headphone</span>
 								<span id="d-product-category-and-id" class="text-muted small">Electronics · ELEC-001</span>
 							</div>
@@ -477,7 +469,8 @@
 <!-- Add Product Modal -->
 <div class="modal fade" id="AddProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
-		 <form id="add-product">
+		<!-- Added enctype for file upload support -->
+		<form id="add-product" enctype="multipart/form-data">
 			<div class="modal-content ">
 
 				<div class="modal-header border-0 flex-column align-items-start mx-2">
@@ -489,8 +482,6 @@
 				</div>
 
 				<div class="modal-body mx-2">
-
-
 					<div class="grid-container ">
 
 						@* name *@
@@ -559,23 +550,23 @@
 								}
 
 							</select>
-
-
 						</div>
-
+					</div>
+					<div class="item full-width mt-3">
+						<p class="mb-1">Product Image</p>
+						<input name="Image" type="file" accept="image/*"
+							   class="form-control border-0 rounded-3 ps-3 w-100"
+							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
 					</div>
 
 					@* description *@
 					<div class="col-12 mt-3">
 						<span>Description</span><br />
-
 						<div class="border rounded-3 py-2 px-3 mt-1">
-
 							<textarea id="a-product-description" name="Description"
 									  class="w-100 border-0"
 									  placeholder="Enter product description..."
 									  style="height:60px; resize:none; outline:none;"></textarea>
-
 						</div>
 					</div>
 				</div>
@@ -583,7 +574,7 @@
 					<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
 						<span>Cancel</span>
 					</button>
-					<button type="submit" class="btn btn-dark rounded-2 d-flex" >
+					<button type="submit" class="btn btn-dark rounded-2 d-flex">
 						<i class="bi bi-plus-lg"></i>
 						<span class="ms-3">Add Product</span>
 					</button>
@@ -593,43 +584,28 @@
 	</div>
 </div>
 
-
-
-
 <script>
-	$(document).ready(function () {
-		
-		 $(".action-button").click(function () {
+	$(document).ready(function () {$(".action-button").click(function () {
 			var row = $(this).closest("tr");
 
-
 			var id = row.find(".product-id-data").text().trim();
-			console.log(id);
-
-			var name   = row.find(".product-name-data").text().trim();
-		
-			var category  = row.find(".product-category-data").text().trim();
-			console.log(category);
-
+			var name = row.find(".product-name-data").text().trim();
+			var category = row.find(".product-category-data").text().trim();
 			var stock = parseInt(row.find(".product-stock-data").text().trim());
 			var stocklevel = stock + " / 200";
 			var progressbar = (stock / 200) * 100;
 			var stocktext = stock + " units";
 
-			console.log(progressbar);
-			
 			var status = row.find(".product-status-data").text().trim();
-			console.log(status);
 			var pricetext = row.find(".product-price-data").text().trim();
 			var price = pricetext.replace("$", "");
-			var image = row.find(".product-image-data").text().trim();
 			var description = row.find(".product-description-data").text().trim();
-			console.log(description);
-
 			var categoryAndId = category + " · " + id;
-			console.log(categoryAndId);
 
+			// Dynamically get the image source attribute instead of text
+			var imageSrc = row.find(".product-image-data").attr("src");
 
+			// --- VIEW MODAL ---
 			$("#v-product-name").text(name);
 			$("#v-product-category").text(category);
 			$("#v-product-stock").text(stocktext);
@@ -637,11 +613,12 @@
 			$("#v-product-price").text(pricetext);
 			$("#v-product-stock-level").text(stocklevel);
 			$("#v-product-description").text(description);
+			$("#v-product-image").attr("src", imageSrc); // Update View image
 			$("#v-product-progress-bar")
 				.css("width", progressbar + "%")
 				.attr("aria-valuenow", progressbar);
 
-
+			// --- EDIT MODAL ---
 			$(".e-product-name").text(name);
 			$(".e-product-name").val(name);
 			$("#e-product-category").val(category);
@@ -650,35 +627,16 @@
 			$("#e-product-stock").val(stock);
 			$("#e-product-description").text(description);
 			$("#e-product-id").val(id);
+			$("#e-product-image").attr("src", imageSrc); // Update Edit image
 
-
+			// --- DELETE MODAL ---
 			$("#d-product-id").val(id);
 			$("#d-product-name").text(name);
 			$("#d-product-category-and-id").text(categoryAndId);
 			$("#d-product-price").text(pricetext);
 			$("#d-product-stock").text(stocktext);
-
-			
-
-			// $("#image").val(image);
-			// $("#status").removeClass();
-
-			// 	if (status === "Active") {
-			// 		$("#v-status").addClass("rounded-pill px-2 py-1 bg-green-100 text-green-700");
-			// 	}
-			// 	else if (status === "InActive") {
-			// 		$("#v-status").addClass("rounded-pill px-2 py-1 bg-gray-100 text-gray-700");
-			// 	}
-			// 	else {
-			// 		$("#v-status").addClass(" rounded-pill px-2 py-1 bg-red-100 text-red-700");
-			// 	}
-
-			// $("#d-fullname").text(name);
-			// $("#d-id").val(id);
-
+			$("#d-product-image").attr("src", imageSrc); // Update Delete image
 		});
-
-
 
 		$('#export-product').on('submit', function (e) {
 			e.preventDefault();
@@ -688,25 +646,26 @@
 
 			var url = `/Products/Export?pageNumber=${pageNumber}&count=${count}`;
 
-			window.open(url, '_blank'); // better for download behavior
+			window.open(url, '_blank');
 		});
 
+		// Modified to use FormData for file upload
 		$('#edit-product').on('submit',function(e){
 			e.preventDefault();
+
+			var formData = new FormData(this); // Captures form fields including the file
 
 			$.ajax({
 				url: '/Products/Update',
 				type: 'POST',
-				data: $('#edit-product').serialize(),
-
+				data: formData,
+				processData: false, // Required for FormData
+				contentType: false, // Required for FormData
 				success: function (response) {
 					alert(response.message);
 					location.reload();
 				},
-
 				error: function (xhr) {
-					// This triggers when the backend returns the 400 BadRequest(...)
-					// The JSON payload is automatically parsed into xhr.responseJSON
 					if (xhr.responseJSON && xhr.responseJSON.message) {
 						alert(xhr.responseJSON.message);
 					} else {
@@ -716,22 +675,23 @@
 			});
 		});
 
+		// Modified to use FormData for file upload
 		$('#add-product').on('submit',function(e){
 			e.preventDefault();
+
+			var formData = new FormData(this); // Captures form fields including the file
 
 			$.ajax({
 				url: '/Products/Create',
 				type: 'POST',
-				data: $('#add-product').serialize(),
-
+				data: formData,
+				processData: false, // Required for FormData
+				contentType: false, // Required for FormData
 				success: function (response) {
 					alert(response.message);
 					location.reload();
 				},
-
 				error: function (xhr) {
-					// This triggers when the backend returns the 400 BadRequest(...)
-					// The JSON payload is automatically parsed into xhr.responseJSON
 					if (xhr.responseJSON && xhr.responseJSON.message) {
 						alert(xhr.responseJSON.message);
 					} else {
@@ -747,17 +707,13 @@
 			$.ajax({
 				url: '/Products/Delete',
 				type: 'POST',
-				data: $('#delete-product').serialize(),
+				data: $('#delete-product').serialize(), // File upload not needed for delete, serialize is fine
 
-				success: function (response) {		
+				success: function (response) {
 					alert(response.message);
 					location.reload();
-					
 				},
-
 				error: function (xhr) {
-					// This triggers when the backend returns the 400 BadRequest(...)
-					// The JSON payload is automatically parsed into xhr.responseJSON
 					if (xhr.responseJSON && xhr.responseJSON.message) {
 						alert(xhr.responseJSON.message);
 					} else {
@@ -766,7 +722,5 @@
 				}
 			});
 		});
-
 	});
 </script>
-

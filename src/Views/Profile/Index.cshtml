@@ -23,25 +23,56 @@
 <div class="col rounded-15 bg-white shadow-sm border">
     <div class="border-bottom ">
         <div class="m-4 ">
-            
+
             <h6 class="fw-bold">
                 Profile Picture
             </h6>
             <span class="text-secondary">
                 Update your avatar and display photo
             </span>
-            
-        </div>        
+
+        </div>
     </div>
     <div>
         <div class="m-4 d-flex align-items-center">
 
             <!-- Avatar -->
             <div class="position-relative">
-                <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center"
-                     style="width: 90px; height: 90px;">
-                    <span class="text-white fw-bold fs-2">SD</span>
-                </div>
+                @{
+                    // Assuming the user's name is stored in Model.UserName
+                    // Change "UserName" to "Name" or "FullName" if your model uses a different property name
+                    string name = Model.FullName ?? "";
+                    string initials = "";
+
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        var nameParts = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        if (nameParts.Length == 1)
+                        {
+                            initials = nameParts[0].Substring(0, 1).ToUpper(); // "admin" -> "A"
+                        }
+                        else if (nameParts.Length >= 2)
+                        {
+                            initials = nameParts[0].Substring(0, 1).ToUpper() + nameParts[1].Substring(0, 1).ToUpper(); // "Admin Admin" -> "AA"
+                        }
+                    }
+                }
+
+                @if (!string.IsNullOrEmpty(Model.PhotoProfile))
+                {
+                    <img src="@Model.PhotoProfile"
+                         alt="Profile Photo"
+                         class="rounded-circle"
+                         style="width: 90px; height: 90px; object-fit: cover;" />
+                }
+                else
+                {
+                    <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center"
+                         style="width: 90px; height: 90px;">
+                        <span class="text-white fw-bold fs-2">@initials</span>
+                    </div>
+                }
 
                 <!-- Camera button -->
                 <button type="button"
@@ -78,15 +109,15 @@
 <div class="col rounded-15 bg-white shadow-sm border mt-3">
     <div class="border-bottom ">
         <div class="m-4 ">
-            
+
             <h6 class="fw-bold">
                 Personal Information
             </h6>
             <span class="text-secondary">
                 Your name, contact details and bio
             </span>
-            
-        </div>        
+
+        </div>
     </div>
     <div>
         <div class="grid-container1 py-4 px-4">
@@ -135,7 +166,7 @@
                               style="height:60px; resize:none; outline:none;">E-commerce administrator managing store operations.</textarea>
                 </div>
             </div>
-            
+
         </div>
         <div class="pe-4 pb-4 d-flex justify-content-end align-items-end">
 
@@ -151,14 +182,14 @@
                 <!-- Update Link (Navigates to Update/Edit View) -->
                 <div>
                     <!-- ដូរ 'Product', 'Edit', និង '@Model.Id' ទៅតាមកូដពិតប្រាកដរបស់អ្នក -->
-                    <a asp-controller="Profile" asp-action="Update"  class="btn btn-primary">
+                    <a asp-controller="Profile" asp-action="Update" class="btn btn-primary">
                         <i class="bi bi-pencil-square me-2"></i> <!-- ប្តូរ icon ទៅ pencil អោយសក្តិសមនឹងការ Edit -->
                         Update
                     </a>
                 </div>
             </div>
-            
+
         </div>
-        
+
     </div>
 </div>

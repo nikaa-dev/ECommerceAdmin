@@ -29,7 +29,7 @@ public class ProductRequestCreateDto
 
     public decimal Price { get; set; }
 
-    public string? ImageUrl { get; set; }
+    public IFormFile? Image { get; set; }
 
     public string Status { get; set; }
 
@@ -55,4 +55,5 @@ public class ProductRequestUpdateDto
     public int Stock { get; set; }
 
     public string Category { get; set; }
+    public IFormFile? Image { get; set; }
 }

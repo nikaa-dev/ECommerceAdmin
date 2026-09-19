@@ -1,79 +1,202 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using src.DTO.UserDto;
-using src.Models;
 using src.Services.UserServices;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
 
 namespace src.Controllers
 {
-    public class ProfileController(UserManager<ApplicationUser> userManager,IUserService userService) : Controller
+    public class ProfileController(
+        IUserService userService) : Controller
     {
+        // GET: /Profile/Index
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var (status,message,user) = await userService.GetUserProfile(userId);
-            
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var (status, message, user) =
+                await userService.GetUserProfile(userId);
+
+            if (!status || user == null)
+                return NotFound(message);
 
             return View(user);
-        }   
+        }
+
+
+        // GET: /Profile/Update
+        [HttpGet]
         public async Task<IActionResult> Update()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var (status,message,user) = await userService.GetUserProfile(userId);
-            
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var (status, message, user) =
+                await userService.GetUserProfile(userId);
+
+            if (!status || user == null)
+                return NotFound(message);
 
             return View(user);
         }
 
+
+        // POST: /Profile/Update
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(ProfileUserRequestDto update)
+        public async Task<IActionResult> Update(
+            ProfileUserRequestDto update)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
 
+
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                return BadRequest(new { message = string.Join(" ", errors) });
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+
+                return BadRequest(new
+                {
+                    message = string.Join(" ", errors)
+                });
             }
 
-            // Phone Number Validation & Formatting
+
+            // =========================
+            // Phone validation
+            // =========================
+
             if (!string.IsNullOrEmpty(update.PhoneNumber))
             {
-                // 1. Check for invalid alphabetical characters
-                if (Regex.IsMatch(update.PhoneNumber, "[a-zA-Z]"))
+                if (System.Text.RegularExpressions.Regex
+                    .IsMatch(update.PhoneNumber, "[a-zA-Z]"))
                 {
-                    return BadRequest(new { message = "Phone number contains invalid characters." });
+                    return BadRequest(new
+                    {
+                        message = "Phone number contains invalid characters."
+                    });
                 }
 
-                // 2. Strip formatting to get just the raw digits
-                var rawNumber = new string(update.PhoneNumber.Where(char.IsDigit).ToArray());
+                var rawNumber = new string(
+                    update.PhoneNumber
+                        .Where(char.IsDigit)
+                        .ToArray()
+                );
 
-                // 3. Validate the length (assuming a standard 10-digit number)
                 if (rawNumber.Length != 10)
                 {
-                    return BadRequest(new { message = "Phone number must be exactly 10 digits." });
+                    return BadRequest(new
+                    {
+                        message = "Phone number must be exactly 10 digits."
+                    });
                 }
 
-                // 4. Update the DTO with the clean 10-digit string to save to the database
                 update.PhoneNumber = rawNumber;
             }
 
-            var (success, message) = await userService.UpdateUserProfile(userId, update);
+
+            // =========================
+            // Profile image validation
+            // =========================
+
+            if (update.PhotoProfile != null)
+            {
+                const long maxFileSize = 5 * 1024 * 1024;
+
+                if (update.PhotoProfile.Length > maxFileSize)
+                {
+                    return BadRequest(new
+                    {
+                        message = "Profile image must be smaller than 5 MB."
+                    });
+                }
+
+                var allowedExtensions = new[]
+                {
+                    ".jpg",
+                    ".jpeg",
+                    ".png",
+                    ".webp"
+                };
+
+                var extension =
+                    Path.GetExtension(
+                        update.PhotoProfile.FileName)
+                        .ToLowerInvariant();
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    return BadRequest(new
+                    {
+                        message =
+                            "Only JPG, JPEG, PNG and WEBP images are allowed."
+                    });
+                }
+            }
+
+
+            // =========================
+            // Update
+            // =========================
+
+            var (success, message) =
+                await userService.UpdateUserProfile(
+                    userId,
+                    update);
+
 
             if (!success)
-                return BadRequest(new { message });
+            {
+                return BadRequest(new
+                {
+                    message
+                });
+            }
 
-            return Ok(new { message });
+
+            return Ok(new
+            {
+                message = "Profile updated successfully."
+            });
         }
 
 
+        // POST: /Profile/RemovePhoto
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemovePhoto()
+        {
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var (success, message) =
+                await userService.RemoveProfilePhoto(userId);
+
+            if (!success)
+            {
+                return BadRequest(new
+                {
+                    message
+                });
+            }
+
+            return Ok(new
+            {
+                message = "Profile photo removed successfully."
+            });
+        }
     }
 }
