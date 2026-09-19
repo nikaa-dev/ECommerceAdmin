@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using src.DTO.ProductDto;
 using src.Enums;
 using src.Extensions.Pagenations;
 using src.Models;
@@ -23,9 +24,11 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
         
         if (filterByStatus != null)
             products = products.Where(p => p.Status == filterByStatus).ToList();
-        
+
         if (searchItem != null)
-            products = products.Where(p => p.Name.Contains(searchItem)).ToList();
+            products = products
+                        .Where(p => p.Name.ToUpper().Contains(searchItem.ToUpper()))
+                        .ToList();
 
         var category = await productCategoryService.GetAllAsync();
         var status = Enum.GetValues(typeof(ProductStatus)).Cast<ProductStatus>().ToList();
@@ -38,5 +41,44 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
         
         return View(productResults);
     }
-    
+
+    public async Task<IActionResult> Export(ProductRequestExportDto request) {
+        var bytes = await productService.ExportProductData(request);
+
+        // define filename
+        var fileName = $"product_{DateTime.Now:yyyyMMddHHmmss}.csv";
+
+        return File(bytes,"text/csv", fileName);
+    }
+
+    public async Task<IActionResult> Update(ProductRequestUpdateDto request)
+    {
+        if (request == null) return BadRequest("Field is empty!");
+
+        var product = await productService.UpdateProductData(request);
+        
+
+        return product == false ? BadRequest(new { success = false, message = "Update failed" })
+            : Json(new { success = true, message = "Product Updated successfully" });
+    }
+
+    public async Task<IActionResult> Create(ProductRequestCreateDto request)
+    {
+        var product = await productService.CreateProductData(request);
+     
+
+        return product == false ? BadRequest(new { success = false, message = "Create failed" })
+            : Json(new { success = true, message = "Product Created successfully" });
+    }
+
+    public async Task<IActionResult> Delete(Guid Id)
+    {
+        
+        var product = await productService.DeleteProductData(Id);
+
+        return product == false ? BadRequest(new { success = false, message = "Delete failed" })
+            : Json(new { success = true, message = "Product Deleted successfully" });
+    }
+
+
 }

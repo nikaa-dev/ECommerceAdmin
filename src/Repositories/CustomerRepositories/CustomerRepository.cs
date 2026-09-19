@@ -5,5 +5,5 @@ namespace src.Repositories.CustomerRepositories;
 
 public class CustomerRepository(ApplicationDbContext context):Repository<Customer>(context),ICustomerRepository
 {
-    
+
 }

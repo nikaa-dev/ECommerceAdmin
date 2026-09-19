@@ -1,42 +1,45 @@
-using System.Security.Claims;
-using System.Text;
+using jsreport.AspNetCore;
+using jsreport.Binary;
+using jsreport.Local;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using src.Repositories.UserRepositories;
-using src.Repositories.RoleRepositories;
-using src.Services.UserServices;
-using src.Services.RoleServices;
-using src.Repositories;
-using src.DBConnection;
-using src.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using src.Common.Configs;
-using src.Services.AuthServices;
-using src.Services.JwtServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using src.Auth;
+using src.Common.Configs;
+using src.DBConnection;
+using src.Models;
 using src.Models.Ecommerce;
+using src.Repositories;
 using src.Repositories.CustomerRepositories;
+using src.Repositories.OrderDetailRepositories;
 using src.Repositories.OrderRepositories;
 using src.Repositories.OrderStatusRepositories;
 using src.Repositories.ProductCategoryRepositories;
 using src.Repositories.ProductRepositories;
+using src.Repositories.RoleRepositories;
 using src.Repositories.UserClaimRepositories;
 using src.Repositories.UserLoginHistoryRepositories;
+using src.Repositories.UserRepositories;
 using src.Repositories.UserTokenRepositories;
+using src.Services.AuthServices;
 using src.Services.CustomerServices;
 using src.Services.DashboardServices;
+using src.Services.JwtServices;
 using src.Services.OrderServices;
 using src.Services.OrderStatusServices;
 using src.Services.ProductCategoryServices;
 using src.Services.ProductServices;
+using src.Services.RoleServices;
 using src.Services.UserClaimServices;
 using src.Services.UserLoginHistoryServices;
+using src.Services.UserServices;
 using src.Services.UserTokenServices;
+using System.Security.Claims;
+using System.Text;
 using ProductService = src.Services.ProductServices.ProductService;
-using src.Repositories.OrderDetailRepositories;
 
 namespace src;
 
@@ -122,6 +125,12 @@ public static class ServiceConfiguration
                     RoleClaimType = ClaimTypes.Role
                 };
             });
+
+        services.AddJsReport(new LocalReporting()
+            .UseBinary(JsReportBinary.GetBinary())
+            .AsUtility()
+            .Create());
+
         services.Configure<JwtConfig>(configuration.GetSection("JWT"));
         services.AddAuthorization();
     }

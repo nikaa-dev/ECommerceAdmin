@@ -2,163 +2,725 @@
 @model src.Extensions.Pagenations.PagedResult<src.DTO.ProductDto.ProductResponseDto>
 
 <style>
-  .form-search:focus {
-    outline: none; /* Remove default outline */
+	.form-search:focus {
+		outline: none; /* Remove default outline */
+		box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
+	}
 
-    box-shadow: 0 0 0 3px lightgray; /* Add a custom "ring" using box-shadow */
-  }
-  
+	.w-30px {
+		width: 40px;
+	}
 
-  .w-30px {
-    width: 40px;
-  }
+	.h-30px {
+		height: 40px;
+	}
 
-  .h-30px {
-    height: 40px;
-  }
-  
+	.grid-container1 {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
 
+	/* First row = full width (1 column) */
+	.full-width1 {
+		grid-column: 1 / -1;
+	}
+
+	.grid-container {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		gap: 16px;
+	}
+
+	.full-width {
+		grid-column: span 6;
+	}
+
+	.half-width {
+		grid-column: span 3;
+	}
+
+	.third-width {
+		grid-column: span 2;
+	}
 </style>
 <div class="">
-  <div class="d-flex justify-content-between">
-    <div>
-      <h3>Products</h3>
-      <p>Manage your product inventory</p>
-    </div>
-    <div>
-      <button type="button" class="btn btn-primary rounded-10">
-        <i class="bi bi-plus-lg"></i>
-        <span class="fw-light">Add Product</span>
-      </button>
-    </div>
-  </div>
-  <form method="get" asp-action="Index">
-    <div
-      class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
-      <i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
-      <input
-        type="search" name="searchItem"
-        class="w-65 rounded-10 form-search border focus-ring ps-5"
-        placeholder="Search products..."/>
-      
-      <select
-        name="filterByCategory"
-        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border" onchange="this.form.submit()"
-      >
-        <option value="" class="bg-light">All Categories</option>
-        @foreach (var c in ViewBag.Category)
-        {
-          <option class="bg-light" value="@c" selected="@(Context.Request.Query["filterByCategory"] == c)">@c</option>
-        }
-      </select>
-      <select 
-        name="filterByStatus" 
-        class="form-select rounded-10 w-15 px-3 py-2 shadow-none border" onchange="this.form.submit()">
-        
-        @{
-          var selectedStatus = Context.Request.Query["filterByStatus"].ToString();
-        }
-        <option value="" class="bg-light">All Status</option>
-        @foreach (var status in ViewBag.ProductStatus)
-        {
-          <option value="@status"
-                  selected="@(selectedStatus == status.ToString())">
-            @status
-          </option>
-        }
-      </select>
-    </div>
-  </form>
-  <div class="mt-4 rounded-15">
-    <div class="table-responsive rounded-15">
-      <table class="table bg-white shadow-sm table-hover rounded-15 border">
-        <thead class="table-light">
-          <tr>
-            <th class="py-3 ps-4 fw-normal">Product</th>
-            <th class="py-3 ps-4 fw-normal">Category</th>
-            <th class="py-3 ps-4 fw-normal">Price</th>
-            <th class="py-3 ps-4 fw-normal">Stock</th>
-            <th class="py-3 ps-4 fw-normal">Status</th>
-            <th class="py-3 ps-4 fw-normal">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-        
-        @foreach(var i in Model.Items){
-        <tr>
-          <td class="p-3 fw-semibold d-flex">
-            <img class="h-30px w-30px rounded-10 bg-light" 
-                 src="https://powermaccenter.com/cdn/shop/files/AirPods_Max_2024_Orange_PDP_Image_Position_1__en-US_e1cd9597-a5e4-4d45-a43c-317315954a0a.jpg?v=1726225876" 
-                 alt="image picture"/>
-            <span class="m-2 fw-normal">
-              @i.Name
-            </span>
-          </td>
-          <td class="pt-4 ps-4 ">
-            <span class="text-secondary">@i.Category</span>
-          </td>
-          <td class="pt-4 ps-4">
-            <span>
-              $@i.Price
-            </span>
-          </td>
-          <td class="pt-4 ps-4">
-            <span class=" text-secondary">
-              @i.Stock
-            </span>
-          </td>
-          <td class="pt-4 ps-4">
-          @{
-             var badgeClass =
-             i.Status == "Active" ? "bg-green-100 text-green-700" :
-             i.Status == "LowStock" ? "bg-yellow-100 text-yellow-700" :
-             "bg-red-100 text-red-700";
-          }
+	<div class="d-flex justify-content-between">
+		<div>
+			<h3>Products</h3>
+			<p>Manage your product inventory</p>
+		</div>
+		<div>
+			<form id="export-product" method="post" class="gap-2">
+				<button type="submit" class="btn border rounded-10">
+					<i class="bi bi-download"></i>
+					<span class="fw-light">Export</span>
+				</button>
+				<button type="button" class="btn btn-primary rounded-10" role="button" data-toggle="modal" data-target="#AddProduct">
+					<i class="bi bi-plus-lg"></i>
+					<span class="fw-light">Add Product</span>
+				</button>
+			</form>
+		</div>
+	</div>
+	<form method="get" asp-action="Index">
+		<div class="w-100 bg-white mt-3 rounded-10 p-4 shadow-sm d-flex justify-content-between border">
+			<i class="bi bi-search position-absolute text-secondary mt-2 ms-3"></i>
+			<input type="search" name="searchItem"
+				   class="w-65 rounded-10 form-search border focus-ring ps-5"
+				   placeholder="Search products..." />
 
-          <span class="badge fw-normal px-3 py-2 rounded-pill @badgeClass">
-             @i.Status
-          </span>
-          </td>
-          <td class="pt-4 ">
-            <i class="bi bi-eye me-3 text-secondary"></i>
-            <i class="bi bi-pencil-square text-secondary"></i>
-            <i class="bi bi-trash3 text-red-600 ms-3"></i>
-          </td>
-   
-        </tr>
-        }
-        
-        <tr>
-          @{
-            var start = 0;
-            var end = 0;
-            if (Model.TotalCount != 0)
-            {
-              start = (Model.PageNumber - 1) * Model.PageSize + 1;
-              end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
-            } 
-          }
-          <td colspan="4" class="pt-4 ps-4 small text-secondary border-0">
-            Showing @start to @end of @Model.TotalCount Products
-          </td>
-          <td class="p-3 border-0 text-end">
-            <a class="btn btn-sm rounded-10 py-2 px-3 border 
+			<select name="filterByCategory"
+					class="form-select rounded-10 w-15 px-3 py-2 shadow-none border" onchange="this.form.submit()">
+				<option value="" class="bg-light">All Categories</option>
+				@foreach (var c in ViewBag.Category)
+				{
+					<option class="bg-light" value="@c" selected="@(Context.Request.Query["filterByCategory"] == c)">@c</option>
+				}
+			</select>
+			<select name="filterByStatus"
+					class="form-select rounded-10 w-15 px-3 py-2 shadow-none border" onchange="this.form.submit()">
+
+				@{
+					var selectedStatus = Context.Request.Query["filterByStatus"].ToString();
+				}
+				<option value="" class="bg-light">All Status</option>
+				@foreach (var status in ViewBag.ProductStatus)
+				{
+					<option value="@status"
+							selected="@(selectedStatus == status.ToString())">
+						@status
+					</option>
+				}
+			</select>
+		</div>
+	</form>
+	<div class="mt-4 rounded-15">
+		<div class="table-responsive rounded-15">
+			<table class="table bg-white shadow-sm table-hover rounded-15 border">
+				<thead class="table-light">
+					<tr>
+						<th class="py-3 ps-4 fw-normal">Product</th>
+						<th class="py-3 ps-4 fw-normal">Category</th>
+						<th class="py-3 ps-4 fw-normal">Price</th>
+						<th class="py-3 ps-4 fw-normal">Stock</th>
+						<th class="py-3 ps-4 fw-normal">Status</th>
+						<th class="py-3 ps-4 fw-normal">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					@foreach (var i in Model.Items)
+					{
+						<tr>
+							<td class="p-3 fw-semibold d-flex">
+								<!-- Using the dynamic image URL from the database -->
+								<img class="h-30px w-30px rounded-10 bg-light product-image-data"
+									 src="/@i.ImageUrl"
+									 alt="image picture" />
+								<span class="m-2 fw-normal product-name-data">
+									@i.Name
+								</span>
+								<p hidden class="product-id-data">@i.Id</p>
+							</td>
+							<td class="pt-4 ps-4 ">
+								<span class="text-secondary product-category-data">@i.Category</span>
+							</td>
+							<td class="pt-4 ps-4">
+								<span class="product-price-data">
+									$@i.Price
+								</span>
+							</td>
+							<td class="pt-4 ps-4">
+								<span class=" text-secondary product-stock-data">
+									@i.Stock
+								</span>
+								<p hidden class="product-description-data">@i.Description</p>
+							</td>
+							<td class="pt-4 ps-4">
+								@{
+									var badgeClass =
+									i.Status == "Active" ? "bg-green-100 text-green-700" :
+									i.Status == "LowStock" ? "bg-yellow-100 text-yellow-700" :
+									"bg-red-100 text-red-700";
+								}
+
+								<span class="badge fw-normal px-3 py-2 rounded-pill @badgeClass product-status-data">
+									@i.Status
+								</span>
+							</td>
+							<td class="pt-4 ">
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#viewDetail">
+									<i class="bi bi-eye me-3 text-black "></i>
+								</button>
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#EditProduct">
+									<i class="bi bi-pencil-square text-secondary"></i>
+								</button>
+								<button class="border-0 background-child action-button" href="#" role="button" data-toggle="modal" data-target="#DeleteProduct">
+									<i class="bi bi-trash3 text-red-600 ms-3"></i>
+								</button>
+
+							</td>
+
+						</tr>
+					}
+
+					<tr>
+						@{
+							var start = 0;
+							var end = 0;
+							if (Model.TotalCount != 0)
+							{
+								start = (Model.PageNumber - 1) * Model.PageSize + 1;
+								end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
+							}
+						}
+						<td colspan="4" class="pt-4 ps-4 small text-secondary border-0">
+							<p hidden id="data-page-number">@Model.PageNumber</p>
+							<p hidden id="data-total-count">@Model.TotalCount</p>
+
+							Showing @start to @end of @Model.TotalCount Products
+						</td>
+						<td class="p-3 border-0 text-end">
+							<a class="btn btn-sm rounded-10 py-2 px-3 border
                @(Model.PageNumber == 1 ? "disabled" : "")"
-               asp-page="/Products/Index"
-               asp-route-pageNumber="@(Model.PageNumber - 1)">
-              Previous
-            </a>
-          </td>
-          <td class="p-3 border-0 text-start">
-            <a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
-               asp-page="/Products/Index"
-               asp-route-pageNumber="@(Model.PageNumber + 1)">
-              Next
-            </a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+							   asp-page="/Products/Index"
+							   asp-route-pageNumber="@(Model.PageNumber - 1)">
+								Previous
+							</a>
+						</td>
+						<td class="p-3 border-0 text-start">
+							<a class="btn btn-sm rounded-10 py-2 px-3 border @(Model.PageNumber* Model.PageSize >= Model.TotalCount ? "disabled" : "")"
+							   asp-page="/Products/Index"
+							   asp-route-pageNumber="@(Model.PageNumber + 1)">
+								Next
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
+
+
+<!-- ViewDetail Modal -->
+<div class="modal fade" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
+		<div class="modal-content ">
+
+			<div class="modal-header border-0 flex-column align-items-start mx-2">
+				<h5 class="modal-title fw-semibold" id="exampleModalLabel">Product Details</h5>
+				<p class="text-muted mb-0">Complete information about this product</p>
+				<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" class="fs-5">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body mx-2">
+				<div class="d-flex my-1 bg rounded-4 justify-content-between">
+					<div class="d-flex my-1 bg rounded-4 ">
+						<div>
+							<img id="v-product-image" class="rounded-10 bg-light" style="width: 100px;height:100px;"
+								 src="~/img/google.png"
+								 alt="image picture" />
+						</div>
+						<div class="gap-1 ms-2 ">
+							<h4 class="mb-0" id="v-product-name">Smart Watch</h4>
+
+							<span class="text-muted my-1 " id="v-product-id">ELEC-002</span>  <br />
+
+							<span class="badge fw-normal px-3 py-2 rounded-pill bg-dark w-auto my-1" id="v-product-status">
+								Active
+							</span>
+						</div>
+					</div>
+					<div class="d-flex align-items-center">
+						<h4 class="fw-bold text-primary" id="v-product-price">$299.99</h4>
+					</div>
+				</div>
+				<div class="border-top w-100 "></div>
+
+				<div class="grid-container1 mt-3">
+
+					<div class="item">
+						<p class="mb-1">CATEGORY</p>
+						<p id="v-product-category">Electronic</p>
+					</div>
+
+					<div class="item">
+						<p class="mb-1">STOCK QUANTITY</p>
+						<p id="v-product-stock">23 units</p>
+					</div>
+
+					<div class="item full-width1">
+						<p class="mb-1">DESCRIPTION</p>
+						<p id="v-product-description">Feature-rich smartwatch with health tracking, GPS, and 5-day battery.</p>
+					</div>
+
+				</div>
+				<div class="col-12">
+					<div class="bg-light rounded-4 p-4">
+
+						<div class="d-flex justify-content-between align-items-center mb-2">
+							<span class="small text-secondary">
+								Stock Level
+							</span>
+
+							<span class="small fw-semibold text-dark" id="v-product-stock-level">
+								23 / 200
+							</span>
+						</div>
+
+						<div class="progress" style="height:8px;">
+							<div class="progress-bar bg-success"
+								 id="v-product-progress-bar"
+								 role="progressbar"
+								 style="width: 11.5%;"
+								 aria-valuenow="11.5"
+								 aria-valuemin="0"
+								 aria-valuemax="100">
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer border-0">
+				<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+					<span>Close</span>
+				</button>
+				<button type="button" class="btn btn-dark rounded-2 d-flex" data-dismiss="modal" data-toggle="modal" data-target="#EditProduct">
+					<i class="bi bi-pencil-square"></i>
+					<span class="ms-3">Edit Product</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Edit Product Modal -->
+<div class="modal fade" id="EditProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="max-width:35%; margin:auto;" role="document">
+		<div class="modal-content ">
+			<!-- Added enctype for file upload support -->
+			<form id="edit-product" enctype="multipart/form-data">
+				<div class="modal-header border-0 flex-column align-items-start mx-2">
+					<h5 class="modal-title fw-semibold" id="exampleModalLabel">Edit Product</h5>
+					<p class="text-muted mb-0">Update product information and inventory</p>
+					<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" class="fs-5">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body mx-2">
+					<div class="d-flex my-1 bg rounded-4 justify-content-between">
+						<div class="d-flex my-1 bg rounded-4 ">
+							<div>
+								<img id="e-product-image" class="rounded-10 bg-light" style="width: 50px;height:50px;"
+									 src="~/img/google.png"
+									 alt="image picture" />
+							</div>
+							<div class="gap-1 ms-2 ">
+								<span>Editing</span>   <br />
+
+								<span class="text-muted my-1 e-product-name">Wireless Headphone</span>  <br />
+							</div>
+						</div>
+
+					</div>
+					<div class="border-top w-100 "></div>
+
+					<div class="grid-container1 mt-3">
+
+						<div class="item full-width1">
+							<p class="mb-1">Product Name</p>
+							<input class="w-100 border-0 rounded-3 ps-3 fw-normal e-product-name" name="Name" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="Wireless HeadPhone " />
+							<input hidden name="Id" id="e-product-id" />
+						</div>
+						<div class="item ">
+							<p class="mb-1">Category</p>
+							<select name="Category" id="e-product-category" class="form-select border-0 rounded-3 px-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+								@foreach (var c in ViewBag.Category)
+								{
+									<option class="bg-light" value="@c">@c</option>
+								}
+							</select>
+						</div>
+
+						<div class="item ">
+							<p class="mb-1">Status</p>
+							<select name="Status" id="e-product-status" class="form-select border-0 rounded-3 px-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+								@foreach (var status in ViewBag.ProductStatus)
+								{
+									<option value="@status">
+										@status
+									</option>
+								}
+							</select>
+						</div>
+						<div class="item">
+							<p class="mb-1">Price ($)</p>
+							<input name="Price" id="e-product-price" step="0.01" type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" value="10">
+						</div>
+
+						<div class="item">
+							<p class="mb-1">Stock Quantity</p>
+							<input name="Stock" id="e-product-stock" type="number" class="form-control border-0 rounded-3 ps-3 w-100" style="padding:3px;background-color:#f3f3f5;font-size:medium; height:40px;" value="20">
+						</div>
+
+					</div>
+					<div class="item full-width1 mt-3">
+						<p class="mb-1">Update Product Image</p>
+						<input name="Image" type="file" accept="image/*"
+							   class="form-control border-0 rounded-3 ps-3 w-100"
+							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
+					</div>
+					<div class="col-12 mt-3">
+						<span>Description</span><br />
+
+						<div class="border rounded-3 py-2 px-3">
+							<textarea name="Description" id="e-product-description" class="w-100 border-0"
+									  placeholder="Enter product description..."
+									  style="height:60px; resize:none; outline:none;"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer border-0">
+					<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+						<span>Close</span>
+					</button>
+					<button type="submit" class="btn btn-dark rounded-2 d-flex">
+						<i class="bi bi-pencil-square"></i>
+						<span class="ms-3">Edit Product</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- delete Product Modal -->
+<div class="modal fade" id="DeleteProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="max-width:35%; margin:auto;" role="document">
+		<form id="delete-product">
+			<div class="modal-content ">
+
+				<div class="modal-header border-0 flex-column align-items-start mx-2">
+					<h5 class="modal-title fw-semibold" id="exampleModalLabel">Delete Product</h5>
+					<p class="text-muted mb-0">Are you sure you want to delete this product? This action cannot be undone.</p>
+					<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" class="fs-5">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body mx-2">
+
+					<div class="d-flex align-items-center justify-content-between py-2 px-3 bg-light rounded-4" style="height:80px;">
+
+						<!-- Left: Image + Info -->
+						<div class="d-flex align-items-center gap-3">
+							<img id="d-product-image" class="h-30px w-30px rounded-10 bg-light product-image-data"
+								 src="~/img/google.png"
+								 alt="image picture" />
+
+							<div class="d-flex flex-column">
+								<input hidden id="d-product-id" name="Id" />
+								<span id="d-product-name" class="fw-medium">Wireless headphone</span>
+								<span id="d-product-category-and-id" class="text-muted small">Electronics · ELEC-001</span>
+							</div>
+
+						</div>
+
+						<!-- Right: Price + Stock -->
+						<div class="d-flex flex-column text-end">
+							<span id="d-product-price" class="fw-medium">$129.99</span>
+							<span id="d-product-stock" class="text-muted small">45 in stock</span>
+						</div>
+
+					</div>
+
+					<div class="d-flex align-items-start py-2 px-3 rounded-4 mt-3 border border-danger"
+						 style="background-color:#FEF2F2;">
+
+						<p class="mb-0 text-danger">
+							<b>Warning:</b> This product will be permanently removed from your inventory and all associated data will be lost.
+						</p>
+
+					</div>
+
+				</div>
+
+				<div class="modal-footer border-0">
+					<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+						<span>Close</span>
+					</button>
+					<button type="submit" class="btn btn-danger rounded-2 d-flex">
+						<i class="bi bi-trash3"></i>
+						<span class="ms-3">Delete Product</span>
+					</button>
+				</div>
+			</div>
+
+		</form>
+	</div>
+</div>
+
+
+<!-- Add Product Modal -->
+<div class="modal fade" id="AddProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="max-width:40%; margin:auto;" role="document">
+		<!-- Added enctype for file upload support -->
+		<form id="add-product" enctype="multipart/form-data">
+			<div class="modal-content ">
+
+				<div class="modal-header border-0 flex-column align-items-start mx-2">
+					<h5 class="modal-title fw-semibold" id="exampleModalLabel">Add New Product</h5>
+					<p class="text-muted mb-0">Fill in the details to add a new product to your inventory</p>
+					<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" class="fs-5">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body mx-2">
+					<div class="grid-container ">
+
+						@* name *@
+						<div class="item full-width">
+							<p class="mb-1">Product Name</p>
+							<input id="a-product-name" name="Name"
+								   class="w-100 border-0 rounded-3 ps-3 fw-normal"
+								   placeholder="e.g. Wireless Headphone"
+								   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
+						</div>
+
+						@* code *@
+						<div class="item half-width">
+							<p class="mb-1">SKU</p>
+							<input id="a-product-id" name="Code"
+								   class="border-0 rounded-3 ps-3 w-100"
+								   placeholder="e.g. ELEC-010"
+								   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
+						</div>
+
+						@* category *@
+						<div class="item half-width">
+							<p class="mb-1">Category</p>
+							<select id="a-product-category" name="Category"
+									class="form-select border-0 rounded-3 ps-3 w-100"
+									style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+								@foreach (var c in ViewBag.Category)
+								{
+									<option class="bg-light" value="@c" selected="@(Context.Request.Query["filterByCategory"] == c)">@c</option>
+								}
+							</select>
+						</div>
+
+						@* price *@
+						<div class="item third-width">
+							<p class="mb-1">Price ($)</p>
+							<input id="a-product-price" name="Price"
+								   type="number"
+								   class="form-control border-0 rounded-3 ps-3 w-100"
+								   placeholder="0.00"
+								   step="0.01"
+								   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+						</div>
+
+						@* stock *@
+						<div class="item third-width">
+							<p class="mb-1">Stock Quantity</p>
+							<input id="a-product-stock" name="Stock"
+								   type="number"
+								   class="form-control border-0 rounded-3 ps-3 w-100"
+								   placeholder="0"
+								   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+						</div>
+
+						@* status *@
+						<div class="item third-width">
+							<p class="mb-1">Status</p>
+							<select id="a-product-status" name="Status"
+									class="form-select border-0 rounded-3 ps-3 w-100"
+									style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;">
+								@foreach (var status in ViewBag.ProductStatus)
+								{
+									<option value="@status">
+										@status
+									</option>
+								}
+
+							</select>
+						</div>
+					</div>
+					<div class="item full-width mt-3">
+						<p class="mb-1">Product Image</p>
+						<input name="Image" type="file" accept="image/*"
+							   class="form-control border-0 rounded-3 ps-3 w-100"
+							   style="padding:3px;background-color:#f3f3f5;font-size:medium;height:40px;" />
+					</div>
+
+					@* description *@
+					<div class="col-12 mt-3">
+						<span>Description</span><br />
+						<div class="border rounded-3 py-2 px-3 mt-1">
+							<textarea id="a-product-description" name="Description"
+									  class="w-100 border-0"
+									  placeholder="Enter product description..."
+									  style="height:60px; resize:none; outline:none;"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer border-0">
+					<button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">
+						<span>Cancel</span>
+					</button>
+					<button type="submit" class="btn btn-dark rounded-2 d-flex">
+						<i class="bi bi-plus-lg"></i>
+						<span class="ms-3">Add Product</span>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {$(".action-button").click(function () {
+			var row = $(this).closest("tr");
+
+			var id = row.find(".product-id-data").text().trim();
+			var name = row.find(".product-name-data").text().trim();
+			var category = row.find(".product-category-data").text().trim();
+			var stock = parseInt(row.find(".product-stock-data").text().trim());
+			var stocklevel = stock + " / 200";
+			var progressbar = (stock / 200) * 100;
+			var stocktext = stock + " units";
+
+			var status = row.find(".product-status-data").text().trim();
+			var pricetext = row.find(".product-price-data").text().trim();
+			var price = pricetext.replace("$", "");
+			var description = row.find(".product-description-data").text().trim();
+			var categoryAndId = category + " · " + id;
+
+			// Dynamically get the image source attribute instead of text
+			var imageSrc = row.find(".product-image-data").attr("src");
+
+			// --- VIEW MODAL ---
+			$("#v-product-name").text(name);
+			$("#v-product-category").text(category);
+			$("#v-product-stock").text(stocktext);
+			$("#v-product-status").text(status);
+			$("#v-product-price").text(pricetext);
+			$("#v-product-stock-level").text(stocklevel);
+			$("#v-product-description").text(description);
+			$("#v-product-image").attr("src", imageSrc); // Update View image
+			$("#v-product-progress-bar")
+				.css("width", progressbar + "%")
+				.attr("aria-valuenow", progressbar);
+
+			// --- EDIT MODAL ---
+			$(".e-product-name").text(name);
+			$(".e-product-name").val(name);
+			$("#e-product-category").val(category);
+			$("#e-product-status").val(status);
+			$("#e-product-price").val(price);
+			$("#e-product-stock").val(stock);
+			$("#e-product-description").text(description);
+			$("#e-product-id").val(id);
+			$("#e-product-image").attr("src", imageSrc); // Update Edit image
+
+			// --- DELETE MODAL ---
+			$("#d-product-id").val(id);
+			$("#d-product-name").text(name);
+			$("#d-product-category-and-id").text(categoryAndId);
+			$("#d-product-price").text(pricetext);
+			$("#d-product-stock").text(stocktext);
+			$("#d-product-image").attr("src", imageSrc); // Update Delete image
+		});
+
+		$('#export-product').on('submit', function (e) {
+			e.preventDefault();
+
+			var pageNumber = $("#data-page-number").text().trim();
+			var count = $("#data-total-count").text().trim();
+
+			var url = `/Products/Export?pageNumber=${pageNumber}&count=${count}`;
+
+			window.open(url, '_blank');
+		});
+
+		// Modified to use FormData for file upload
+		$('#edit-product').on('submit',function(e){
+			e.preventDefault();
+
+			var formData = new FormData(this); // Captures form fields including the file
+
+			$.ajax({
+				url: '/Products/Update',
+				type: 'POST',
+				data: formData,
+				processData: false, // Required for FormData
+				contentType: false, // Required for FormData
+				success: function (response) {
+					alert(response.message);
+					location.reload();
+				},
+				error: function (xhr) {
+					if (xhr.responseJSON && xhr.responseJSON.message) {
+						alert(xhr.responseJSON.message);
+					} else {
+						alert("An unexpected error occurred.");
+					}
+				}
+			});
+		});
+
+		// Modified to use FormData for file upload
+		$('#add-product').on('submit',function(e){
+			e.preventDefault();
+
+			var formData = new FormData(this); // Captures form fields including the file
+
+			$.ajax({
+				url: '/Products/Create',
+				type: 'POST',
+				data: formData,
+				processData: false, // Required for FormData
+				contentType: false, // Required for FormData
+				success: function (response) {
+					alert(response.message);
+					location.reload();
+				},
+				error: function (xhr) {
+					if (xhr.responseJSON && xhr.responseJSON.message) {
+						alert(xhr.responseJSON.message);
+					} else {
+						alert("An unexpected error occurred.");
+					}
+				}
+			});
+		});
+
+		$('#delete-product').on('submit',function(e){
+			e.preventDefault();
+
+			$.ajax({
+				url: '/Products/Delete',
+				type: 'POST',
+				data: $('#delete-product').serialize(), // File upload not needed for delete, serialize is fine
+
+				success: function (response) {
+					alert(response.message);
+					location.reload();
+				},
+				error: function (xhr) {
+					if (xhr.responseJSON && xhr.responseJSON.message) {
+						alert(xhr.responseJSON.message);
+					} else {
+						alert("An unexpected error occurred.");
+					}
+				}
+			});
+		});
+	});
+</script>

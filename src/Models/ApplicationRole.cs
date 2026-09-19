@@ -19,6 +19,7 @@ public class ApplicationRole : IdentityRole
     {
         UserRoles = new HashSet<IdentityUserRole<string>>();
     }
+    //public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public virtual ICollection<IdentityUserRole<string>> UserRoles { get; set; }
 }

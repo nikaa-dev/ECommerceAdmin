@@ -1,26 +1,26 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using src.Enums;
+using src.DTO.OrderDto;
 using src.Extensions.Pagenations;
-using src.Models;
-using src.Models.Ecommerce;
-using src.Repositories.OrderRepositories;
 using src.Services.OrderServices;
 using src.Services.OrderStatusServices;
-using System.Diagnostics;
-using static src.Enums.Permissions;
+using jsreport.AspNetCore;
+using jsreport.Types;
 
 namespace src.Controllers;
 public class OrdersController(ILogger<HomeController> logger,IOrderService orderService,IOrderStatusService orderStatusService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
     [Authorize]
-    public async Task<IActionResult> Index(string? filterByDate, string? searchItem,int page = 1, int pageSize = 8)
+    public async Task<IActionResult> Index(string? filterByDate, string? searchItem,int pageNumber = 1, int pageSize = 8)
     {
         var orders = await orderService.GetAllIncludedAsync();
         
         ViewBag.Total = orders.Count;
         ViewBag.Status = await orderStatusService.GetAllAsync();
+
+        ViewBag.FilterByDate = filterByDate;
+        ViewBag.SearchItem = searchItem;
 
         ViewBag.Pending = orders.Count(o => o.Status == "Pending");
         ViewBag.Processing = orders.Count(o => o.Status == "Processing");
@@ -53,11 +53,74 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         }
         if (!string.IsNullOrEmpty(searchItem))
         {
-            orders = orders.Where(o => o.Id.Contains(searchItem)).ToList();
+            orders = orders.Where(o => o.Id.ToUpper().Contains(searchItem.ToUpper()) ||
+                            o.CustomerName.ToUpper().Contains(searchItem.ToUpper()) ||
+                            o.CustomerEmail.ToUpper().Contains(searchItem.ToUpper())).ToList();
         }
 
         var queryable = orders.AsQueryable();
-        var pagination = queryable.ToPagedResultAsync(page, pageSize);
+        var pagination = queryable.ToPagedResultAsync(pageNumber, pageSize);
         return View(pagination);
     }
+
+    public async Task<IActionResult> OrderDetail(string orderId)
+    {
+       
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var products = await orderService.GetProductByOrderIdAsync(orderId);
+
+        if (products == null)
+        {
+            return BadRequest(new { success = false, message = "Get product failed" });
+        }
+
+        return Json(new
+        {
+            success = true,
+            message = "Get product successfully",
+            data = products
+        });
+    }
+
+    public async Task<IActionResult> Export(OrderRequestExportDto order) {
+
+        var bytes = await orderService.ExportOrderData(order);
+
+        var fileName = $"order_{DateTime.Now:yyyyMMddHHmmss}.csv";
+
+        return File(bytes, "text/csv", fileName);
+    }
+
+    [MiddlewareFilter(typeof(JsReportPipeline))]
+    public async Task<IActionResult> PrintInvoice(string id)
+    {
+        Response.Headers["Content-Disposition"] = "attachment; filename=Receipt.pdf";
+
+        HttpContext.JsReportFeature()
+            .Recipe(Recipe.ChromePdf)
+            .Configure(r =>
+            {
+                r.Template.Chrome = new Chrome
+                {
+                    Width = "80mm",
+                    MarginTop = "3mm",
+                    MarginBottom = "3mm",
+                    MarginLeft = "3mm",
+                    MarginRight = "3mm",
+                    PrintBackground = true
+                };
+            });
+
+        var products = await orderService.GetProductByOrderIdAsync(id);
+
+        if (products == null)
+        {
+            return BadRequest(new { success = false, message = "Get product failed" });
+        }
+
+        return View(products);
+    }
+
 }

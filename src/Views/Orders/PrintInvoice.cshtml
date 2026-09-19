@@ -1,0 +1,362 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Receipt</title>
+
+    <style>
+
+       
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 80mm;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    color: #000;
+}
+
+.receipt {
+    width: 100%;
+    padding: 0;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.store-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 6px 0;
+}
+
+.line {
+    border-top: 1px dashed #000;
+    margin: 6px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 2px 0;
+    vertical-align: top;
+}
+
+th {
+    text-align: left;
+}
+
+.product {
+    width: 55%;
+}
+
+.qty {
+    width: 15%;
+    text-align: center;
+}
+
+.total {
+    width: 30%;
+    text-align: right;
+}
+
+.summary td {
+    padding: 2px 0;
+}
+
+.grand-total {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.footer {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.no-print {
+    display: none;
+}
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="receipt">
+
+
+        <!-- Header -->
+
+        <div class="center">
+
+            <div class="store-name">
+                MY STORE
+            </div>
+
+            <div>
+                Phnom Penh, Cambodia
+            </div>
+
+            <div>
+                Tel: 012 345 678
+            </div>
+
+        </div>
+
+
+        <div class="line"></div>
+
+
+        <div class="center title">
+            SALES RECEIPT
+        </div>
+
+
+        <div>
+
+            Invoice:
+            #8b84ebdd
+
+            <br>
+
+            Date:
+            19 Apr 2026 3:10 PM
+
+            <br>
+
+            Customer:
+            John Smith
+
+        </div>
+
+
+
+        <div class="line"></div>
+
+
+
+        <!-- Items -->
+
+
+        <table>
+
+
+            <thead>
+
+                <tr>
+
+                    <th class="product">
+                        Item
+                    </th>
+
+                    <th class="qty">
+                        Qty
+                    </th>
+
+                    <th class="total">
+                        Amount
+                    </th>
+
+                </tr>
+
+
+            </thead>
+
+
+            <tbody>
+
+
+                <tr>
+
+                    <td>
+                        Gaming Laptop
+                    </td>
+
+
+                    <td class="qty">
+                        1
+                    </td>
+
+
+                    <td class="right">
+                        $999
+                    </td>
+
+
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+
+
+        <div class="line"></div>
+
+
+
+        <!-- Summary -->
+
+
+        <table class="summary">
+
+
+            <tr>
+
+                <td>
+                    Total Items
+                </td>
+
+                <td class="right">
+                    1
+                </td>
+
+            </tr>
+
+
+
+            <tr>
+
+                <td>
+                    Subtotal
+                </td>
+
+                <td class="right">
+                    $999.00
+                </td>
+
+            </tr>
+
+
+
+            <tr>
+
+                <td>
+                    Tax
+                </td>
+
+                <td class="right">
+                    $0.00
+                </td>
+
+            </tr>
+
+
+
+            <tr>
+
+                <td>
+                    Shipping
+                </td>
+
+                <td class="right">
+                    $0.00
+                </td>
+
+            </tr>
+
+
+
+            <tr>
+
+                <td class="grand-total">
+                    TOTAL
+                </td>
+
+                <td class="right grand-total">
+                    $999.00
+                </td>
+
+            </tr>
+
+
+        </table>
+
+
+
+        <div class="line"></div>
+
+
+
+        <div>
+
+            Payment:
+            Visa ****2424
+
+        </div>
+
+
+
+        <div class="line"></div>
+
+
+
+        <div class="footer">
+
+
+            Thank you for your purchase!
+
+
+            <br>
+
+
+            Please come again 😊
+
+
+        </div>
+
+
+
+        <div class="center no-print">
+
+            <br>
+
+            <button onclick="window.print()">
+                Print
+            </button>
+
+        </div>
+
+
+
+    </div>
+
+
+
+</body>
+
+</html>

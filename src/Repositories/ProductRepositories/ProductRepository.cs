@@ -13,4 +13,19 @@ public class ProductRepository(ApplicationDbContext context):Repository<Product>
         var products = await _context.Products.Include(p => p.Category).ToListAsync();
         return products;
     }
+
+    public async Task<Product?> FindByIdIncludeCategory(Guid id)
+    {
+        var product = await context.Products
+                        .Include(p => p.Category)
+                        .FirstOrDefaultAsync(p => p.Id == id);
+
+        return product!;
+    }
+
+    public async Task<Product?> FindByNameAsync(string name)
+    {
+        var product = await context.Products.FirstOrDefaultAsync(p => p.Name == name);
+        return product!;
+    }
 }

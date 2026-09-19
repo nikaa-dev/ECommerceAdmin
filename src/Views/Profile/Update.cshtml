@@ -1,0 +1,459 @@
+﻿@{
+    Layout = "../Shared/_SettingLayout";
+}
+@model src.DTO.UserDto.ProfileUserResponseDto
+
+<style>
+    .grid-container1 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .form-input-field {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .full-width1 {
+        grid-column: 1 / -1;
+    }
+
+    .profile-avatar {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+    }
+</style>
+
+<form id="edit-profile"
+      enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+
+    <!-- ================= PROFILE PICTURE ================= -->
+    <div class="col rounded-15 bg-white shadow-sm border">
+
+        <div class="border-bottom">
+            <div class="m-4">
+                <h6 class="fw-bold">
+                    Profile Picture
+                </h6>
+
+                <span class="text-secondary">
+                    Update your avatar and display photo
+                </span>
+            </div>
+        </div>
+
+        <div>
+            <div class="m-4 d-flex align-items-center">
+
+                <!-- Avatar -->
+                <div class="position-relative">
+
+                    @if (!string.IsNullOrEmpty(Model.PhotoProfile))
+                    {
+                        <img id="profilePreview"
+                             src="@Model.PhotoProfile"
+                             class="rounded-circle profile-avatar"
+                             alt="Profile Photo" />
+                    }
+                    else
+                    {
+                        <div id="profileInitial"
+                             class="rounded-circle bg-primary d-flex justify-content-center align-items-center profile-avatar">
+
+                            <span class="text-white fw-bold fs-2">
+                                @(
+                                                            string.IsNullOrEmpty(Model.FullName)
+                                                            ? "U"
+                                                            : Model.FullName.Substring(0, 1).ToUpper()
+                                                            )
+                        </span>
+
+                        </div>
+
+                        <img id="profilePreview"
+                             src=""
+                             class="rounded-circle profile-avatar d-none"
+                             alt="Profile Photo" />
+                                        }
+
+                    <!-- Camera button -->
+                    <label for="photoProfile"
+                           class="position-absolute bg-white border rounded-circle shadow-sm d-flex justify-content-center align-items-center"
+                           style="width:34px;height:34px;right:-5px;bottom:-5px;cursor:pointer;">
+
+                        <i class="bi bi-camera text-secondary"></i>
+
+                    </label>
+
+                </div>
+
+                <!-- User information -->
+                <div class="ms-4">
+
+                    <h6 class="mb-1 fs-5">
+                        @Model.FullName
+                    </h6>
+
+                    <p class="text-secondary d-block mb-2">
+                        @Model.RoleName
+                    </p>
+
+                    <div class="d-flex align-items-center gap-4">
+
+                        <!-- Hidden file input -->
+                        <input type="file"
+                               id="photoProfile"
+                               name="PhotoProfile"
+                               accept=".jpg,.jpeg,.png,.webp"
+                               class="d-none" />
+
+                        <!-- Upload -->
+                        <label for="photoProfile"
+                               class="btn btn-outline-secondary rounded-3 px-2 py-1"
+                               style="cursor:pointer;">
+                            Upload Photo
+                        </label>
+
+                        <!-- Remove -->
+                        <button type="button"
+                                id="removePhoto"
+                                class="btn btn-link text-danger text-decoration-none p-0">
+                            Remove
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= PERSONAL INFORMATION ================= -->
+    <div class="col rounded-15 bg-white shadow-sm border mt-3">
+
+        <div class="border-bottom">
+            <div class="m-4">
+
+                <h6 class="fw-bold">
+                    Personal Information
+                </h6>
+
+                <span class="text-secondary">
+                    Your name, contact details and bio
+                </span>
+
+            </div>
+        </div>
+
+        <div>
+
+            <div class="grid-container1 py-4 px-4">
+
+                <!-- Full Name -->
+                <div class="d-flex align-items-start flex-column w-100 mb-2">
+
+                    <div>
+                        <i class="bi bi-person"></i>
+                        <label>Full Name</label>
+                    </div>
+
+                    <input value="@Model.FullName"
+                           name="FullName"
+                           class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+
+                </div>
+
+
+                <!-- Email -->
+                <div class="d-flex align-items-start flex-column w-100 mb-2">
+
+                    <div>
+                        <i class="bi bi-envelope"></i>
+                        <label>Email Address</label>
+                    </div>
+
+                    <input type="email"
+                           value="@Model.Email"
+                           name="Email"
+                           class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+
+                </div>
+
+
+                <!-- Phone -->
+                <div class="d-flex align-items-start flex-column w-100 mb-2">
+
+                    <div>
+                        <i class="bi bi-telephone"></i>
+                        <label>Phone Number</label>
+                    </div>
+
+                    <input type="tel"
+                           id="phoneNumber"
+                           value="@Model.PhoneNumber"
+                           name="PhoneNumber"
+                           placeholder="(555) 555-5555"
+                           class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+
+                </div>
+
+
+                <!-- Company -->
+                <div class="d-flex align-items-start flex-column w-100 mb-2">
+
+                    <div>
+                        <i class="bi bi-building"></i>
+                        <label>Company</label>
+                    </div>
+
+                    <input value="@Model.Company"
+                           name="Company"
+                           class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+
+                </div>
+
+
+                <!-- Address -->
+                <div class="d-flex align-items-start flex-column w-100 mb-2 full-width1">
+
+                    <div>
+                        <i class="bi bi-geo-alt"></i>
+                        <label>Address</label>
+                    </div>
+
+                    <input value="@Model.Address"
+                           name="Address"
+                           class="form-input-field border-0 pt-2 pb-2 ps-2 shadow-none bg-light" />
+
+                </div>
+
+
+                <!-- Bio -->
+                <div class="full-width1">
+
+                    <span>Bio</span>
+
+                    <div class="border rounded-3 py-2 px-3">
+
+                        <textarea name="Description"
+                                  id="e-product-description"
+                                  class="w-100 border-0"
+                                  style="height:60px;resize:none;outline:none;">@Model.Description</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Save -->
+            <div class="pe-4 pb-4 d-flex justify-content-end align-items-end">
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="bi bi-floppy me-2"></i>
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        // ==========================================
+        // SELECT IMAGE
+        // ==========================================
+
+        $('#photoProfile').on('change', function () {
+
+            const file = this.files[0];
+
+            if (!file)
+                return;
+
+            // Allowed extensions
+            const allowedTypes = [
+                'image/jpeg',
+                'image/png',
+                'image/webp'
+            ];
+
+            if (!allowedTypes.includes(file.type)) {
+
+                alert('Only JPG, PNG and WEBP images are allowed.');
+
+                $(this).val('');
+
+                return;
+            }
+
+            // 5 MB
+            const maxSize = 5 * 1024 * 1024;
+
+            if (file.size > maxSize) {
+
+                alert('Image size must be less than 5 MB.');
+
+                $(this).val('');
+
+                return;
+            }
+
+
+            // Preview image
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                $('#profilePreview')
+                    .attr('src', e.target.result)
+                    .removeClass('d-none');
+
+                $('#profileInitial')
+                    .addClass('d-none');
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+
+        // ==========================================
+        // REMOVE PHOTO
+        // ==========================================
+
+        $('#removePhoto').click(function () {
+
+            if (!confirm('Remove your profile photo?'))
+                return;
+
+            $.ajax({
+
+                url: '/Profile/RemovePhoto',
+
+                type: 'POST',
+
+                data: {
+                    __RequestVerificationToken:
+                        $('input[name="__RequestVerificationToken"]').val()
+                },
+
+                success: function (response) {
+
+                    alert(response.message);
+
+                    window.location.reload();
+
+                },
+
+                error: function (xhr) {
+
+                    if (xhr.responseJSON &&
+                        xhr.responseJSON.message) {
+
+                        alert(xhr.responseJSON.message);
+
+                    } else {
+
+                        alert('Unable to remove profile photo.');
+
+                    }
+
+                }
+
+            });
+
+        });
+
+
+        // ==========================================
+        // UPDATE PROFILE
+        // ==========================================
+
+        $('#edit-profile').submit(function (e) {
+
+            e.preventDefault();
+
+
+            // IMPORTANT:
+            // serialize() cannot send files.
+            // Use FormData instead.
+
+            const form = this;
+
+            const formData = new FormData(form);
+
+
+            console.log('Profile data:');
+
+            for (let pair of formData.entries()) {
+
+                console.log(pair[0], pair[1]);
+
+            }
+
+
+            $.ajax({
+
+                url: '/Profile/Update',
+
+                type: 'POST',
+
+                data: formData,
+
+                processData: false,
+
+                contentType: false,
+
+
+                success: function (response) {
+
+                    alert(response.message);
+
+                    window.location.href = '/Profile/Index';
+
+                },
+
+
+                error: function (xhr) {
+
+                    console.log(xhr);
+
+                    if (xhr.responseJSON &&
+                        xhr.responseJSON.message) {
+
+                        alert(xhr.responseJSON.message);
+
+                    } else {
+
+                        alert('An unexpected error occurred.');
+
+                    }
+
+                }
+
+            });
+
+        });
+
+    });
+
+</script>

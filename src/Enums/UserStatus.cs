@@ -3,7 +3,7 @@ namespace src.Enums;
 public enum UserStatus
 {
     Active,
-    Inactive,
+    InActive,
     Suspended
 }
 

@@ -4,5 +4,6 @@ namespace src.Repositories.ProductCategoryRepositories;
 
 public interface IProductCategoryRepository:IRepository<Category>
 {
-    
+
+    Task<Category?> GetByNameAsync(String name);
 }

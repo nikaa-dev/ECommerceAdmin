@@ -6,4 +6,5 @@ public interface IOrderRepository:IRepository<Order>
 {
     Task<List<Order>?> GetByCustomerIdAsync(string customerId);
     Task<List<Order>> GetAllIncludedAsync();
+    Task<List<Order>?> GetOrderIdAsync(Guid orderId);
 }
