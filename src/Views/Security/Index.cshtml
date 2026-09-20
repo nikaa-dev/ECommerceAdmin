@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <form class="p-4" onsubmit="return false;">
+    <form class="p-4" id="change-password">
         <div class="mb-3">
             <label for="current-password" class="form-label fw-medium small">Current password</label>
             <div class="input-group">
@@ -65,7 +65,7 @@
 
         <p class="password-hint mt-3 mb-4"><i class="bi bi-info-circle me-1"></i>Use at least 8 characters with uppercase, lowercase, a number, and a symbol.</p>
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary px-4"><i class="bi bi-shield-lock me-2"></i>Update password</button>
+            <button type="submit" class="btn btn-primary px-4"><i class="bi bi-shield-lock me-2"></i>Update password</button>
         </div>
     </form>
 </div>
@@ -94,3 +94,52 @@
         <button type="button" class="btn btn-outline-secondary btn-sm">Manage sessions</button>
     </div>
 </div>
+<script>
+    $("#change-password").submit(function(event) {
+        // 1. Prevent the default form submission (page reload)
+        event.preventDefault();
+
+        // 2. Grab the input values
+        const currentPassword = $("#current-password").val();
+        const newPassword = $("#new-password").val();
+        const confirmPassword = $("#confirm-password").val();
+
+        // 3. Client-side validation
+        if (newPassword !== confirmPassword) {
+            alert("Your new password and confirmation password do not match.");
+            return; // Stop execution
+        }
+
+        if (newPassword.length < 8) {
+            alert("Please ensure your new password is at least 8 characters long.");
+            return;
+        }
+
+        // 4. Send the AJAX request to your backend endpoint
+        $.ajax({
+            url: '/Security/ChangePassword', // Update this to match your actual route
+            type: 'POST',
+            data: {
+                CurrentPassword: currentPassword,
+                NewPassword: newPassword
+            },
+            success: function(response) {
+                if (response.message) {
+                    alert(response.message);
+                }
+
+                // Clear the form fields on success
+                $("#change-password")[0].reset();
+            },
+            error: function(xhr) {
+                // Reusing your error handling logic
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    alert(xhr.responseJSON.message);
+                } else {
+                    alert("An error occurred while updating the password.");
+                }
+            }
+        });
+    });
+</script>
+                                                                                    

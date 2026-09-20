@@ -52,7 +52,7 @@
 			<input name="searchItem"
 				   type="search"
 				   class="w-65 rounded-10 form-search border focus-ring ps-5"
-				   placeholder="Search users by name or email..." />
+				   placeholder="Search users by name email or code..." />
 			<select id="filterByDate"
 					name="filterByDate"
 					class="form-select rounded-10 w-15 px-3 py-2 shadow-none border">
@@ -87,7 +87,7 @@
 			<table class="table bg-white shadow-sm table-hover rounded-15 border">
 				<thead class="table-light">
 					<tr>
-						<th class="p-4 fw-normal">Order ID</th>
+						<th class="p-4 fw-normal">Code</th>
 						<th class="p-4 fw-normal">Customer</th>
 						<th class="p-4 fw-normal">Date</th>
 						<th class="p-4 fw-normal">Items</th>
@@ -101,7 +101,7 @@
 					{
 						<tr>
 							<td class="p-3 fw-semibold d-flex">
-								<span class="m-2 text-primary fw-normal id">@order.Id</span>
+								<span class="m-2 text-primary fw-normal id">@order.Code</span>
 							</td>
 							<td class="pt-3 ps-4 fw-semibold">
 								<span class="name">@order.CustomerName</span><br>

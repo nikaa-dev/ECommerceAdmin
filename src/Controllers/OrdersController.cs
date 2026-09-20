@@ -84,13 +84,15 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         });
     }
 
-    public async Task<IActionResult> Export(OrderRequestExportDto order) {
-
+    public async Task<IActionResult> Export([FromQuery] OrderRequestExportDto order)
+    {
         var bytes = await orderService.ExportOrderData(order);
 
-        var fileName = $"order_{DateTime.Now:yyyyMMddHHmmss}.csv";
+        // Change extension to .xlsx
+        var fileName = $"order_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
 
-        return File(bytes, "text/csv", fileName);
+        // Change to standard Excel MIME type
+        return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
 
     [MiddlewareFilter(typeof(JsReportPipeline))]

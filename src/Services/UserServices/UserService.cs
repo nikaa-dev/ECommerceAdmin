@@ -150,6 +150,9 @@ public class UserService(
             await userManager.FindByIdAsync(
                 userRequest.Id);
 
+        if (user!.FullName == "admin@localhost.com")
+            return (false);
+
         if (user == null)
             return false;
 
@@ -259,8 +262,12 @@ public class UserService(
     public async Task<(bool, string)> DeleteUserAsync(
         string id)
     {
+
         var user =
             await userManager.FindByIdAsync(id);
+
+        if(user!.FullName == "admin@localhost.com")
+            return (false, "Can't delete admin");
 
         if (user == null)
             return (false, "User Not Found");

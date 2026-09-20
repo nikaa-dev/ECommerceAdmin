@@ -458,7 +458,7 @@
                                                     <div class="border-top w-100 "></div>
                                               <div class="modal-footer">
                                                 <button type="button" class="btn border bg-white rounded-2" data-dismiss="modal">No</button>
-                                                <button type="submit" class="btn btn-danger rounded-2">Yes</button>
+                                                        <button type="submit" class="btn btn-danger rounded-2">Yes</button>
                                               </div>
                                             </div>
                                           </div>
@@ -716,6 +716,7 @@
         });
         $('#delete-user').submit(function (e){
             e.preventDefault();
+           
 
             $.ajax({
                 url: '/UserManagement/Delete',

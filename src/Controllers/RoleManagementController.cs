@@ -114,12 +114,14 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
 
         return Json(new { success = true, message = "User updated successfully" });
     }
-    public async Task<IActionResult> Export(RoleManagementRequestExportDto export)
+    public async Task<IActionResult> Export([FromQuery] RoleManagementRequestExportDto export)
     {
         var bytes = await roleService.ExportRoleData(export);
 
-        var fileName = $"Role_{DateTime.Now:yyyyMMddHHmmss}.csv";
+        // Update extension to .xlsx
+        var fileName = $"Role_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
 
-        return File(bytes, "text/csv", fileName);
+        // Standard Excel MIME type
+        return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
 }

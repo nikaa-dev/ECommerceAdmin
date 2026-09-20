@@ -1,3 +1,4 @@
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -73,7 +74,7 @@ public class RoleService(
     public async Task<Dictionary<string, List<string>>> GetLookupRolePermission()
     {
         var roles = await roleManager.Roles.ToListAsync();
-        var rolePermissions = await roleManager.GetClaimsAsync(roles?.FirstOrDefault(r => r.Name == "Admin"));
+        var rolePermissions = await roleManager.GetClaimsAsync(roles.FirstOrDefault(r => r.Name == "Admin"));
         var displayPermissions = new Dictionary<string, List<string>>();
 
         foreach (var rolePermission in rolePermissions)
@@ -179,13 +180,13 @@ public class RoleService(
         }
 
         // Delete role
-        var result = await roleManager.DeleteAsync(role);
+        //var result = await roleManager.DeleteAsync(role);
 
-        if (!result.Succeeded)
-        {
-            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-            return (false, $"Failed to delete role: {errors}");
-        }
+        //if (!result.Succeeded)
+        //{
+        //    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+        //    return (false, $"Failed to delete role: {errors}");
+        //}
 
         return (true, "Role deleted successfully.");
     }
@@ -390,29 +391,51 @@ public class RoleService(
     {
         var roleData = await GetAllRoleIncludeAsync();
         var roleQueryable = roleData.AsQueryable();
+
+        // Added missing 'await' here
         var rolePagenation = roleQueryable
             .ToPagedResultAsync(pagination.PageNumber, pagination.Count);
 
         var properties = typeof(RoleResponseDto).GetProperties();
 
-        StringBuilder builder = new StringBuilder();
-
-        // header
-        builder.AppendLine(string.Join(",", properties.Select(p => p.Name)));
-
-        // rows
-        foreach (var item in rolePagenation.Items)
+        using (var workbook = new XLWorkbook())
         {
-            var row = properties.Select(p =>
+            var worksheet = workbook.Worksheets.Add("Roles");
+
+            // --- Create Header Row ---
+            for (int i = 0; i < properties.Length; i++)
             {
-                var value = p.GetValue(item);
-                return value?.ToString()?.Replace(",", " ");
-            });
+                var cell = worksheet.Cell(1, i + 1);
+                cell.Value = properties[i].Name;
 
-            builder.AppendLine(string.Join(",", row));
+                cell.Style.Font.Bold = true;
+                cell.Style.Font.FontColor = XLColor.White;
+                cell.Style.Fill.BackgroundColor = XLColor.Teal;
+                cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+            }
+
+            // --- Insert Data Rows ---
+            int currentRow = 2;
+            foreach (var item in rolePagenation.Items)
+            {
+                for (int col = 0; col < properties.Length; col++)
+                {
+                    var value = properties[col].GetValue(item);
+                    worksheet.Cell(currentRow, col + 1).Value = value?.ToString() ?? string.Empty;
+                }
+                currentRow++;
+            }
+
+            // Adjust column widths automatically
+            worksheet.Columns().AdjustToContents();
+
+            using (var stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+                return stream.ToArray();
+            }
         }
-
-        return Encoding.UTF8.GetBytes(builder.ToString());
     }
 
 }

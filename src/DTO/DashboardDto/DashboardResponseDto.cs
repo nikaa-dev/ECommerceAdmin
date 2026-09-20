@@ -27,6 +27,7 @@ public class TopProductResponseDto
 public class RecentOrderDto
 {
     public string Id { get; set; }
+    public string Code { get; set; }
     public string OrderStatus { get; set; }
     public string CustomerName { get; set; }
     public string ProductName { get; set; }

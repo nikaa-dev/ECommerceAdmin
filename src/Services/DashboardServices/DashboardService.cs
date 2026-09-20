@@ -98,6 +98,7 @@ namespace src.Services.DashboardServices
                 .Select(o => new RecentOrderDto
                 {
                     Id = o.Id.ToString(),
+                    Code = o.Code.ToString(),
                     OrderStatus = o.OrderStatus!.Name,
                     CustomerName = o.Customer!.Name,
                     ProductName = o.OrderDetails

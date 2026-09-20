@@ -41,14 +41,15 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
         
         return View(productResults);
     }
-
-    public async Task<IActionResult> Export(ProductRequestExportDto request) {
-        var bytes = await productService.ExportProductData(request);
-
-        // define filename
+    public async Task<IActionResult> Export([FromQuery] ProductRequestExportDto request)
+    {
+        var fileBytes = await productService.ExportProductData(request);
         var fileName = $"product_{DateTime.Now:yyyyMMddHHmmss}.csv";
-
-        return File(bytes,"text/csv", fileName);
+        return File(
+            fileBytes,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel MIME type
+            fileName
+        );
     }
 
     public async Task<IActionResult> Update(ProductRequestUpdateDto request)

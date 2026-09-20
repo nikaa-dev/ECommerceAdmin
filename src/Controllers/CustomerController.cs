@@ -81,13 +81,15 @@ public class CustomerController(ILogger<HomeController> logger,ICustomerService 
         return Json(new { success = true, message = "Customer deleted successfully" });
     }
 
-    public async Task<IActionResult> Export(CutomerRequestExportDto exportCustomer)
+    public async Task<IActionResult> Export([FromQuery] CutomerRequestExportDto exportCustomer)
     {
         var bytes = await customerService.ExportCustomerData(exportCustomer);
 
-        var fileName = $"customer_{DateTime.Now:yyyyMMddHHmmss}.csv";
+        // Update extension to .xlsx
+        var fileName = $"customer_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
 
-        return File(bytes, "text/csv", fileName);
+        // Standard Excel MIME type
+        return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
 
 }

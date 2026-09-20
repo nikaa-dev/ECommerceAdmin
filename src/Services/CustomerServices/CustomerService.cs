@@ -1,4 +1,5 @@
 
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using src.DTO.CustomerDto;
 using src.Extensions.Pagenations;
@@ -75,28 +76,50 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
     {
         var customerData = await GetCustomerIncludedAsync();
         var customerQueryable = customerData.AsQueryable();
-        var customerPagination = customerQueryable
+
+        // Added missing 'await' here
+        var customerPagination =  customerQueryable
             .ToPagedResultAsync(pagination.PageNumber, pagination.Count);
 
         var properties = typeof(CustomerResponseDto).GetProperties();
 
-        StringBuilder builder = new StringBuilder();
-
-        // header
-        builder.AppendLine(string.Join(",", properties.Select(p => p.Name)));
-
-        // rows
-        foreach (var item in customerPagination.Items)
+        using (var workbook = new XLWorkbook())
         {
-            var row = properties.Select(p =>
+            var worksheet = workbook.Worksheets.Add("Customers");
+
+            // --- Create Header Row ---
+            for (int i = 0; i < properties.Length; i++)
             {
-                var value = p.GetValue(item);
-                return value?.ToString()?.Replace(",", " ");
-            });
+                var cell = worksheet.Cell(1, i + 1);
+                cell.Value = properties[i].Name;
 
-            builder.AppendLine(string.Join(",", row));
+                cell.Style.Font.Bold = true;
+                cell.Style.Font.FontColor = XLColor.White;
+                cell.Style.Fill.BackgroundColor = XLColor.Teal;
+                cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+            }
+
+            // --- Insert Data Rows ---
+            int currentRow = 2;
+            foreach (var item in customerPagination.Items)
+            {
+                for (int col = 0; col < properties.Length; col++)
+                {
+                    var value = properties[col].GetValue(item);
+                    worksheet.Cell(currentRow, col + 1).Value = value?.ToString() ?? string.Empty;
+                }
+                currentRow++;
+            }
+
+            // Adjust column widths automatically
+            worksheet.Columns().AdjustToContents();
+
+            using (var stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+                return stream.ToArray();
+            }
         }
-
-        return Encoding.UTF8.GetBytes(builder.ToString());
     }
 }

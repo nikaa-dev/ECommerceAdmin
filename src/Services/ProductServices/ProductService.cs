@@ -1,11 +1,12 @@
+using ClosedXML.Excel;
+using Microsoft.AspNetCore.Hosting; // Required for IWebHostEnvironment
+using Microsoft.AspNetCore.Http;    // Required for IFormFile
 using src.DTO.ProductDto;
 using src.Extensions.Pagenations;
 using src.Models.Ecommerce;
 using src.Repositories.ProductCategoryRepositories;
 using src.Repositories.ProductRepositories;
 using System.Text;
-using Microsoft.AspNetCore.Hosting; // Required for IWebHostEnvironment
-using Microsoft.AspNetCore.Http;    // Required for IFormFile
 
 namespace src.Services.ProductServices;
 
@@ -46,37 +47,61 @@ public class ProductService(
 
     public async Task<byte[]> ExportProductData(ProductRequestExportDto request)
     {
-        // get data include
+        // 1. Get data include
         var productData = await GetProductListingAsync();
 
-        // convert to queryable 
+        // 2. Convert to queryable 
         var productQueryable = productData.AsQueryable();
 
-        // get data as pagination
-        var productPaginate = productQueryable.ToPagedResultAsync(request.PageNumber, request.Count);
+        // 3. Get data as pagination (Added missing 'await' here)
+        var productPaginate =  productQueryable.ToPagedResultAsync(request.PageNumber, request.Count);
 
-        // set properties
+        // 4. Set properties via reflection
         var properties = typeof(ProductResponseDto).GetProperties();
 
-        // combine string
-        StringBuilder builder = new StringBuilder();
-
-        // header
-        builder.AppendLine(string.Join(",", properties.Select(p => p.Name)));
-
-        // set value into header
-        foreach (var item in productPaginate.Items)
+        // 5. Create the Excel Workbook
+        using (var workbook = new XLWorkbook())
         {
-            var row = properties.Select(property =>
+            var worksheet = workbook.Worksheets.Add("Products");
+
+            // --- STEP A: Create and Style the Header Row ---
+            for (int i = 0; i < properties.Length; i++)
             {
-                var value = property.GetValue(item);
-                return value?.ToString()?.Replace(",", " ");
-            });
+                var cell = worksheet.Cell(1, i + 1);
+                cell.Value = properties[i].Name;
 
-            builder.AppendLine(string.Join(",", row));
+                // Apply Design styling to header
+                cell.Style.Font.Bold = true;
+                cell.Style.Font.FontColor = XLColor.White;
+                cell.Style.Fill.BackgroundColor = XLColor.Teal; // Adjust color to fit your brand
+                cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+            }
+
+            // --- STEP B: Insert the Paginated Data ---
+            int currentRow = 2; // Start on row 2, beneath the header
+            foreach (var item in productPaginate.Items)
+            {
+                for (int col = 0; col < properties.Length; col++)
+                {
+                    var value = properties[col].GetValue(item);
+                    // We no longer need to replace commas with spaces like in CSV
+                    worksheet.Cell(currentRow, col + 1).Value = value?.ToString() ?? string.Empty;
+                }
+                currentRow++;
+            }
+
+            // --- STEP C: Finalize Layout and Export ---
+            // Auto-fit all columns based on the data they contain
+            worksheet.Columns().AdjustToContents();
+
+            // Save to a memory stream and return as byte array
+            using (var stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+                return stream.ToArray();
+            }
         }
-
-        return Encoding.UTF8.GetBytes(builder.ToString());
     }
 
     // Helper method to save image to wwwroot/img/products
