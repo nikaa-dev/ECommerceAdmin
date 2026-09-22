@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using src.Auth;
+//using src.Auth;
 using src.Common.Configs;
 using src.DBConnection;
 using src.Models;
@@ -24,6 +24,7 @@ using src.Repositories.UserClaimRepositories;
 using src.Repositories.UserLoginHistoryRepositories;
 using src.Repositories.UserRepositories;
 using src.Repositories.UserTokenRepositories;
+using src.Security;
 using src.Services.AuthServices;
 using src.Services.CustomerServices;
 using src.Services.DashboardServices;
@@ -88,7 +89,12 @@ public static class ServiceConfiguration
         services.AddScoped<IDashboardService,DashboardService>();
         
         services.AddScoped<IJwtService, JwtService>();
-        
+
+        services.AddScoped<IPermissionService, PermissionService>();
+        services.AddScoped<IAuthorizationHandler, PermissionHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+        services.AddAuthorization();
+
         var jwtSettings = configuration.GetSection("JWT").Get<JwtConfig>();
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.Secret!));
 
@@ -96,6 +102,8 @@ public static class ServiceConfiguration
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
             })
             .AddJwtBearer(options => 
             {

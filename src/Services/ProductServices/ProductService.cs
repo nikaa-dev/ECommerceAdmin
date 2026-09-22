@@ -1,4 +1,5 @@
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Hosting; // Required for IWebHostEnvironment
 using Microsoft.AspNetCore.Http;    // Required for IFormFile
 using src.DTO.ProductDto;
@@ -75,7 +76,7 @@ public class ProductService(
                 cell.Style.Font.FontColor = XLColor.White;
                 cell.Style.Fill.BackgroundColor = XLColor.Teal; // Adjust color to fit your brand
                 cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
             }
 
             // --- STEP B: Insert the Paginated Data ---
@@ -87,6 +88,13 @@ public class ProductService(
                     var value = properties[col].GetValue(item);
                     // We no longer need to replace commas with spaces like in CSV
                     worksheet.Cell(currentRow, col + 1).Value = value?.ToString() ?? string.Empty;
+                    var cell = worksheet.Cell(currentRow, col + 1);
+
+                    cell.Value = value?.ToString() ?? string.Empty;
+
+                    // MAKE DATA BOLD HERE
+                    cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                 }
                 currentRow++;
             }

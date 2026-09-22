@@ -101,7 +101,8 @@
 					{
 						<tr>
 							<td class="p-3 fw-semibold d-flex">
-								<span class="m-2 text-primary fw-normal id">@order.Code</span>
+								<span class="m-2 text-primary fw-normal id" hidden>@order.Id</span>
+								<span class="m-2 text-primary fw-normal code">@order.Code</span>
 							</td>
 							<td class="pt-3 ps-4 fw-semibold">
 								<span class="name">@order.CustomerName</span><br>
@@ -280,7 +281,7 @@
 						e.preventDefault();
 
 						var row = $(this).closest("tr");
-						var orderId = row.find(".id").text().trim().replace("#", "");
+						var orderId = row.find(".code").text().trim().replace("#", "");
 
 						$.ajax({
 							url: '/Orders/OrderDetail',
@@ -375,7 +376,8 @@
 
 
 			var id = row.find(".id").text().trim();
-			viewId = "#" + id;
+			var code = row.find(".code").text().trim();
+			viewId = "#" + code;
 
 			var name = row.find(".name").text().trim();
 			var email = row.find(".email").text().trim();

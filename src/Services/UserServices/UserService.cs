@@ -5,7 +5,6 @@ using src.DTO.UserDto;
 using src.Enums;
 using src.Models;
 using src.Repositories.UserRepositories;
-using static src.Enums.Permissions;
 
 namespace src.Services.UserServices;
 

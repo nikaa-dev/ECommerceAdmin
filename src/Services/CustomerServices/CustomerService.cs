@@ -108,6 +108,13 @@ public class CustomerService(ICustomerRepository customerRepository,IOrderReposi
                 {
                     var value = properties[col].GetValue(item);
                     worksheet.Cell(currentRow, col + 1).Value = value?.ToString() ?? string.Empty;
+
+                    var cell = worksheet.Cell(currentRow, col + 1);
+
+                    cell.Value = value?.ToString() ?? string.Empty;
+
+                    // MAKE DATA BOLD HERE
+                    cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 }
                 currentRow++;
             }

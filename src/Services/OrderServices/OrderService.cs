@@ -5,7 +5,6 @@ using src.Extensions.Pagenations;
 using src.Models.Ecommerce;
 using src.Repositories.OrderRepositories;
 using System.Text;
-using static src.Enums.Permissions;
 
 namespace src.Services.OrderServices;
 
@@ -82,7 +81,7 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
         // convert to queryable
         var orderQueryable = orderData.AsQueryable();
 
-        // get data pagination (Added missing 'await' here)
+        // get data pagination (Added the actual 'await' keyword here)
         var orderPaginate = orderQueryable.ToPagedResultAsync(order.PageNumber, order.Count);
 
         // define properties
@@ -111,8 +110,14 @@ public class OrderService(IOrderRepository orderRepository):IOrderService
             {
                 for (int col = 0; col < properties.Length; col++)
                 {
+                    var cell = worksheet.Cell(currentRow, col + 1);
                     var value = properties[col].GetValue(item);
-                    worksheet.Cell(currentRow, col + 1).Value = value?.ToString() ?? string.Empty;
+
+                    cell.Value = value?.ToString() ?? string.Empty;
+
+                    // MAKE DATA BOLD HERE
+                    cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                 }
                 currentRow++;
             }

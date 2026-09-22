@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using src.DTO.UserDto;
 using src.Enums;
 using src.Extensions.Pagenations;
+using src.Security;
 using src.Services.RoleServices;
 using src.Services.UserServices;
 
@@ -15,7 +16,8 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
     private readonly ILogger<UserManagementController> _logger = logger;
     private readonly IRoleService _roleService = roleService;
 
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Policy = Permissions.User.Read)]
+
     public async Task<IActionResult> Index(string? filterByRole, string? filterByStatus, string? searchItem,int pageNumber=1)
     {
         var users = await userService.GetAllIncludeAsync();
@@ -47,6 +49,7 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         return View(userPagination);
     }
 
+    [Authorize(Policy = Permissions.User.Create)]
     [HttpPost]
     public async Task<IActionResult> Create(UserRequestDto userRequest)
     {
@@ -60,6 +63,8 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         }
         
     }
+
+    [Authorize(Policy = Permissions.User.Delete)]
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
@@ -76,7 +81,7 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
 
     }
 
-
+    [Authorize(Policy = Permissions.User.Update)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Update(UserRequestUpdateDto userRequest)

@@ -6,12 +6,15 @@ using src.Services.OrderServices;
 using src.Services.OrderStatusServices;
 using jsreport.AspNetCore;
 using jsreport.Types;
+using src.Security;
+//using src.Enums;
 
 namespace src.Controllers;
 public class OrdersController(ILogger<HomeController> logger,IOrderService orderService,IOrderStatusService orderStatusService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
-    [Authorize]
+
+    [Authorize(Policy = Permissions.Order.Read)]
     public async Task<IActionResult> Index(string? filterByDate, string? searchItem,int pageNumber = 1, int pageSize = 8)
     {
         var orders = await orderService.GetAllIncludedAsync();
@@ -63,6 +66,8 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         return View(pagination);
     }
 
+    [Authorize(Policy = Permissions.Order.Read)]
+
     public async Task<IActionResult> OrderDetail(string orderId)
     {
        
@@ -83,6 +88,7 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
             data = products
         });
     }
+    [Authorize(Policy = Permissions.Order.Export)]
 
     public async Task<IActionResult> Export([FromQuery] OrderRequestExportDto order)
     {
@@ -94,6 +100,8 @@ public class OrdersController(ILogger<HomeController> logger,IOrderService order
         // Change to standard Excel MIME type
         return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
+
+    [Authorize(Policy = Permissions.Order.Print)]
 
     [MiddlewareFilter(typeof(JsReportPipeline))]
     public async Task<IActionResult> PrintInvoice(string id)

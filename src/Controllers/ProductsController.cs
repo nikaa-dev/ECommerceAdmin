@@ -1,20 +1,20 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.DTO.ProductDto;
 using src.Enums;
 using src.Extensions.Pagenations;
-using src.Models;
+using src.Security;
 using src.Services.ProductCategoryServices;
 using src.Services.ProductServices;
 
 namespace src.Controllers;
-[Authorize(Roles = "Admin,Manager,Staff,Support")]
+
 public class ProductsController(ILogger<HomeController> logger,IProductService productService,IProductCategoryService productCategoryService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
 
-    [Authorize]
+    [Authorize(Policy = Permissions.Product.Read)]
+
     public async Task<IActionResult> Index(string? filterByCategory, string? filterByStatus, string? searchItem,int page=1)
     {
         var products = await productService.GetProductListingAsync();
@@ -41,16 +41,19 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
         
         return View(productResults);
     }
+
+    [Authorize(Policy = Permissions.Product.Export)]
     public async Task<IActionResult> Export([FromQuery] ProductRequestExportDto request)
     {
         var fileBytes = await productService.ExportProductData(request);
-        var fileName = $"product_{DateTime.Now:yyyyMMddHHmmss}.csv";
+        var fileName = $"product_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
         return File(
             fileBytes,
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel MIME type
             fileName
         );
     }
+    [Authorize(Policy = Permissions.Product.Update)]
 
     public async Task<IActionResult> Update(ProductRequestUpdateDto request)
     {
@@ -63,6 +66,8 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
             : Json(new { success = true, message = "Product Updated successfully" });
     }
 
+    [Authorize(Policy = Permissions.Product.Create)]
+
     public async Task<IActionResult> Create(ProductRequestCreateDto request)
     {
         var product = await productService.CreateProductData(request);
@@ -71,6 +76,8 @@ public class ProductsController(ILogger<HomeController> logger,IProductService p
         return product == false ? BadRequest(new { success = false, message = "Create failed" })
             : Json(new { success = true, message = "Product Created successfully" });
     }
+
+    [Authorize(Policy = Permissions.Product.Delete)]
 
     public async Task<IActionResult> Delete(Guid Id)
     {

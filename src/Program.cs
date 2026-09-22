@@ -42,16 +42,34 @@ app.UseStatusCodePages(async context =>
 {
     var response = context.HttpContext.Response;
 
-    if (response.StatusCode == 403 || response.StatusCode == 401)
+    if (response.StatusCode == 401 || response.StatusCode == 403)
     {
-        response.Redirect("/Account/AccessDenied");
+        // 1. Ensure we return JSON, not HTML
+        response.ContentType = "application/json";
+
+        // 2. Create a standard error response matching your ApiResponse format
+        var errorMessage = response.StatusCode == 401
+            ? "Unauthorized: You must log in to access this."
+            : "Forbidden: You do not have permission to perform this action.";
+
+        // You can format this to match your exact ApiResponse<T> class
+        var jsonResponse = System.Text.Json.JsonSerializer.Serialize(new
+        {
+            success = false,
+            message = errorMessage
+        });
+
+        await response.WriteAsync(jsonResponse);
     }
-    await Task.CompletedTask;
 });
 
 //  Add authentication before authorization
+
+// Authentication MUST be before Authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+// MapControllers MUST be after Authorization
 
 // app.UseMiddleware<ActivityLoggingMiddleware>();
 

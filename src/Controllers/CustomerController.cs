@@ -13,7 +13,6 @@ namespace src.Controllers;
 public class CustomerController(ILogger<HomeController> logger,ICustomerService customerService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
-    [Authorize]
     public async Task<IActionResult> Index(string? filterByStatus,string? shortBy,string? searchItem,int pageNumber = 1)
     {
         var customers = await customerService.GetCustomerIncludedAsync();

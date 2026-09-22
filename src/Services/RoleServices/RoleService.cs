@@ -1,19 +1,12 @@
 using ClosedXML.Excel;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using src.DBConnection;
-using src.DTO.CustomerDto;
 using src.DTO.RoleDto;
-using src.DTO.UserDto;
-using src.Enums;
 using src.Extensions.Pagenations;
 using src.Models;
-using src.Services.RoleServices;
-using System.Security;
+using src.Security;
 using System.Security.Claims;
-using System.Text;
-using static src.Enums.Permissions;
 
 namespace src.Services.RoleServices;
 
@@ -424,6 +417,12 @@ public class RoleService(
                 {
                     var value = properties[col].GetValue(item);
                     worksheet.Cell(currentRow, col + 1).Value = value?.ToString() ?? string.Empty;
+                    var cell = worksheet.Cell(currentRow, col + 1);
+
+                    cell.Value = value?.ToString() ?? string.Empty;
+
+                    // MAKE DATA BOLD HERE
+                    cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 }
                 currentRow++;
             }

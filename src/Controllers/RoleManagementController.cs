@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using src.DTO.CustomerDto;
 using src.DTO.RoleDto;
-using src.DTO.UserDto;
 using src.Enums;
 using src.Extensions.Pagenations;
-using src.Services.CustomerServices;
+using src.Security;
 using src.Services.RoleServices;
 using src.Services.UserServices;
 
@@ -17,7 +15,7 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
     private readonly ILogger<UserManagementController> _logger = logger;
     private readonly IRoleService _roleService = roleService;
 
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Policy = Permissions.Role.Read)]
     public async Task<IActionResult> Index(string? searchItem, int pageNumber = 1)
     {
         var roles = await roleService.GetAllRoleIncludeAsync();
@@ -49,6 +47,7 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
         return View(rolePagination);
     }
 
+    [Authorize(Policy = Permissions.Role.Create)]
     [HttpPost]
     public async Task<IActionResult> Create(RoleRequestCreateDto roleRequestCreate)
     {
@@ -64,7 +63,7 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
         }
 
     }
-
+    [Authorize(Policy = Permissions.Role.Delete)]
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
@@ -80,6 +79,8 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
         }
 
     }
+
+    [Authorize(Policy = Permissions.Role.Read)]
     [HttpPost]
     public async Task<IActionResult> GetById(string roleId)
     {
@@ -97,13 +98,14 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
 
     }
 
+    [Authorize(Policy = Permissions.Role.Update)]
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Update(RoleRequestUpdateDto roleRequest)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        //if (!ModelState.IsValid)
+        //    return BadRequest(ModelState);
 
         var editRole = await roleService.UpdateRole(roleRequest);
 
@@ -114,12 +116,15 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
 
         return Json(new { success = true, message = "User updated successfully" });
     }
+
+    [Authorize(Policy = Permissions.Role.Export)]
+
     public async Task<IActionResult> Export([FromQuery] RoleManagementRequestExportDto export)
     {
         var bytes = await roleService.ExportRoleData(export);
 
         // Update extension to .xlsx
-        var fileName = $"Role_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+        var fileName = $"role_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
 
         // Standard Excel MIME type
         return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
