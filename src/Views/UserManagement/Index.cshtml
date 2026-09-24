@@ -59,6 +59,15 @@
 
             @* add user *@
 
+        <div class="d-flex align-items-center gap-2">
+            <!-- Export Form -->
+            <form id="export-user" method="post" class="m-0">
+                <button type="submit" class="btn btn-light border d-flex align-items-center gap-2 rounded-3 shadow-sm">
+                    <i class="bi bi-download"></i>
+                    <span class="fw-normal">Export</span>
+                </button>
+            </form>
+
             <div>
                 <button type="button"
                         class="btn btn-primary"
@@ -67,6 +76,9 @@
                     + Add User
                 </button>
             </div>
+        </div>
+
+           
 
             <!-- add user Modal -->
         <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -298,19 +310,29 @@
                                             All Access
                                         </span>
                                     }
+                                    else if (modules == null || !modules.Any())
+                                    {
+                                        <span class="badge text-dark fw-normal px-2 py-1 rounded-10 border small data-permission">
+                                            No Access
+                                        </span>
+                                    }
                                     else
                                     {
-                                        @foreach (var module in modules.Take(2))
+                                        // Note: Console.WriteLine logs to your server terminal, not the browser screen.
+                                        // If you want to show the role on the webpage, wrap it in HTML like: <span>@user.Role</span>
+                                        Console.WriteLine(user.Role);
+
+                                        foreach (var module in modules.Take(2))
                                         {
                                             <span class="badge text-dark fw-normal px-2 py-1 rounded-10 border small data-permission">
                                                 @module
                                             </span>
                                         }
 
-                                        @if (modules.Count > 2)
+                                        if (modules.Count() > 2)
                                         {
                                             <span class="badge text-dark fw-normal px-2 py-1 rounded-10 border small data-permission">
-                                                +@(modules.Count - 2)
+                                                +@(modules.Count() - 2)
                                             </span>
                                         }
                                     }
@@ -552,6 +574,8 @@
                                     end = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
                                 } 
                              }
+                            <p hidden id="data-page-number">@Model.PageNumber</p>
+                            <p hidden id="data-total-count">@Model.TotalCount</p>
                             Showing @start to @end of @Model.TotalCount users
                         </td>
                         <td class="p-3 border-0 text-end">
@@ -735,6 +759,17 @@
                     }
                 }
             });
+        });
+
+         $('#export-user').on('submit', function (e) {
+            e.preventDefault();
+
+            var pageNumber = $("#data-page-number").text().trim();
+            var count = $("#data-total-count").text().trim();
+
+            var url = `/UserManagement/Export?pageNumber=${pageNumber}&count=${count}`;
+
+            window.open(url, '_blank'); // better for download behavior
         });
 
     });

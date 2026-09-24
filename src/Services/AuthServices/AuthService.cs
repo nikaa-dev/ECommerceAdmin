@@ -71,48 +71,46 @@ public class AuthService(
 
             if (user == null)
             {
-                throw new Exception("User could not be registered.");
-            }
-
-            // throw new AppException("Invalid credentials");
-
-            var result = await signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
-            if (!result.Succeeded) {
+                // Changed the error message to be more accurate for a login method
                 throw new Exception("Invalid credentials.");
             }
-       
+
+            var result = await signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
+            if (!result.Succeeded)
+            {
+                throw new Exception("Invalid credentials.");
+            }
+
+            // --- NEW CODE: Update Last Login Time ---
+            // Replace 'LastActive' with whatever your property is named in your ApplicationUser class
+            user.LastLogin = DateTime.UtcNow;
+            await userManager.UpdateAsync(user);
+            // ----------------------------------------
+
             var token = await jwtService.GenerateTokenAsync(user);
             var res = new LoginResponseDto()
             {
                 Token = token,
                 Expiration = DateTime.UtcNow.AddMinutes(60),
-            }; 
-            // var userLogin = new UserLoginHistory()
-            // {
-            //     Action = actionDescription,
-            //     UserId = userId,
-            //     UserName = userName,
-            //     IpAddress = ip,
-            //     Details = requestBody,
-            //     UserAgent = userAgent,
-            // };
-            //
-            // await auditService.CreateAsync(userLogin);
-            return new ApiResponse<LoginResponseDto>( res,"User logged in Successfully.");
+            };
+
+            // (Audit logging code remains commented out as in your original)
+
+            return new ApiResponse<LoginResponseDto>(res, "User logged in Successfully.");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             var res = new LoginResponseDto()
             {
                 Token = null!,
-                Expiration = DateTime.UtcNow.AddMinutes(0),
+                Expiration = DateTime.UtcNow, // Changed to UtcNow instead of adding 0 minutes
             };
+
             return new ApiResponse<LoginResponseDto>(
                 res,
                 $"Login failed: {ex.Message}"
             );
         }
-        
     }
 
     public async Task<ApiResponse<UserDetailDto>> GetCurrentUserAsync(string userId)

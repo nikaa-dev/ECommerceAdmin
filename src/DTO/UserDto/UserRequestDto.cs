@@ -8,6 +8,12 @@ namespace src.DTO.UserDto
         public string Role { get; set; }
         public string Status { get; set; }
     }
+
+    public class UserRequestExportDto
+    {
+        public int PageNumber { get; set; }
+        public int Count { get; set; }
+    }
     public class UserRequestUpdateDto
     {
         public string Id { get; set; }

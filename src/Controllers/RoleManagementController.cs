@@ -118,7 +118,6 @@ public class RoleManagementController(IUserService userService, ILogger<UserMana
     }
 
     [Authorize(Policy = Permissions.Role.Export)]
-
     public async Task<IActionResult> Export([FromQuery] RoleManagementRequestExportDto export)
     {
         var bytes = await roleService.ExportRoleData(export);

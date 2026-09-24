@@ -22,6 +22,7 @@ namespace src.Services.UserServices
         Task<(bool, string)> UpdateNotificationSettings(string userId, NotificationSettingsDto request);
 
         Task<(bool, string)> RemoveProfilePhoto(string userId);
+        Task<byte[]> ExportUserData(UserRequestExportDto pagination);
 
     }
 }

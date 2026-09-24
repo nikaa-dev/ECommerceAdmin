@@ -15,6 +15,7 @@ public static class Permissions
         public const string Create = "User::Create";
         public const string Update = "User::Update";
         public const string Delete = "User::Delete";
+        public const string Export = "User::Export";
     }
 
     public static class Role

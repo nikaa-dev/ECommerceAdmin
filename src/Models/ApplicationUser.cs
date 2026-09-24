@@ -15,6 +15,7 @@ public class ApplicationUser : IdentityUser
     public string FullName { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime LastLogin { get; set; }
 
     public UserStatus Status { get; set; } = UserStatus.Active;
 

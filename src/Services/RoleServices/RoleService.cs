@@ -385,12 +385,13 @@ public class RoleService(
         var roleData = await GetAllRoleIncludeAsync();
         var roleQueryable = roleData.AsQueryable();
 
-        // Added missing 'await' here
         var rolePagenation = roleQueryable
             .ToPagedResultAsync(pagination.PageNumber, pagination.Count);
 
-        var properties = typeof(RoleResponseDto).GetProperties();
+        var itemsToExport = rolePagenation.Items;
 
+        var properties = itemsToExport.FirstOrDefault()?.GetType().GetProperties()
+                         ?? typeof(RoleResponseDto).GetProperties();
 
         using (var workbook = new XLWorkbook())
         {
@@ -411,17 +412,39 @@ public class RoleService(
 
             // --- Insert Data Rows ---
             int currentRow = 2;
-            foreach (var item in rolePagenation.Items)
+            foreach (var item in itemsToExport)
             {
                 for (int col = 0; col < properties.Length; col++)
                 {
                     var value = properties[col].GetValue(item);
-                    worksheet.Cell(currentRow, col + 1).Value = value?.ToString() ?? string.Empty;
                     var cell = worksheet.Cell(currentRow, col + 1);
 
-                    cell.Value = value?.ToString() ?? string.Empty;
+                    string displayValue = string.Empty;
 
-                    // MAKE DATA BOLD HERE
+                    if (value != null)
+                    {
+                        // If the property is a List/Collection (like Permissions), join them with commas.
+                        // We also ensure it's not a regular string (since string is technically a collection of characters).
+                        if (value is System.Collections.IEnumerable enumerableValue && value is not string)
+                        {
+                            var stringList = new List<string>();
+                            foreach (var enumItem in enumerableValue)
+                            {
+                                if (enumItem != null)
+                                {
+                                    stringList.Add(enumItem.ToString());
+                                }
+                            }
+                            displayValue = string.Join(", ", stringList);
+                        }
+                        else
+                        {
+                            // Normal properties (Id, Name, Date, etc.)
+                            displayValue = value.ToString();
+                        }
+                    }
+
+                    cell.Value = displayValue;
                     cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 }
                 currentRow++;

@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using src.DTO.RoleDto;
 using src.DTO.UserDto;
 using src.Enums;
 using src.Extensions.Pagenations;
@@ -97,5 +98,17 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         }
 
         return Json(new { success = true, message = "User updated successfully" });
+    }
+    [Authorize(Policy = Permissions.User.Export)]
+   
+    public async Task<IActionResult> Export([FromQuery] UserRequestExportDto export)
+    {
+        var bytes = await userService.ExportUserData(export);
+
+        // Update extension to .xlsx
+        var fileName = $"user_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+
+        // Standard Excel MIME type
+        return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
 }

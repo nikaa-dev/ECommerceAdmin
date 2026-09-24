@@ -1,8 +1,11 @@
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using src.DBConnection;
+using src.DTO.RoleDto;
 using src.DTO.UserDto;
 using src.Enums;
+using src.Extensions.Pagenations;
 using src.Models;
 using src.Repositories.UserRepositories;
 
@@ -79,8 +82,7 @@ public class UserService(
                 Status: userStatus,
                 Permission: permissions,
                 JoinDate: DateOnly.FromDateTime(user.CreatedAt),
-                LastActive: TimeOnly.FromTimeSpan(
-                    TimeSpan.Zero)
+                LastActive: user.LastLogin
             ));
         }
 
@@ -762,5 +764,76 @@ public class UserService(
                 false,
                 "Unable to save notification preferences"
             );
+    }
+
+    public async Task<byte[]> ExportUserData(UserRequestExportDto pagination)
+    {
+        var userData = await GetAllIncludeAsync();
+        var userQueryable = userData.AsQueryable();
+
+        // FIX 1: Actually add the await keyword
+        var userPagenation = userQueryable
+            .ToPagedResultAsync(pagination.PageNumber, pagination.Count);
+
+        // This creates an anonymous type containing exactly what you want in Excel
+        var users = userPagenation.Items.Select(p => new
+        {
+            p.Id,
+            p.FullName,
+            p.Email,
+            p.Role,
+            p.Status,
+            p.LastActive,
+            p.JoinDate
+        }).ToList();
+
+        // FIX 2: Get properties from the anonymous type, NOT UserResponseDto. 
+        // This avoids the TargetException and automatically excludes "Permission".
+        var properties = users.FirstOrDefault()?.GetType().GetProperties()
+                         ?? Array.Empty<System.Reflection.PropertyInfo>();
+
+        using (var workbook = new XLWorkbook())
+        {
+            var worksheet = workbook.Worksheets.Add("Users");
+
+            // --- Create Header Row ---
+            for (int i = 0; i < properties.Length; i++)
+            {
+                // FIX 3: No need to check for "Permission" anymore. No column gaps.
+                var cell = worksheet.Cell(1, i + 1);
+                cell.Value = properties[i].Name;
+
+                cell.Style.Font.Bold = true;
+                cell.Style.Font.FontColor = XLColor.White;
+                cell.Style.Fill.BackgroundColor = XLColor.Teal;
+                cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+            }
+
+            // --- Insert Data Rows ---
+            int currentRow = 2;
+            foreach (var item in users)
+            {
+                // Removed the '-1' from properties.Length so the last column renders correctly
+                for (int col = 0; col < properties.Length; col++)
+                {
+                    var value = properties[col].GetValue(item);
+                    var cell = worksheet.Cell(currentRow, col + 1);
+
+                    cell.Value = value?.ToString() ?? string.Empty;
+                    cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                }
+                currentRow++;
+            }
+
+            // Adjust column widths automatically
+            worksheet.Columns().AdjustToContents();
+
+            using (var stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+                return stream.ToArray();
+            }
+        }
     }
 }

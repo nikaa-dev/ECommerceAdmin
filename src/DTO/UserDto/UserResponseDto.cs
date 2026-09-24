@@ -9,6 +9,6 @@ public record UserResponseDto(
     string Role,
     string Status,
     List<string> Permission,
-    TimeOnly LastActive,
+    DateTime LastActive,
     DateOnly JoinDate
 );
