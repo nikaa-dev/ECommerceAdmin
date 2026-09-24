@@ -836,4 +836,28 @@ public class UserService(
             }
         }
     }
+
+    public async Task<(bool status, string message)> ResetPasswordAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return (false, "User not found.");
+        }
+
+        // 1. Generate the reset token
+        var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        // 2. Set the new default password (ensure it meets your Identity password requirements)
+        var defaultPassword = "DefaultPassword@123";
+        var result = await _userManager.ResetPasswordAsync(user, resetToken, defaultPassword);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return (false, $"Failed to reset password: {errors}");
+        }
+
+        return (true, "Password has been successfully reset to the default.");
+    }
 }

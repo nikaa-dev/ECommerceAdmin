@@ -111,4 +111,24 @@ public class UserManagementController(IUserService userService, ILogger<UserMana
         // Standard Excel MIME type
         return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
+
+    [Authorize(Policy = Permissions.User.Update)] // Adjust permission policy if needed
+    [HttpPost]
+    [Route("/UserManagement/ResetPassword/{id}")] // Forces the route to match your JavaScript
+    public async Task<IActionResult> ResetPassword(string id)
+    {
+        try
+        {
+            // You will need to implement ResetPasswordAsync in your IUserService
+            var (status, messageStatus) = await userService.ResetPasswordAsync(id);
+
+            if (!status) return BadRequest(new { success = status, message = messageStatus });
+
+            return Json(new { success = status, message = messageStatus });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = ex.Message });
+        }
+    }
 }

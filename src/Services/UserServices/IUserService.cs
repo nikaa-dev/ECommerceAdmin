@@ -7,6 +7,7 @@ namespace src.Services.UserServices
 {
     public interface IUserService
     {
+        Task<(bool status, string message)> ResetPasswordAsync(string userId);
         Task<List<UserResponseDto>> GetAllIncludeAsync();
         Task AddRolePermissionUserAsync(UserRequestDto userRolePermissionRequestDto);
 

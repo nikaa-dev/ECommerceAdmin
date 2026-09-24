@@ -350,21 +350,30 @@
                                         <i class="bi bi-three-dots-vertical p-2 rounded-10"></i>
                                     </a>
 
-                                    <div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-header small fw-bold" href="#">Action</a>
                                         <div class="dropdown-divider"></div>
+
                                         <button class="dropdown-item small rounded-10 action-button" data-toggle="modal" data-target="#viewDetail">
                                             <i class="bi bi-eye"></i>
                                             <span class="ms-2">View Details</span>
                                         </button>
+
                                         <button class="dropdown-item small rounded-10 action-button" data-toggle="modal" data-target="#edit">
                                             <i class="bi bi-pencil-square"></i>
-                                            <span class="ms-2"> Edit User</span>
+                                            <span class="ms-2">Edit User</span>
+                                        </button>
+
+                                        <!-- NEW: Reset Password Button -->
+                                        <button class="dropdown-item small rounded-10 action-button" data-toggle="modal" onclick="resetPassword('@user.Id')">
+                                            <i class="bi bi-key"></i>
+                                            <span class="ms-2">Reset Password</span>
                                         </button>
 
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item small rounded-10 action-button" data-toggle="modal" data-target="#delete" href="#">
-                                            <i class="bi bi-trash3"></i>
+
+                                        <button class="dropdown-item small rounded-10 action-button" data-toggle="modal" data-target="#delete">
+                                            <i class="bi bi-trash3 text-danger"></i>
                                             <span class="text-danger ms-2">Delete User</span>
                                         </button>
                                     </div>
@@ -773,4 +782,34 @@
         });
 
     });
+
+        async function resetPassword(userId) {
+        // 1. Ask for confirmation before hitting the API
+        if (!confirm("Are you sure you want to reset the password for this user?")) {
+            return;
+        }
+
+        try {
+            // 2. Call your API (Update the URL to match your actual C# endpoint)
+            const response = await fetch(`/UserManagement/ResetPassword/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // If you are using JWT auth, add your token here:
+                    // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            if (response.ok) {
+                // Optional: You might want to show a toast notification here instead of an alert
+                alert("Password reset successfully.");
+            } else {
+                const errorText = await response.text();
+                alert(`Failed to reset password: ${errorText}`);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while calling the API.");
+        }
+    }
 </script>
