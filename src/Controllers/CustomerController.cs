@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using src.DTO.CustomerDto;
 using src.Extensions.Pagenations;
 using src.Models;
+using src.Security;
 using src.Services.CustomerServices;
 using src.Services.UserServices;
 using System.Diagnostics;
@@ -13,6 +14,8 @@ namespace src.Controllers;
 public class CustomerController(ILogger<HomeController> logger,ICustomerService customerService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
+    [Authorize(Policy = Permissions.Customer.Read)]
+
     public async Task<IActionResult> Index(string? filterByStatus,string? shortBy,string? searchItem,int pageNumber = 1)
     {
         var customers = await customerService.GetCustomerIncludedAsync();
@@ -48,6 +51,8 @@ public class CustomerController(ILogger<HomeController> logger,ICustomerService 
         return View(paginations);
     }
 
+    [Authorize(Policy = Permissions.Customer.Update)]
+
     [HttpPost]
     public async Task<IActionResult> Update(CustomerRequestUpdateDto customerRequestUpdateDto) 
     {
@@ -63,6 +68,7 @@ public class CustomerController(ILogger<HomeController> logger,ICustomerService 
 
         return Json(new { success = true, message = "Customer updated successfully" });
     }
+    [Authorize(Policy = Permissions.Customer.Delete)]
 
     [HttpPost]
     public async Task<IActionResult> Delete(string Id)
@@ -79,7 +85,7 @@ public class CustomerController(ILogger<HomeController> logger,ICustomerService 
 
         return Json(new { success = true, message = "Customer deleted successfully" });
     }
-
+    [Authorize(Policy = Permissions.Customer.Export)]
     public async Task<IActionResult> Export([FromQuery] CutomerRequestExportDto exportCustomer)
     {
         var bytes = await customerService.ExportCustomerData(exportCustomer);

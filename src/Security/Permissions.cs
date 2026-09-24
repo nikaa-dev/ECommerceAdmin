@@ -7,6 +7,7 @@ public static class Permissions
         public const string Read = "Customer::Read";
         public const string Update = "Customer::Update";
         public const string Delete = "Customer::Delete";
+        public const string Export = "Customer::Export";
     }
 
     public static class User

@@ -217,8 +217,7 @@ public class RoleService(
         return (true, response);
     }
 
-    public async Task<(bool status, string messageStatus)> UpdateRole(
-     RoleRequestUpdateDto role)
+    public async Task<(bool status, string messageStatus)> UpdateRole(RoleRequestUpdateDto role)
     {
         // Find role by Id
         var existRole = await roleManager.FindByIdAsync(role.Id);
@@ -228,90 +227,70 @@ public class RoleService(
             return (false, "Role not found.");
         }
 
-
         // Prevent updating system Admin role
-        if (existRole.Name?.Equals(
-                "Admin",
-                StringComparison.OrdinalIgnoreCase) == true)
+        if (existRole.Name?.Equals("Admin", StringComparison.OrdinalIgnoreCase) == true)
         {
             return (false, "Cannot update Admin role.");
         }
-
 
         // -----------------------------------------
         // Update basic role information
         // -----------------------------------------
 
         existRole.Name = role.RoleName;
-        existRole.NormalizedName = role.RoleName.ToUpperInvariant();
         existRole.Description = role.Description;
-
+        // existRole.NormalizedName = role.RoleName.ToUpperInvariant(); // Removed: UpdateAsync handles this automatically
 
         var updateResult = await roleManager.UpdateAsync(existRole);
 
         if (!updateResult.Succeeded)
         {
-            var errors = string.Join(
-                ", ",
-                updateResult.Errors.Select(e => e.Description)
-            );
-
+            var errors = string.Join(", ", updateResult.Errors.Select(e => e.Description));
             return (false, errors);
         }
-
 
         // -----------------------------------------
         // Get existing permission claims
         // -----------------------------------------
 
-        var existingClaims =
-            await roleManager.GetClaimsAsync(existRole);
+        var existingClaims = await roleManager.GetClaimsAsync(existRole);
 
         var existingPermissions = existingClaims
             .Where(c => c.Type == "Permission")
             .Select(c => c.Value)
             .ToList();
 
-
         // -----------------------------------------
         // Get new permissions from frontend
         // -----------------------------------------
         var validPermissions = GetSystemPermissionsList();
-        var newPermissions = role.Permission?
-            .Select(ConvertToPermissionKey)
-            .Where(permission => validPermissions.Contains(permission.ToLower()))
-            .Distinct()
-            .ToList()
-            ?? new List<string>();
 
+        // APPLIED FIX: Safely handles null lists and null string values inside the list
+        // APPLIED FIX: Uses StringComparison.OrdinalIgnoreCase so "role::read" matches "Role::Read"
+        var newPermissions = (role.Permission ?? Enumerable.Empty<string>())
+            .Select(ConvertToPermissionKey)
+            .Where(permission => !string.IsNullOrEmpty(permission) &&
+                   validPermissions.Any(v => v.Equals(permission, StringComparison.OrdinalIgnoreCase)))
+            .Distinct()
+            .ToList();
 
         // -----------------------------------------
         // Remove unchecked permissions
         // -----------------------------------------
 
-        foreach (var claim in existingClaims
-            .Where(c => c.Type == "Permission"))
+        foreach (var claim in existingClaims.Where(c => c.Type == "Permission"))
         {
             if (!newPermissions.Contains(claim.Value))
             {
-                var removeResult =
-                    await roleManager.RemoveClaimAsync(
-                        existRole,
-                        claim
-                    );
+                var removeResult = await roleManager.RemoveClaimAsync(existRole, claim);
 
                 if (!removeResult.Succeeded)
                 {
-                    var errors = string.Join(
-                        ", ",
-                        removeResult.Errors.Select(e => e.Description)
-                    );
-
+                    var errors = string.Join(", ", removeResult.Errors.Select(e => e.Description));
                     return (false, errors);
                 }
             }
         }
-
 
         // -----------------------------------------
         // Add newly selected permissions
@@ -321,28 +300,18 @@ public class RoleService(
         {
             if (!existingPermissions.Contains(permission))
             {
-                var addResult =
-                    await roleManager.AddClaimAsync(
-                        existRole,
-                        new Claim("Permission", permission)
-                    );
+                var addResult = await roleManager.AddClaimAsync(existRole, new Claim("Permission", permission));
 
                 if (!addResult.Succeeded)
                 {
-                    var errors = string.Join(
-                        ", ",
-                        addResult.Errors.Select(e => e.Description)
-                    );
-
+                    var errors = string.Join(", ", addResult.Errors.Select(e => e.Description));
                     return (false, errors);
                 }
             }
         }
 
-
         return (true, "Role updated successfully.");
     }
-
     private string ConvertToPermissionKey(string displayPermission)
     {
         var parts = displayPermission.Split(" ");
