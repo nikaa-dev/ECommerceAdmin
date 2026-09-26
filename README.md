@@ -1,4 +1,4 @@
-
+```
 # E-Commerce Admin Management Portal
 
 A robust, full-stack E-Commerce Administration Dashboard built with ASP.NET Core 8 MVC and PostgreSQL. This project features a completely custom Role-Based Access Control (RBAC) system using ASP.NET Core Identity, secure JWT cookie-based authentication, and a responsive modern UI.
@@ -28,7 +28,7 @@ Before proceeding, ensure you have the required tools installed on your system.
   ```bash
   dotnet --version
 
-```
+
 
 * Ensure you have **PostgreSQL** installed and running on your local machine.
 
@@ -41,7 +41,7 @@ Open `appsettings.json` (or `appsettings.Development.json`) in the root of the p
   "DefaultConnection": "Host=localhost;Database=ECommerceAdminDb;Username=YOUR_USERNAME;Password=YOUR_PASSWORD"
 }
 
-```
+
 
 ### 3. Restore Packages and Run the Project
 
@@ -51,7 +51,7 @@ Open your terminal in the project directory, restore the required NuGet packages
 dotnet restore
 dotnet run
 
-```
+
 
 * **Automatic Setup:** Running the project will automatically create the database, generate the tables, and seed the default Admin user, Explorer user, and role permissions.
 
@@ -59,7 +59,7 @@ dotnet run
 
 * **Manual Database Creation:** If the application fails to automatically create the database upon running, you can manually execute the provided `CreateDb.sql` (EF Core creation script) directly in your PostgreSQL database tool (like pgAdmin or DBeaver).
 * **Mock Data Initialization:** If you want to populate your dashboard with sample data for testing (categories, products, orders, and dummy customers), execute the provided `InsertMockdata.sql` in your database after the initial setup is complete.
-* these script can find in this path `\src\DBConnection\`
+* **Note:** These scripts can be found in the following path: `/src/DBConnection/`
 
 ## 🔐 Default Credentials
 
@@ -70,7 +70,7 @@ Upon successful database creation and seeding, use the following credentials to 
 * **Email:** `admin@system.com`
 * **Password:** `SuperSecret@123!`
 
-**Explorer / Staff : when create new user**
+**Explorer / Staff (Default Test User):**
 
 * **Email:** `explore@system.com`
 * **Password:** `SuperSecret@123!`
