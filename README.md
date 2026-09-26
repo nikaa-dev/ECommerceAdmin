@@ -8,32 +8,71 @@ A robust, full-stack E-Commerce Administration Dashboard built with ASP.NET Core
 * **Database:** PostgreSQL (via Npgsql)
 * **ORM:** Entity Framework Core (Code-First)
 * **Authentication:** ASP.NET Core Identity & JWT (JSON Web Tokens) via Cookies
-* **Frontend:** HTML5, CSS3, Bootstrap, Chart.js (Dashboard Analytics)
+* **Frontend:** HTML5, CSS3, Bootstrap, Chart.js
 
 ## ✨ Key Features
 
-* **Custom Authentication & Authorization:** 
-  * Extended `ApplicationUser` and `ApplicationRole` models.
-  * Granular Permission-based authorization (Read, Write, Delete).
-  * JWT tokens securely stored and validated via HTTP-only cookies.
-  * Custom Access Denied and Unauthorized redirection handling.
-* **Automated Database Management:**
-  * EF Core Code-First architecture with customized Identity table mappings.
-  * Automated migration execution on application startup.
-  * Automated data seeding for Admin users, Explorer users, and base E-Commerce data.
-* **E-Commerce Data Structure:**
-  * Fully relational schema mapping Customers, Addresses, Categories, Products, Orders, Order Details, and Payments.
-* **Modern Dashboard UI:**
-  * Professional, responsive UI tailored for data management.
-  * Real-time analytical layout using Chart.js.
+* **Custom Authentication & Authorization:** Extended Identity models, granular permissions, and secure JWT HTTP-only cookies.
+* **Automated Database Management:** EF Core Code-First architecture with automated migrations and data seeding on startup.
+* **E-Commerce Data Structure:** Fully relational schema mapping Customers, Addresses, Categories, Products, Orders, Order Details, and Payments.
+* **Modern Dashboard UI:** Professional, responsive UI tailored for data management with real-time analytical layouts.
 
-## 🛠️ Getting Started
+## 🛠️ Local Project Setup (After Cloning)
 
-### Prerequisites
-* [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-* [PostgreSQL](https://www.postgresql.org/download/) installed and running locally or remotely.
+Follow these steps to get the project running on your local machine after cloning the repository.
 
-### 1. Clone the Repository
+### 1. Verify Prerequisites
+Before proceeding, ensure you have the required tools installed on your system.
+* Check your **.NET version** (you need .NET 8 or higher). Open your terminal and run:
+  ```bash
+  dotnet --version
+
+```
+
+* Ensure you have **PostgreSQL** installed and running on your local machine.
+
+### 2. Configure Database Credentials
+
+Open `appsettings.json` (or `appsettings.Development.json`) in the root of the project. Check the `ConnectionStrings` section and ensure the `Database` name, `Username`, and `Password` match your local PostgreSQL server configuration:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Host=localhost;Database=ECommerceAdminDb;Username=YOUR_USERNAME;Password=YOUR_PASSWORD"
+}
+
+```
+
+### 3. Restore Packages and Run the Project
+
+Open your terminal in the project directory, restore the required NuGet packages, and start the application:
+
 ```bash
-git clone https://github.com/nikaa-dev/ECommerceAdmin.git
-cd ECommerceAdmin/src
+dotnet restore
+dotnet run
+
+```
+
+* **Automatic Setup:** Running the project will automatically create the database, generate the tables, and seed the default Admin user, Explorer user, and role permissions.
+
+### 4. Database Troubleshooting & Mock Data
+
+* **Manual Database Creation:** If the application fails to automatically create the database upon running, you can manually execute the provided `script.sql` (EF Core creation script) directly in your PostgreSQL database tool (like pgAdmin or DBeaver).
+* **Mock Data Initialization:** If you want to populate your dashboard with sample data for testing (categories, products, orders, and dummy customers), execute the provided **mock data SQL script** in your database after the initial setup is complete.
+
+## 🔐 Default Credentials
+
+Upon successful database creation and seeding, use the following credentials to log in:
+
+**System Administrator (Full Access):**
+
+* **Email:** `admin@domain.com`
+* **Password:** `SuperSecret@123!`
+
+**Explorer / Staff (Read-Only Access):**
+
+* **Email:** `explore@system.com`
+* **Password:** `ExploreUser@123!`
+
+```
+
+```
