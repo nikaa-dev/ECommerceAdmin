@@ -1,4 +1,4 @@
-```markdown
+
 # E-Commerce Admin Management Portal
 
 A robust, full-stack E-Commerce Administration Dashboard built with ASP.NET Core 8 MVC and PostgreSQL. This project features a completely custom Role-Based Access Control (RBAC) system using ASP.NET Core Identity, secure JWT cookie-based authentication, and a responsive modern UI.
