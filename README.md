@@ -28,8 +28,6 @@ Before proceeding, ensure you have the required tools installed on your system.
   ```bash
   dotnet --version
 
-
-
 * Ensure you have **PostgreSQL** installed and running on your local machine.
 
 ### 2. Configure Database Credentials
