@@ -25,6 +25,7 @@ using src.Repositories.UserLoginHistoryRepositories;
 using src.Repositories.UserRepositories;
 using src.Repositories.UserTokenRepositories;
 using src.Security;
+using src.SeedData;
 using src.Services.AuthServices;
 using src.Services.CustomerServices;
 using src.Services.DashboardServices;
@@ -49,6 +50,9 @@ public static class ServiceConfiguration
     public static void ConfigureApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Correct: use the parameter 'services', not 'Services'
+        // Add this line so your app actually reads the "DefaultUserConfig" from appsettings.json
+        services.Configure<DefaultUserConfig>(configuration.GetSection("DefaultUserConfig"));
+
         services.AddControllersWithViews();
         services.AddHttpContextAccessor(); 
         

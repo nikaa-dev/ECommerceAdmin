@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using src.Models;
@@ -14,7 +14,6 @@ namespace src.DBConnection
         }
 
         // E-commerce DbSets
-        
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -32,13 +31,37 @@ namespace src.DBConnection
         {
             base.OnModelCreating(builder);
 
+            // Rename Identity Tables
             builder.Entity<ApplicationRole>().ToTable("Roles");
             builder.Entity<ApplicationUser>().ToTable("Users");
             builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
-            builder.Entity<IdentityRoleClaim<string>>().ToTable("RolePermissions");
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("RolePermissions"); // Renamed safely!
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+
+            // ---------------------------------------------------------
+            // ⚠️ REQUIRED: Configure the UserRoles relationships 
+            // because you added ICollection<IdentityUserRole> to your models
+            // ---------------------------------------------------------
+            builder.Entity<ApplicationUser>(b =>
+            {
+                // Each User can have many entries in the UserRole join table
+                b.HasMany(e => e.UserRoles)
+                 .WithOne()
+                 .HasForeignKey(ur => ur.UserId)
+                 .IsRequired();
+            });
+
+            builder.Entity<ApplicationRole>(b =>
+            {
+                // Each Role can have many entries in the UserRole join table
+                b.HasMany(e => e.UserRoles)
+                 .WithOne()
+                 .HasForeignKey(ur => ur.RoleId)
+                 .IsRequired();
+            });
+            // ---------------------------------------------------------
         }
     }
 }

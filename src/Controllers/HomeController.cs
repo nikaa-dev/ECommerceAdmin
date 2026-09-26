@@ -16,6 +16,10 @@ public class HomeController(ILogger<HomeController> logger, IAuthService authSer
     [HttpPost]
     public async Task<IActionResult> Index(LoginDto dto)
     {
+        if (string.IsNullOrEmpty(dto.ToString()))
+        {
+            return BadRequest("data is null");
+        }
         var userLogin = await authService.LoginAsync(dto);
         if (userLogin.Data.Token != null)
         {

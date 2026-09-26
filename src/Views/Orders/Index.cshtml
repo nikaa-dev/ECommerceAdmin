@@ -264,109 +264,103 @@
 
 
 <!-- ViewDetail Order Product Modal -->
-<div class="modal fade"
-	 id="viewOrderProductDetail"
-	 tabindex="-1"
-	 aria-hidden="true">
-
+<div class="modal fade" id="viewOrderProductDetail" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" style="max-width:40%; margin:auto;">
 		<div class="modal-content">
-
-			<!-- Header -->
-
-			<script>
-				$(document).ready(function () {
-
-					$('.order-detail').click(function (e) {
-						e.preventDefault();
-
-						var row = $(this).closest("tr");
-						var orderId = row.find(".code").text().trim().replace("#", "");
-
-						$.ajax({
-							url: '/Orders/OrderDetail',
-							type: 'POST',
-							data: {
-								orderId: orderId
-							},
-							success: function (res) {
-								let html = '';
-
-								$.each(res.data, function (index, product) {
-
-									html += `
-
-										<div class="modal-header border-0 flex-column align-items-start">
-
-											<h5 class="modal-title fw-semibold">
-												Order Products
-											</h5>
-
-											<p class="text-muted mb-0">
-												Products included in order ${orderId}
-											</p>
-
-											<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true" class="fs-5">&times;</span>
-											</button>
-
-										</div>
-
-										<div class="modal-body">
-											<div class="border rounded-4 p-3 mb-3 d-flex justify-content-between align-items-center">
-												<div>
-													<h6 class="mb-1 fw-semibold">
-														${product.name}
-													</h6>
-
-													<span class="text-secondary">
-														Quantity:
-													</span>
-													<span>${product.quantity}</span>
-												</div>
-
-												<div class="text-end">
-													<div class="fw-semibold">
-														$${product.price}
-													</div>
-
-													<small class="text-secondary">
-														Per item
-													</small>
-												</div>
-											</div>
-										</div>
-
-											<div class="modal-footer border-0">
-
-												<button type="button"
-														class="btn border rounded-2"
-														data-dismiss="modal">
-													Close
-												</button>
-											</div>
-									`;
-								});
-
-								$('#viewOrderProductDetail .modal-content').html(html);
-							},
-							error: function (xhr) {
-								alert("Get order detail failed");
-								console.error(xhr);
-							}
-						});
-					});
-
-				});
-			</script>
-
-			<!-- Body -->
-			<!-- Footer -->
-
-
+			<!-- Content will be injected here via AJAX -->
 		</div>
 	</div>
 </div>
+
+<!-- Scripts should always be outside the elements they are modifying -->
+<script>
+	$(document).ready(function () {$('.order-detail').click(function (e) {
+			e.preventDefault();
+
+			var row = $(this).closest("tr");
+			var orderId = row.find(".id").text().trim().replace("#", "");
+			var modalContent = $('#viewOrderProductDetail .modal-content');
+
+			// 1. Show a loading state before the AJAX finishes
+			modalContent.html(`
+				<div class="modal-body text-center p-5">
+					<div class="spinner-border text-primary" role="status">
+						<span class="sr-only">Loading...</span>
+					</div>
+					<p class="mt-2 text-muted">Loading order details...</p>
+				</div>
+			`);
+
+			// 2. Open the modal immediately to show the loader
+			// (Remove this line if you are already using data-toggle="modal" on your button)
+			$('#viewOrderProductDetail').modal('show');
+
+			// 3. Fetch Data
+			$.ajax({
+				url: '/Orders/OrderDetail',
+				type: 'POST',
+				data: { orderId: orderId },
+				success: function (res) {
+
+					// 4. Build Header
+					let html = `
+						<div class="modal-header border-0 flex-column align-items-start">
+							<h5 class="modal-title fw-semibold">Order Products</h5>
+							<button type="button" class="close position-absolute end-0 top-0 m-2 px-2 border-0 bg-white" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true" class="fs-5">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+					`;
+
+					// 5. Build Body (Loop through products)
+					if (res.data && res.data.length > 0) {
+						$.each(res.data, function (index, product) {
+							html += `
+								<div class="border rounded-4 p-3 mb-3 d-flex justify-content-between align-items-center">
+									<div>
+										<p class="text-muted mb-0">Products included in order #${orderId}</p>
+										<h6 class="mb-1 fw-semibold">${product.name}</h6>
+										<span class="text-secondary">Quantity:</span>
+										<span>${product.quantity}</span>
+									</div>
+									<div class="text-end">
+										<div class="fw-semibold">$${product.price}</div>
+										<small class="text-secondary">Per item</small>
+									</div>
+								</div>
+							`;
+						});
+					} else {
+						// Fallback if no products are found
+						html += `<p class="text-center text-muted py-3">No products found for this order.</p>`;
+					}
+
+					// 6. Close Body and Build Footer
+					html += `
+						</div>
+						<div class="modal-footer border-0">
+							<button type="button" class="btn border rounded-2" data-dismiss="modal">Close</button>
+						</div>
+					`;
+
+					// 7. Inject final HTML into the modal
+					modalContent.html(html);
+				},
+				error: function (xhr) {
+					// Show error state in modal if AJAX fails
+					modalContent.html(`
+						<div class="modal-body text-center p-5">
+							<h5 class="text-danger">Failed to get order details</h5>
+							<button type="button" class="btn border rounded-2 mt-3" data-dismiss="modal">Close</button>
+						</div>
+					`);
+					console.error(xhr);
+				}
+			});
+		});
+	});
+</script>
 
 <script>
 	$(document).ready(function () {

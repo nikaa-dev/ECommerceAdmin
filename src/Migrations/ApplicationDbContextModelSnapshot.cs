@@ -102,17 +102,7 @@ namespace src.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("text");
 
-                    b.Property<string>("ApplicationRoleId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("text");
-
                     b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("ApplicationRoleId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoleId");
 
@@ -648,20 +638,12 @@ namespace src.Migrations
                 {
                     b.HasOne("src.Models.ApplicationRole", null)
                         .WithMany("UserRoles")
-                        .HasForeignKey("ApplicationRoleId");
-
-                    b.HasOne("src.Models.ApplicationUser", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("src.Models.ApplicationRole", null)
-                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("src.Models.ApplicationUser", null)
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

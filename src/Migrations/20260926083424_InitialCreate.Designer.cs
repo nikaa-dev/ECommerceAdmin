@@ -12,7 +12,7 @@ using src.DBConnection;
 namespace src.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260913092527_InitialCreate")]
+    [Migration("20260926083424_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -105,17 +105,7 @@ namespace src.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("text");
 
-                    b.Property<string>("ApplicationRoleId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("text");
-
                     b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("ApplicationRoleId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoleId");
 
@@ -197,6 +187,9 @@ namespace src.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("LastLogin")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -219,6 +212,9 @@ namespace src.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("PhotoProfile")
+                        .HasColumnType("text");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -645,20 +641,12 @@ namespace src.Migrations
                 {
                     b.HasOne("src.Models.ApplicationRole", null)
                         .WithMany("UserRoles")
-                        .HasForeignKey("ApplicationRoleId");
-
-                    b.HasOne("src.Models.ApplicationUser", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("src.Models.ApplicationRole", null)
-                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("src.Models.ApplicationUser", null)
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
