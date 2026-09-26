@@ -69,7 +69,5 @@ Upon successful database creation and seeding, use the following credentials to 
 * **Email:** `admin@system.com`
 * **Password:** `SuperSecret@123!`
 
-**Explorer / Staff (Default Test User):**
-
-* **Email:** `explore@system.com`
+**Default Password**
 * **Password:** `SuperSecret@123!`
