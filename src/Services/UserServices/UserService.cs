@@ -239,7 +239,7 @@ public class UserService(
         var createResult =
             await userManager.CreateAsync(
                 newUser,
-                "P@ssw0rd123!@#");
+                "SuperSecret@123!");
 
         if (!createResult.Succeeded)
             return (false, "Create failed");
