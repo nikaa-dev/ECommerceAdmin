@@ -40,6 +40,7 @@ Open `appsettings.json` (or `appsettings.Development.json`) in the root of the p
 "ConnectionStrings": {
   "DefaultConnection": "Host=localhost;Database=ECommerceAdminDb;Username=YOUR_USERNAME;Password=YOUR_PASSWORD"
 }
+```
 
 
 
@@ -50,7 +51,7 @@ Open your terminal in the project directory, restore the required NuGet packages
 ```bash
 dotnet restore
 dotnet run
-
+```
 
 
 * **Automatic Setup:** Running the project will automatically create the database, generate the tables, and seed the default Admin user, Explorer user, and role permissions.
