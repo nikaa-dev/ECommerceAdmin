@@ -35,5 +35,5 @@ A robust, full-stack E-Commerce Administration Dashboard built with ASP.NET Core
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-cd your-repo-name/src
+git clone https://github.com/nikaa-dev/ECommerceAdmin.git
+cd ECommerceAdmin/src
