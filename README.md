@@ -72,7 +72,3 @@ Upon successful database creation and seeding, use the following credentials to 
 
 * **Email:** `explore@system.com`
 * **Password:** `ExploreUser@123!`
-
-```
-
-```
